@@ -1,0 +1,62 @@
+CREATE TABLE KATEGORIE(
+	kategoria_id INT NOT NULL AUTO_INCREMENT,
+	kategoria_nazov varchar(30) NOT NULL,
+	kategoria_popis varchar(200) NOT NULL,
+	PRIMARY KEY(kategoria_id)
+);
+
+CREATE TABLE ULOHY (
+	uloha_id int NOT NULL AUTO_INCREMENT,
+	uloha_nazov varchar(30) NOT NULL,
+	uloha_popis varchar(200) NOT NULL,
+	priorita varchar(20) NOT NULL,
+	datum date,
+	cas time,
+	kategoria_id int NOT NULL,
+	kategoria_nazov varchar(30) NOT NULL,
+	kategoria_popis varchar(200) NOT NULL,
+	stav char(1) NOT NULL,
+	PRIMARY KEY(uloha_id),
+	FOREIGN KEY (kategoria_id) REFERENCES KATEGORIE(kategoria_id)
+);
+
+
+CREATE TABLE FILTRE (
+	filter_id int NOT NULL AUTO_INCREMENT,
+	filter_nazov varchar(30) NOT NULL,
+	priorita varchar(20),
+	datumOd date,
+	datumDo date,
+	kategoria_id int ,
+	kategoria_nazov varchar(30),
+	kategoria_popis varchar(200),
+	stav char(1),
+	PRIMARY KEY(filter_id),
+	FOREIGN KEY (kategoria_id) REFERENCES KATEGORIE(kategoria_id)
+);
+
+INSERT INTO KATEGORIE(kategoria_nazov,kategoria_popis) VALUES('Škola','o škole');
+INSERT INTO KATEGORIE(kategoria_nazov,kategoria_popis) VALUES('Práca','o práci');
+INSERT INTO KATEGORIE(kategoria_nazov,kategoria_popis) VALUES('Šport','o rôznych športoch');
+INSERT INTO KATEGORIE(kategoria_nazov,kategoria_popis) VALUES('Kreslenie','o kreslení');
+INSERT INTO KATEGORIE(kategoria_nazov,kategoria_popis) VALUES('Jedlo','o jedle');
+INSERT INTO KATEGORIE(kategoria_nazov,kategoria_popis) VALUES('Hudba','o hudbe');
+INSERT INTO KATEGORIE(kategoria_nazov,kategoria_popis) VALUES('Spev','o speve');
+INSERT INTO KATEGORIE(kategoria_nazov,kategoria_popis) VALUES('Iné','iné kategórie');
+
+INSERT INTO ULOHY (uloha_nazov,uloha_popis,priorita,datum,cas,kategoria_id,kategoria_nazov,kategoria_popis,stav) VALUES(
+'Kryptologia', 'Zadanie séria K z kryptológie','Stredná', 20150212, 105000, 8,'Škola','o škole','0');
+
+INSERT INTO ULOHY (uloha_nazov,uloha_popis,priorita,datum,cas,kategoria_id,kategoria_nazov,kategoria_popis,stav) VALUES(
+'Skuska','Zadanie séria K z kryptológie','Vysoká',20150313,145000,7,'Práca','o práci','0');
+
+INSERT INTO ULOHY (uloha_nazov,uloha_popis,priorita,datum,cas,kategoria_id,kategoria_nazov,kategoria_popis,stav) VALUES(
+'Zapocet','Zapocet z databáz','Stredná',20151224,120000,8,'Škola','o škole','0');
+
+
+INSERT INTO FILTRE(filter_nazov,priorita,datumOd,datumDo,kategoria_id,kategoria_nazov,kategoria_popis,stav)
+  VALUES('Môj filter','Stredná',20141201,20150313,8,'Škola','o škole','0');
+INSERT INTO FILTRE(filter_nazov,priorita,datumOd,datumDo,kategoria_id,kategoria_nazov,kategoria_popis,stav)
+  VALUES('Môj filter1','Vysoká',20150101,20150301,1,'Iné','iné kategórie','0');
+INSERT INTO FILTRE(filter_nazov,priorita,datumOd,datumDo,kategoria_id,kategoria_nazov,kategoria_popis,stav)
+  VALUES('Môj filter2','Nízka',20141215,20150113,NULL,'','','');
