@@ -1,3 +1,5 @@
+// Ak toto niekto cita, tak to znamena, ze Alica uspene robi push push! :D
+
 package sk.ics.upjs.todo.gui;
 
 import javax.swing.JOptionPane;
