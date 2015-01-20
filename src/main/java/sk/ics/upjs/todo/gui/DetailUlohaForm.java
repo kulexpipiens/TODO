@@ -1,11 +1,15 @@
 package sk.ics.upjs.todo.gui;
 
 import java.awt.Frame;
+import javax.swing.JOptionPane;
+import sk.ics.upjs.todo.dao.Factory;
+import sk.ics.upjs.todo.dao.UlohaDao;
 import sk.ics.upjs.todo.home.Uloha;
 
 public class DetailUlohaForm extends javax.swing.JDialog {
-    
+
     private Uloha uloha;
+    private UlohaDao ulohaDao = Factory.INSTANCE.ulohaDao();
 
     /**
      * Creates new form DetailForm
@@ -13,12 +17,12 @@ public class DetailUlohaForm extends javax.swing.JDialog {
     public DetailUlohaForm() {
         initComponents();
     }
-    
+
     public DetailUlohaForm(Frame parent) {
         this(parent, true);
         this.setTitle("Detail úlohy");
     }
-    
+
     public DetailUlohaForm(Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -31,24 +35,31 @@ public class DetailUlohaForm extends javax.swing.JDialog {
         lblPopis.setText(uloha.getPopis());
         lblNazov.setText(uloha.getNazov());
         lblPriorita.setText(uloha.getPriorita());
-        
-        String datum = uloha.getDatum().trim();
-        StringBuilder zobrazDatum = new StringBuilder();
-        zobrazDatum.append(datum.substring(8, 10)).append(".").append(datum.substring(5, 7))
-                .append(".").append(datum.substring(0, 4));
-        lblDatum.setText(zobrazDatum.toString());
-        
-        String cas = uloha.getCas();
-        StringBuilder zobrazCas = new StringBuilder();
-        zobrazCas.append(cas.substring(0, 2)).append(":").append(cas.substring(3, 5));
-        lblCas.setText(zobrazCas.toString());
+
+        lblDatum.setText(Integer.toString(uloha.getDatum().getDate()) + '.'
+                + Integer.toString(uloha.getDatum().getMonth() + 1) + '.'
+                + Integer.toString(uloha.getDatum().getYear() + 1900));
+        String hodiny = "";
+        String minuty = "";
+        if (uloha.getDatum().getHours() < 10) {
+            hodiny = "0" + Integer.toString(uloha.getDatum().getHours());
+        } else {
+            hodiny = Integer.toString(uloha.getDatum().getHours());
+        }
+        if (uloha.getDatum().getMinutes() < 10) {
+            minuty = "0" + Integer.toString(uloha.getDatum().getMinutes());
+        } else {
+            minuty = Integer.toString(uloha.getDatum().getMinutes());
+        }
+
+        lblCas.setText(hodiny + ':' + minuty);
+
         lblKategoria.setText(uloha.getKategoria().getNazov());
         if (uloha.getStav()) {
-            lblStav.setText("Splnená");
+            checkBox.setSelected(true);
         } else {
-            lblStav.setText("Nesplnená");
+            checkBox.setSelected(false);
         }
-        
     }
 
     /**
@@ -65,13 +76,15 @@ public class DetailUlohaForm extends javax.swing.JDialog {
         lblDatum = new javax.swing.JLabel();
         lblCas = new javax.swing.JLabel();
         lblPriorita = new javax.swing.JLabel();
-        lblPopis = new javax.swing.JLabel();
         lblDatumUkazovatel = new javax.swing.JLabel();
         lblPrioritaUkazovatel = new javax.swing.JLabel();
         lblStavUkazovatel = new javax.swing.JLabel();
         lblKategoria = new javax.swing.JLabel();
         lblKategoriaUkazovatel = new javax.swing.JLabel();
-        lblStav = new javax.swing.JLabel();
+        checkBox = new javax.swing.JCheckBox();
+        btnOk = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lblPopis = new javax.swing.JTextArea();
         lblPozadie = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -88,7 +101,7 @@ public class DetailUlohaForm extends javax.swing.JDialog {
         lblZnacka1.setFont(new java.awt.Font("Gungsuh", 0, 36)); // NOI18N
         lblZnacka1.setText("dori");
         getContentPane().add(lblZnacka1);
-        lblZnacka1.setBounds(340, 200, 99, 42);
+        lblZnacka1.setBounds(340, 190, 99, 42);
 
         lblDatum.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblDatum.setOpaque(true);
@@ -98,23 +111,12 @@ public class DetailUlohaForm extends javax.swing.JDialog {
         lblCas.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblCas.setOpaque(true);
         getContentPane().add(lblCas);
-        lblCas.setBounds(150, 200, 80, 23);
+        lblCas.setBounds(150, 200, 50, 23);
 
         lblPriorita.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblPriorita.setOpaque(true);
         getContentPane().add(lblPriorita);
         lblPriorita.setBounds(280, 30, 120, 22);
-
-        lblPopis.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        lblPopis.setForeground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
-        lblPopis.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblPopis.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        lblPopis.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        lblPopis.setMaximumSize(new java.awt.Dimension(430, 240));
-        lblPopis.setOpaque(true);
-        lblPopis.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        getContentPane().add(lblPopis);
-        lblPopis.setBounds(10, 40, 220, 140);
 
         lblDatumUkazovatel.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblDatumUkazovatel.setText("do:");
@@ -141,20 +143,52 @@ public class DetailUlohaForm extends javax.swing.JDialog {
         getContentPane().add(lblKategoriaUkazovatel);
         lblKategoriaUkazovatel.setBounds(280, 70, 90, 14);
 
-        lblStav.setOpaque(true);
-        getContentPane().add(lblStav);
-        lblStav.setBounds(280, 150, 120, 20);
+        checkBox.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
+        checkBox.setText("Splnená");
+        getContentPane().add(checkBox);
+        checkBox.setBounds(280, 150, 115, 29);
+
+        btnOk.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
+        btnOk.setText("OK");
+        btnOk.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOkActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnOk);
+        btnOk.setBounds(230, 200, 100, 30);
+
+        lblPopis.setEditable(false);
+        lblPopis.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
+        lblPopis.setColumns(20);
+        lblPopis.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
+        lblPopis.setLineWrap(true);
+        lblPopis.setRows(5);
+        lblPopis.setBorder(null);
+        jScrollPane1.setViewportView(lblPopis);
+
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(10, 40, 220, 140);
 
         lblPozadie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/detailform.jpg"))); // NOI18N
-        lblPozadie.setMaximumSize(new java.awt.Dimension(430, 250));
-        lblPozadie.setMinimumSize(new java.awt.Dimension(430, 250));
-        lblPozadie.setPreferredSize(new java.awt.Dimension(430, 250));
         getContentPane().add(lblPozadie);
         lblPozadie.setBounds(0, 0, 430, 250);
         lblPozadie.getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
+        if (!uloha.getStav() && checkBox.isSelected()) {
+            ulohaDao.oznacZaSplenenu(uloha);
+        }
+        if (uloha.getStav() && !checkBox.isSelected()) {
+            ulohaDao.oznacZaNesplnenu(uloha);
+        }
+
+        dispose();
+    }//GEN-LAST:event_btnOkActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -190,18 +224,23 @@ public class DetailUlohaForm extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnOk;
+    private javax.swing.JCheckBox checkBox;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCas;
     private javax.swing.JLabel lblDatum;
     private javax.swing.JLabel lblDatumUkazovatel;
     private javax.swing.JLabel lblKategoria;
     private javax.swing.JLabel lblKategoriaUkazovatel;
     private javax.swing.JLabel lblNazov;
-    private javax.swing.JLabel lblPopis;
+    private javax.swing.JTextArea lblPopis;
     private javax.swing.JLabel lblPozadie;
     private javax.swing.JLabel lblPriorita;
     private javax.swing.JLabel lblPrioritaUkazovatel;
-    private javax.swing.JLabel lblStav;
     private javax.swing.JLabel lblStavUkazovatel;
     private javax.swing.JLabel lblZnacka1;
     // End of variables declaration//GEN-END:variables
+
+
+
 }

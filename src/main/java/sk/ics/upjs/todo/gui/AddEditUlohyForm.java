@@ -1,6 +1,8 @@
 package sk.ics.upjs.todo.gui;
 
+import java.awt.Color;
 import java.awt.Frame;
+import java.util.Date;
 import java.util.List;
 import javax.swing.*;
 import sk.ics.upjs.todo.dao.Factory;
@@ -9,16 +11,21 @@ import sk.ics.upjs.todo.dao.KategoriaDao;
 import sk.ics.upjs.todo.home.Uloha;
 import sk.ics.upjs.todo.dao.UlohaDao;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 public class AddEditUlohyForm extends javax.swing.JDialog {
 
     private static final UlohaDao ulohaDao = Factory.INSTANCE.ulohaDao();
     private static final KategoriaDao kategoriaDao = Factory.INSTANCE.kategoriaDao();
-    private static final ComboBoxModel modelKategorii = Factory.INSTANCE.getKategoryCmbModel();
+    private ComboBoxModel modelKategorii = Factory.INSTANCE.getKategoryCmbModel();
     private Uloha uloha;
 
+    private JDatePickerImpl datePicker;
+
     private boolean add = false;
-    
+
     //konštruktory na pridávanie úlohy
     public AddEditUlohyForm(Frame parent) {
         this(new Uloha(), parent);
@@ -33,30 +40,47 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
     //konštruktor na editáciu úlohy, všetky parametre úlohy vyplní do príslušných okienok
     public AddEditUlohyForm(Uloha uloha, Frame parent) {
         this(parent, true);
+
+        // pridanie okna na vyber datumu
+        UtilDateModel model = new UtilDateModel();
+        JDatePanelImpl datePanel = new JDatePanelImpl(model);
+        datePicker = new JDatePickerImpl(datePanel);
+        Color background = new Color(255, 255, 204);
+        datePicker.setBackground(background);
+        vnutornyFrame.add(datePicker);
+
         this.setTitle("Pridanie/editácia úlohy");
         this.uloha = uloha;
         txtPopis.setText(uloha.getPopis());
         txtNazov.setText(uloha.getNazov());
         if (uloha.getKategoria() != null) {
             cmbKategoria.setSelectedItem(uloha.getKategoria().getNazov());
+        } else {
+            cmbKategoria.setSelectedItem(" ");
         }
+
         cmbPriorita.setSelectedItem(uloha.getPriorita());
 
         if (uloha.getDatum() != null) {
-            String datum = uloha.getDatum();
-            cmbDen.setSelectedItem(datum.substring(8, 10));
+            Date datum = uloha.getDatum();
+            int den = datum.getDate();
+            int mesiac = datum.getMonth();
+            int rok = datum.getYear() + 1900;
 
-            cmbMesiac.setSelectedItem(datum.substring(5, 7));
-
-            cmbRok.setSelectedItem(datum.substring(0, 4));
+            datePicker.getModel().setDate(rok, mesiac, den);
+            datePicker.getModel().setSelected(true);
+            if (datum.getMinutes() < 10) {
+                txtMinuty.setText("0" + Integer.toString(datum.getMinutes()));
+            } else {
+                txtMinuty.setText(Integer.toString(datum.getMinutes()));
+            }
+            if (datum.getHours() < 10) {
+                txtHodiny.setText("0" + Integer.toString(datum.getHours()));
+            } else {
+                txtHodiny.setText(Integer.toString(datum.getHours()));
+            }
         }
 
-        if (uloha.getCas() != null) {
-            String cas = uloha.getCas();
-            txtMinuty.setText(cas.substring(3, 5));
-
-            txtHodiny.setText(cas.substring(0, 2));
-        }
     }
 
     /**
@@ -77,16 +101,15 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         lblDatum = new javax.swing.JLabel();
         btnOk = new javax.swing.JButton();
         txtNazov = new javax.swing.JTextField();
-        txtPopis = new javax.swing.JTextField();
         cmbPriorita = new javax.swing.JComboBox();
         cmbKategoria = new javax.swing.JComboBox();
-        cmbDen = new javax.swing.JComboBox();
-        cmbMesiac = new javax.swing.JComboBox();
-        cmbRok = new javax.swing.JComboBox();
         lblCas = new javax.swing.JLabel();
         txtHodiny = new javax.swing.JTextField();
         txtMinuty = new javax.swing.JTextField();
         lblDvojbodka = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtPopis = new javax.swing.JTextArea();
+        vnutornyFrame = new javax.swing.JPanel();
         lblPozadie = new javax.swing.JLabel();
 
         lblZnacka.setBackground(new java.awt.Color(204, 153, 255));
@@ -102,7 +125,7 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         lblZnacka1.setFont(new java.awt.Font("Gungsuh", 0, 36)); // NOI18N
         lblZnacka1.setText("dori");
         getContentPane().add(lblZnacka1);
-        lblZnacka1.setBounds(340, 200, 99, 42);
+        lblZnacka1.setBounds(360, 190, 99, 42);
 
         lblUloha.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         lblUloha.setText("úloha");
@@ -127,7 +150,7 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         lblDatum.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         lblDatum.setText("dátum");
         getContentPane().add(lblDatum);
-        lblDatum.setBounds(239, 63, 33, 15);
+        lblDatum.setBounds(290, 40, 33, 15);
 
         btnOk.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         btnOk.setText("OK");
@@ -138,19 +161,13 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btnOk);
-        btnOk.setBounds(362, 95, 40, 24);
+        btnOk.setBounds(260, 140, 100, 30);
 
         txtNazov.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
         txtNazov.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         txtNazov.setBorder(null);
         getContentPane().add(txtNazov);
         txtNazov.setBounds(140, 10, 185, 15);
-
-        txtPopis.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
-        txtPopis.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
-        txtPopis.setBorder(null);
-        getContentPane().add(txtPopis);
-        txtPopis.setBounds(22, 63, 199, 100);
 
         cmbPriorita.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         cmbPriorita.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Nízka", "Stredná", "Vysoká" }));
@@ -161,21 +178,6 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         cmbKategoria.setModel(modelKategorii);
         getContentPane().add(cmbKategoria);
         cmbKategoria.setBounds(131, 204, 90, 21);
-
-        cmbDen.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
-        cmbDen.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
-        getContentPane().add(cmbDen);
-        cmbDen.setBounds(278, 63, 50, 21);
-
-        cmbMesiac.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
-        cmbMesiac.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
-        getContentPane().add(cmbMesiac);
-        cmbMesiac.setBounds(332, 63, 50, 21);
-
-        cmbRok.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
-        cmbRok.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021" }));
-        getContentPane().add(cmbRok);
-        cmbRok.setBounds(385, 63, 70, 21);
 
         lblCas.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         lblCas.setText("čas");
@@ -199,9 +201,24 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         getContentPane().add(lblDvojbodka);
         lblDvojbodka.setBounds(295, 104, 4, 15);
 
+        txtPopis.setBackground(javax.swing.UIManager.getDefaults().getColor("CheckBox.background"));
+        txtPopis.setColumns(20);
+        txtPopis.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        txtPopis.setLineWrap(true);
+        txtPopis.setRows(5);
+        jScrollPane1.setViewportView(txtPopis);
+
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(10, 60, 220, 110);
+
+        vnutornyFrame.setBackground(new java.awt.Color(255, 255, 204));
+        vnutornyFrame.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
+        getContentPane().add(vnutornyFrame);
+        vnutornyFrame.setBounds(240, 60, 200, 30);
+
         lblPozadie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/addeditulohyform.jpg"))); // NOI18N
         getContentPane().add(lblPozadie);
-        lblPozadie.setBounds(0, -10, 460, 280);
+        lblPozadie.setBounds(0, 0, 462, 240);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -209,11 +226,13 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
     //ak sú všetky parametre úlohy zadané, úloha sa uloží alebo zedituje
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
         if (overNeprazdnostKomponentov()) {
-            StringBuilder datum = new StringBuilder();
-            datum.append(cmbRok.getSelectedItem().toString())
-                    .append(cmbMesiac.getSelectedItem().toString())
-                    .append(cmbDen.getSelectedItem().toString());
-            uloha.setDatum(datum.toString());
+            Date selectedDate = (Date) datePicker.getModel().getValue();
+            Date datum = new Date(selectedDate.getYear(),
+                    selectedDate.getMonth(), selectedDate.getDate(),
+                    Integer.parseInt(txtHodiny.getText()),
+                    Integer.parseInt(txtMinuty.getText()));
+
+            uloha.setDatum(datum);
             List<Kategoria> vsetkyKategorie = kategoriaDao.dajVsetky();
             String nazovKat = cmbKategoria.getSelectedItem().toString();
             Kategoria pridavanaKategoria = null;
@@ -227,9 +246,6 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
             uloha.setNazov(txtNazov.getText());
             uloha.setStav(false);
             uloha.setPriorita(cmbPriorita.getSelectedItem().toString());
-            StringBuilder cas = new StringBuilder();
-            cas.append(txtHodiny.getText()).append(txtMinuty.getText()).append("00");
-            uloha.setCas(cas.toString());
 
             if (add) {
                 ulohaDao.pridajUlohu(uloha);
@@ -288,11 +304,9 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOk;
-    private javax.swing.JComboBox cmbDen;
     private javax.swing.JComboBox cmbKategoria;
-    private javax.swing.JComboBox cmbMesiac;
     private javax.swing.JComboBox cmbPriorita;
-    private javax.swing.JComboBox cmbRok;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCas;
     private javax.swing.JLabel lblDatum;
     private javax.swing.JLabel lblDvojbodka;
@@ -306,10 +320,10 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
     private javax.swing.JTextField txtHodiny;
     private javax.swing.JTextField txtMinuty;
     private javax.swing.JTextField txtNazov;
-    private javax.swing.JTextField txtPopis;
+    private javax.swing.JTextArea txtPopis;
+    private javax.swing.JPanel vnutornyFrame;
     // End of variables declaration//GEN-END:variables
 
-    
     //metóda zistí, či sú vo všetkých okienkach zadané údaje
     private boolean overNeprazdnostKomponentov() {
         String sprava = new String();
@@ -331,18 +345,11 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
             sprava = "Vyber prioritu";
             podmienka = false;
         }
-        if (cmbDen.getSelectedItem().toString().equals(" ")) {
-            sprava = "Vyber deň";
+        if (datePicker.getJFormattedTextField().getText().isEmpty()) {
+            sprava = "Vyber dátum";
             podmienka = false;
         }
-        if (cmbMesiac.getSelectedItem().toString().equals(" ")) {
-            sprava = "Vyber mesiac";
-            podmienka = false;
-        }
-        if (cmbRok.getSelectedItem().toString().equals(" ")) {
-            sprava = "Vyber rok";
-            podmienka = false;
-        }
+
         if (txtMinuty.getText().isEmpty()) {
             sprava = "Zadaj minuty";
             podmienka = false;

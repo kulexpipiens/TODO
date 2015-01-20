@@ -19,8 +19,7 @@ public class DatabazovyKategoriaDao implements KategoriaDao {
     @Override
     public void pridajKategoriu(Kategoria kategoria) {
         String sql = "insert into " + tabulkaZDatabazy + "(kategoria_nazov, kategoria_popis) values(?,?)";
-        Object[] parametre = {kategoria.getNazov(), kategoria.getPopis()};
-        jdbcTemplate.update(sql, parametre);
+        jdbcTemplate.update(sql, kategoria.getNazov(), kategoria.getPopis());
     }
 
     //vymaze kategoriu z tabulky s ktorou pracujem

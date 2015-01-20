@@ -6,6 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.ics.upjs.todo.dao.DatabazovyFilterDao;
+import sk.ics.upjs.todo.dao.Factory;
 import sk.ics.upjs.todo.dao.FilterDao;
 import sk.ics.upjs.todo.home.Filter;
 import sk.ics.upjs.todo.home.Kategoria;
@@ -19,11 +20,7 @@ public class DatabazovyFilterDaoTest {
     private static final int POCET_FILTROV_V_DATABAZE = 3;
 
     public DatabazovyFilterDaoTest() {
-        MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setURL("jdbc:mysql://www.db4free.net:3306/todolisttestproj");
-        dataSource.setUser("todolisttest");
-        dataSource.setPassword("hruska123");
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.jdbcTemplate = new JdbcTemplate(Factory.INSTANCE.dataSourceTest());
         filterDao = new DatabazovyFilterDao(jdbcTemplate);
 
     }

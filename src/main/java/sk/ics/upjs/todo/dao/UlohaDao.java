@@ -15,9 +15,11 @@ public interface UlohaDao {
 
     public List<Uloha> dajDnesne();
 
-    public List<Uloha> dajTydnove();
+    public List<Uloha> dajTyzdnove();
 
     public List<Uloha> dajMesacne();
 
     public void oznacZaSplenenu(Uloha uloha);
+    
+    public void oznacZaNesplnenu(Uloha uloha);
 }

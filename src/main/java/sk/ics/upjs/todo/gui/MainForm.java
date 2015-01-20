@@ -25,7 +25,7 @@ public class MainForm extends javax.swing.JFrame {
         });
         tblUloha.setModel(ulohaTableModel);
         //tblUloha.setRowSorter(ulohaRowSorter);
-         //tblUloha.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblUloha.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblUloha.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -74,7 +74,7 @@ public class MainForm extends javax.swing.JFrame {
         lblPozadie = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(497, 280));
+        setMinimumSize(new java.awt.Dimension(502, 285));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -82,7 +82,7 @@ public class MainForm extends javax.swing.JFrame {
         lblZnacka.setFont(new java.awt.Font("Gungsuh", 0, 36)); // NOI18N
         lblZnacka.setText("dori");
         getContentPane().add(lblZnacka);
-        lblZnacka.setBounds(400, 210, 85, 42);
+        lblZnacka.setBounds(390, 200, 85, 42);
 
         btnPridaj.setBackground(new java.awt.Color(204, 204, 204));
         btnPridaj.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
@@ -206,9 +206,6 @@ public class MainForm extends javax.swing.JFrame {
         btnFilters.setBounds(415, 60, 80, 43);
 
         lblPozadie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mainform.jpg"))); // NOI18N
-        lblPozadie.setMaximumSize(new java.awt.Dimension(500, 260));
-        lblPozadie.setMinimumSize(new java.awt.Dimension(500, 260));
-        lblPozadie.setPreferredSize(new java.awt.Dimension(500, 260));
         getContentPane().add(lblPozadie);
         lblPozadie.setBounds(0, 0, 500, 260);
 
@@ -276,12 +273,12 @@ public class MainForm extends javax.swing.JFrame {
 
     //zobrazí úlohy na tento týždeň
     private void btnTentoTyzdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTentoTyzdenActionPerformed
-        ulohaTableModel.filtruj(ulohaDao.dajTydnove());
+        ulohaTableModel.filtruj(ulohaDao.dajTyzdnove());
     }//GEN-LAST:event_btnTentoTyzdenActionPerformed
 
     //otvorí menežéra kategórií (v novom okne)
     private void btnKategorieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKategorieActionPerformed
-        KategorieForm kategorie = new KategorieForm();
+        KategorieForm kategorie = new KategorieForm(this, true);
         kategorie.setVisible(true);
     }//GEN-LAST:event_btnKategorieActionPerformed
 
@@ -305,6 +302,7 @@ public class MainForm extends javax.swing.JFrame {
             }
             DetailUlohaForm detail = new DetailUlohaForm(vybrataUloha, this);
             detail.setVisible(true);
+            aktualizujZoznamUloh();
         }
     }
 
@@ -336,7 +334,7 @@ public class MainForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-               new MainForm().setVisible(true);
+                new MainForm().setVisible(true);
             }
         });
     }

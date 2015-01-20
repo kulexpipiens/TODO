@@ -1,11 +1,13 @@
 package sk.ics.upjs.todo;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import java.util.Date;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.ics.upjs.todo.dao.DatabazovyUlohaDao;
+import sk.ics.upjs.todo.dao.Factory;
 import sk.ics.upjs.todo.dao.UlohaDao;
 import sk.ics.upjs.todo.home.Kategoria;
 import sk.ics.upjs.todo.home.Uloha;
@@ -22,11 +24,7 @@ public class DatabazovyUlohaDaoTest {
     private static final int POCET_MESACNYCH_ULOH_V_DATABAZE = 0;
 
     public DatabazovyUlohaDaoTest() {
-        MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setURL("jdbc:mysql://www.db4free.net:3306/todolisttestproj");
-        dataSource.setUser("todolisttest");
-        dataSource.setPassword("hruska123");
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.jdbcTemplate = new JdbcTemplate(Factory.INSTANCE.dataSourceTest());
         ulohaDao = new DatabazovyUlohaDao(jdbcTemplate);
     }
 
@@ -37,7 +35,7 @@ public class DatabazovyUlohaDaoTest {
     }
 
     @Test
-    public void testPridajFilter() {
+    public void testPridajUlohu() {
         Uloha ulohaPridaj = new Uloha();
         List<Uloha> zoznamUloh = ulohaDao.dajVsetky();
         int pocetUlohPovodne = zoznamUloh.size();
@@ -51,8 +49,7 @@ public class DatabazovyUlohaDaoTest {
         ulohaPridaj.setKategoria(kategoria);
         ulohaPridaj.setPriorita("Vysoká");
         ulohaPridaj.setStav(false);
-        ulohaPridaj.setDatum("20150102");
-        ulohaPridaj.setCas("120000");
+        ulohaPridaj.setDatum(new Date(2015, 01, 02, 12, 00, 00));
         ulohaPridaj.setPopis("popis o novej ulohe");
 
         ulohaDao.pridajUlohu(ulohaPridaj);
@@ -61,7 +58,7 @@ public class DatabazovyUlohaDaoTest {
     }
 
     @Test
-    public void testUpravFilter() {
+    public void testUpravUlohu() {
         List<Uloha> zoznamUloh = ulohaDao.dajVsetky();
         Uloha ulohaZmena
                 = zoznamUloh.get(zoznamUloh.size() - 1);
@@ -75,7 +72,7 @@ public class DatabazovyUlohaDaoTest {
     }
 
     @Test
-    public void testVymazFilter() {
+    public void testVymazUlohu() {
         List<Uloha> zoznamUloh = ulohaDao.dajVsetky();
         int pocetUlohPovodne = zoznamUloh.size();
 
@@ -95,11 +92,22 @@ public class DatabazovyUlohaDaoTest {
         zoznamUloh = ulohaDao.dajVsetky();
         assertEquals(true, zoznamUloh.get(0).getStav());
     }
+
+    @Test
+    public void testOznacZaNesplnenu() {
+        List<Uloha> zoznamUloh = ulohaDao.dajVsetky();
+        Uloha ulohaZmena = zoznamUloh.get(0);
+        ulohaDao.oznacZaNesplnenu(ulohaZmena);
+
+        zoznamUloh = ulohaDao.dajVsetky();
+        assertEquals(false, zoznamUloh.get(0).getStav());
+    }
+
     /*
-    * POZOR pri nasledujucich testoch, ako plynie cas, tak pocty dnesnych, 
-    * tyzdnovych a mesacnych uloh sa meni !!!
-    */
-    
+     * POZOR pri nasledujucich testoch, ako plynie cas, tak pocty dnesnych, 
+     * tyzdnovych a mesacnych uloh sa meni !!!
+     * Teda treba pred testovanim specificky popridavat ulohy...
+     */
     @Test
     public void testDajDnesne() {
         List<Uloha> zoznamUloh = ulohaDao.dajDnesne();
@@ -109,7 +117,7 @@ public class DatabazovyUlohaDaoTest {
 
     @Test
     public void testDajTyzdnove() {
-        List<Uloha> zoznamUloh = ulohaDao.dajTydnove();
+        List<Uloha> zoznamUloh = ulohaDao.dajTyzdnove();
         assertEquals(POCET_TYZDNOVYCH_ULOH_V_DATABAZE, zoznamUloh.size());
     }
 

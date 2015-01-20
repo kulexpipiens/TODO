@@ -1,17 +1,12 @@
+RawBlameHistory   
 - pole objektov v databazovychDaach zmenit!!!!
 - nie vždy používatel potrebuje zadávat cas splnenia ulohy
 - co s ulohami ktorým vypršal casový limit?
 - ako oznacovat/zobrazovat/selektovat splnene/nesplnene ulohy?
 - rowmapper pre dve rozne tabulky?
 - ComboBoxModely!!!!!
-- entita Uživatel a s nim spojene prihlasovanieatd
-- uvodne okno s prihlasenim, uvitanim a tak
 - pripojenie do databazy pre normalny alebo testovaci beh cez properties
 - oprava zadavania prazdnej kategorii v definovani noveho filtra
-- prepracovanejsia grafika
-- okraslit kod
 - osekávať dlhý text do ďalšieho riadku v detaily úlohy
-- zobrazovanie krajsich datumov, pripadne dna
 
-- statistika uloh za dane obdobie?
-- zmena databazy?
+po opravení comboboxov opraviť pretypovanie pri dátumoch

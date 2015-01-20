@@ -1,14 +1,16 @@
 
 package sk.ics.upjs.todo.home;
 
+import java.util.Date;
+
 public class Filter {
     private long id;
     private String nazov;
     private String priorita;
     private Kategoria kategoria;
     private boolean stav;
-    private String datumOd;
-    private String datumDo;
+    private Date datumOd;
+    private Date datumDo;
 
     public long getId() {
         return id;
@@ -50,19 +52,19 @@ public class Filter {
         this.stav = stav;
     }
 
-    public String getDatumOd() {
+    public Date getDatumOd() {
         return datumOd;
     }
 
-    public void setDatumOd(String datumOd) {
+    public void setDatumOd(Date datumOd) {
         this.datumOd = datumOd;
     }
 
-    public String getDatumDo() {
+    public Date getDatumDo() {
         return datumDo;
     }
 
-    public void setDatumDo(String datumDo) {
+    public void setDatumDo(Date datumDo) {
         this.datumDo = datumDo;
     }
     

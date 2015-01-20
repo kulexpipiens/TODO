@@ -13,8 +13,8 @@ public class FilterRowMapper implements RowMapper<Filter> {
         Filter filter = new Filter();
         filter.setId(rs.getInt("filter_id"));
         filter.setNazov(rs.getString("filter_nazov"));
-        filter.setDatumOd(rs.getString("datumOd"));
-        filter.setDatumDo(rs.getString("datumDo"));
+        filter.setDatumOd(rs.getDate("datumOd"));
+        filter.setDatumDo(rs.getDate("datumDo"));
         filter.setPriorita(rs.getString("priorita"));
         filter.setStav(rs.getBoolean("stav"));
         filter.setKategoria(kategoriaRowMapper.mapRow(rs, i));

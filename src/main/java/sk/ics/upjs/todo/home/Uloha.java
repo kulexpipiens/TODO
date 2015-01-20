@@ -1,26 +1,26 @@
 package sk.ics.upjs.todo.home;
 
 //entita úloha + getre + setre + metóda toString
+import java.util.Date;
+
 public class Uloha {
 
     private long id;
     private String nazov;
     private String popis;
     private String priorita;
-    private String datum;
-    private String cas;
+    private Date datum;
     private Kategoria kategoria;
     private boolean stav;
 
-    public String getCas() {
-        return cas;
-    }
+    /* public String getCas() {
+     return Integer.toString(this.datum.getHours()+':'+this.getDatum().getMinutes());
+     }
 
-    public void setCas(String cas) {
-        this.cas = cas;
-    }
-    
-
+     public void setCas(String cas) {
+     this.datum.setHours(Integer.parseInt(cas.substring(0, 1)));
+     this.datum.setMinutes(Integer.parseInt(cas.substring(3,4)));
+     }*/
     public String getNazov() {
         return nazov;
     }
@@ -53,11 +53,11 @@ public class Uloha {
         this.priorita = priorita;
     }
 
-    public String getDatum() {
+    public Date getDatum() {
         return datum;
     }
 
-    public void setDatum(String datum) {
+    public void setDatum(Date datum) {
         this.datum = datum;
     }
 
@@ -78,10 +78,9 @@ public class Uloha {
     }
 
     @Override
-    public String toString(){
-        return "Uloha: "+nazov+" "+datum;
-    }  
+    public String toString() {
+        return "Uloha: " + nazov + " " + datum.getDate() + "." + datum.getMonth()
+                + "." + datum.getYear() + " " + datum.getHours() + ":" + datum.getMinutes();
+    }
 
-  
-    
 }

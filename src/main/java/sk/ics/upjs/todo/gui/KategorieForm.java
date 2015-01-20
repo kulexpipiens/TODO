@@ -1,6 +1,8 @@
 package sk.ics.upjs.todo.gui;
 
+import java.util.List;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import sk.ics.upjs.todo.dao.Factory;
@@ -9,27 +11,27 @@ import sk.ics.upjs.todo.dao.KategoriaDao;
 import sk.ics.upjs.todo.home.KategoriaTableModel;
 
 public class KategorieForm extends javax.swing.JDialog {
-    
-    private static final  KategoriaDao kategoriaDao = Factory.INSTANCE.kategoriaDao();
-    
+
+    private static final KategoriaDao kategoriaDao = Factory.INSTANCE.kategoriaDao();
+
     private static final KategoriaTableModel kategoriaTableModel = new KategoriaTableModel();
-    
+
     //nové okno, kde sa menežujú kategórie
-    public KategorieForm() {
+    public KategorieForm(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
-        this.setTitle("Menežovanie kategórií");
+        this.setTitle("Manageovanie kategórií");
         tblKategoria.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            
+
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 tblKategoriaSelectionValueChanged(e);
             }
         });
         tblKategoria.setModel(kategoriaTableModel);
-//        setDefaultCloseOperation(EXIT_ON_CLOSE);
         aktualizujZoznamKategorii();
     }
-    
+
     //ak je nejaká kategória vybratá, umožní stlačenie tlačidiel "vymaž" a "uprav"
     private void tblKategoriaSelectionValueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
@@ -52,10 +54,15 @@ public class KategorieForm extends javax.swing.JDialog {
         btnVymaz = new javax.swing.JButton();
         lblZnacka = new javax.swing.JLabel();
         txtNazov = new javax.swing.JTextField();
-        txtPopis = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtPopis = new javax.swing.JTextArea();
         lblPozadie = new javax.swing.JLabel();
 
-        setMinimumSize(new java.awt.Dimension(454, 280));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(465, 260));
+        setMinimumSize(new java.awt.Dimension(465, 260));
+        setPreferredSize(new java.awt.Dimension(465, 260));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         tblKategoria.setModel(kategoriaTableModel);
@@ -111,7 +118,7 @@ public class KategorieForm extends javax.swing.JDialog {
         lblZnacka.setFont(new java.awt.Font("Gungsuh", 0, 36)); // NOI18N
         lblZnacka.setText("dori");
         getContentPane().add(lblZnacka);
-        lblZnacka.setBounds(350, 200, 85, 42);
+        lblZnacka.setBounds(360, 180, 70, 43);
 
         txtNazov.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
         txtNazov.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
@@ -120,14 +127,20 @@ public class KategorieForm extends javax.swing.JDialog {
         txtNazov.setBounds(272, 106, 138, 16);
 
         txtPopis.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
-        txtPopis.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        txtPopis.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        getContentPane().add(txtPopis);
-        txtPopis.setBounds(272, 144, 142, 16);
+        txtPopis.setColumns(20);
+        txtPopis.setLineWrap(true);
+        txtPopis.setRows(1);
+        jScrollPane2.setViewportView(txtPopis);
+
+        getContentPane().add(jScrollPane2);
+        jScrollPane2.setBounds(270, 130, 140, 50);
 
         lblPozadie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kategorieform.jpg"))); // NOI18N
+        lblPozadie.setMaximumSize(new java.awt.Dimension(475, 280));
+        lblPozadie.setMinimumSize(new java.awt.Dimension(475, 280));
+        lblPozadie.setPreferredSize(new java.awt.Dimension(475, 280));
         getContentPane().add(lblPozadie);
-        lblPozadie.setBounds(0, 0, 470, 300);
+        lblPozadie.setBounds(0, 0, 470, 230);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -137,8 +150,13 @@ public class KategorieForm extends javax.swing.JDialog {
         Kategoria kategoria = new Kategoria();
         kategoria.setNazov(txtNazov.getText().trim());
         kategoria.setPopis(txtPopis.getText().trim());
-        kategoriaDao.pridajKategoriu(kategoria);
-        aktualizujZoznamKategorii();
+        if (neprazdnyNazov()) {
+            if (neduplicitnaKategoria(kategoria)) {
+                kategoriaDao.pridajKategoriu(kategoria);
+                aktualizujZoznamKategorii();
+            }
+        }
+
     }//GEN-LAST:event_btnPridajActionPerformed
 
     //upraví vybranú kategóriu + refresh
@@ -160,7 +178,7 @@ public class KategorieForm extends javax.swing.JDialog {
         int vybranyRiadok = tblKategoria.getSelectedRow();
         int vybranyIndexVModeli = tblKategoria.convertRowIndexToModel(vybranyRiadok);
         Kategoria vybrataKategoria = kategoriaTableModel.dajPodlaCislaRiadku(vybranyIndexVModeli);
-        
+
         if (vybrataKategoria == null) {
             return;
         }
@@ -195,7 +213,7 @@ public class KategorieForm extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                    
+
                 }
             }
         } catch (ClassNotFoundException ex) {
@@ -213,10 +231,17 @@ public class KategorieForm extends javax.swing.JDialog {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new KategorieForm().setVisible(true);
+                KategorieForm dialog = new KategorieForm(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }
@@ -225,15 +250,36 @@ public class KategorieForm extends javax.swing.JDialog {
     private javax.swing.JButton btnUprav;
     private javax.swing.JButton btnVymaz;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblPozadie;
     private javax.swing.JLabel lblZnacka;
     private javax.swing.JTable tblKategoria;
     private javax.swing.JTextField txtNazov;
-    private javax.swing.JTextField txtPopis;
+    private javax.swing.JTextArea txtPopis;
     // End of variables declaration//GEN-END:variables
 
     //refresh
-        private void aktualizujZoznamKategorii() {
+    private void aktualizujZoznamKategorii() {
         kategoriaTableModel.obnov();
+    }
+
+    private boolean neprazdnyNazov() {
+        if (txtNazov.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vyplň názov!", "Chyba", ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean neduplicitnaKategoria(Kategoria pridavanaKategoria) {
+
+        for (Kategoria kategoria : kategoriaDao.dajVsetky()) {
+            if (pridavanaKategoria.getNazov().trim().equals(kategoria.getNazov().trim())
+                    && pridavanaKategoria.getPopis().trim().equals(kategoria.getPopis().trim())) {
+                JOptionPane.showMessageDialog(this, "Takáto kategória už existuje!", "Chyba", ERROR_MESSAGE);
+                return false;
+            }
+        }
+        return true;
     }
 }

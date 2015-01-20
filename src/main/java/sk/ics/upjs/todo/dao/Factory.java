@@ -20,7 +20,7 @@ public enum Factory {
 
     private JdbcTemplate jdbcTemplate;
 
-  //  private ComboBoxModel comboBoxModel;
+    //  private ComboBoxModel comboBoxModel;
     public JdbcTemplate jdbcTemplate() {
         if (this.jdbcTemplate == null) {
             this.jdbcTemplate = new JdbcTemplate(dataSource());
@@ -56,6 +56,15 @@ public enum Factory {
         dataSource.setPassword("hruska123");
 
         return dataSource;
+    }
+
+    public MysqlDataSource dataSourceTest() {
+        MysqlDataSource dataSourceTest = new MysqlDataSource();
+        dataSourceTest.setURL("jdbc:mysql://www.db4free.net:3306/todolisttestproj");
+        dataSourceTest.setUser("todolisttest");
+        dataSourceTest.setPassword("hruska123");
+
+        return dataSourceTest;
     }
 
     public ComboBoxModel getKategoryCmbModel() {

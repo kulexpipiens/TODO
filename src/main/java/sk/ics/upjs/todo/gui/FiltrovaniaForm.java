@@ -1,5 +1,6 @@
 package sk.ics.upjs.todo.gui;
 
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.MouseEvent;
 import java.util.*;
@@ -8,6 +9,9 @@ import sk.ics.upjs.todo.home.FilterTableModel;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import sk.ics.upjs.todo.dao.Factory;
 import sk.ics.upjs.todo.dao.FilterDao;
 import sk.ics.upjs.todo.dao.UlohaDao;
@@ -23,10 +27,27 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
     private static final FilterTableModel filterTableModel = new FilterTableModel();
     private static final ComboBoxModel comboBoxModel = Factory.INSTANCE.getKategoryCmbModel();
 
+    private JDatePickerImpl datePickerOd;
+    private JDatePickerImpl datePickerDo;
+
     public FiltrovaniaForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setTitle("filtre");
+
+        UtilDateModel modelOd = new UtilDateModel();
+        JDatePanelImpl datePanelOd = new JDatePanelImpl(modelOd);
+        datePickerOd = new JDatePickerImpl(datePanelOd);
+        Color background = new Color(255, 255, 204);
+        datePickerOd.setBackground(background);
+        panelOd.add(datePickerOd);
+
+        UtilDateModel modelDo = new UtilDateModel();
+        JDatePanelImpl datePanelDo = new JDatePanelImpl(modelDo);
+        datePickerDo = new JDatePickerImpl(datePanelDo);
+        datePickerDo.setBackground(background);
+        panelDo.add(datePickerDo);
+
         tblFiltre.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -47,7 +68,6 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
                 tblFiltreMouseClicked(evt);
             }
         });
-        // setDefaultCloseOperation(EXIT_ON_CLOSE);
         aktualizujZoznamUloh();
         aktualizujZoznamFiltrov();
     }
@@ -66,6 +86,8 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
 
     private void tblFiltreMouseClicked(java.awt.event.MouseEvent evt) {
         if (evt.getClickCount() == 2) {
+            datePickerOd.getModel().setSelected(false);
+            datePickerDo.getModel().setSelected(false);
             int vybranyRiadok = tblFiltre.getSelectedRow();
             int vybranyIndexVModeli = tblFiltre.convertRowIndexToModel(vybranyRiadok);
 
@@ -83,16 +105,22 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
                 cmbStav.setSelectedItem("Splnená");
             }
             if (vybranyFilter.getDatumOd() != null) {
-                String datumOd = vybranyFilter.getDatumOd();
-                cmbDenOd.setSelectedItem(datumOd.substring(8, 10));
-                cmbMesOd.setSelectedItem(datumOd.substring(5, 7));
-                cmbRokOd.setSelectedItem(datumOd.substring(0, 4));
+                Date datum = vybranyFilter.getDatumOd();
+                int den = datum.getDate();
+                int mesiac = datum.getMonth();
+                int rok = datum.getYear() + 1900;
+
+                datePickerOd.getModel().setDate(rok, mesiac, den);
+                datePickerOd.getModel().setSelected(true);
             }
             if (vybranyFilter.getDatumDo() != null) {
-                String datumDo = vybranyFilter.getDatumDo();
-                cmbDenDo.setSelectedItem(datumDo.substring(8, 10));
-                cmbMesDo.setSelectedItem(datumDo.substring(5, 7));
-                cmbRokDo.setSelectedItem(datumDo.substring(0, 4));
+                Date datum = vybranyFilter.getDatumDo();
+                int den = datum.getDate();
+                int mesiac = datum.getMonth();
+                int rok = datum.getYear() + 1900;
+
+                datePickerDo.getModel().setDate(rok, mesiac, den);
+                datePickerDo.getModel().setSelected(true);
             }
         }
     }
@@ -143,12 +171,8 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         cmbKategoria = new javax.swing.JComboBox();
         cmbPriorita = new javax.swing.JComboBox();
         cmbStav = new javax.swing.JComboBox();
-        cmbDenOd = new javax.swing.JComboBox();
-        cmbMesOd = new javax.swing.JComboBox();
-        cmbRokOd = new javax.swing.JComboBox();
-        cmbDenDo = new javax.swing.JComboBox();
-        cmbMesDo = new javax.swing.JComboBox();
-        cmbRokDo = new javax.swing.JComboBox();
+        panelOd = new javax.swing.JPanel();
+        panelDo = new javax.swing.JPanel();
         lblPozadie = new javax.swing.JLabel();
 
         jButton1.setText("OK");
@@ -165,7 +189,8 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(642, 268));
+        setMinimumSize(new java.awt.Dimension(642, 280));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         lblZnacka.setBackground(new java.awt.Color(204, 153, 255));
@@ -201,9 +226,9 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         lblStav.setBounds(242, 74, 28, 14);
 
         lblDatum.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        lblDatum.setText("dátum od");
+        lblDatum.setText("od");
         getContentPane().add(lblDatum);
-        lblDatum.setBounds(222, 112, 52, 14);
+        lblDatum.setBounds(210, 110, 30, 14);
 
         lblUvod.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblUvod.setText("vlastné filtre");
@@ -266,7 +291,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         jLabel5.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         jLabel5.setText("do");
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(232, 138, 14, 14);
+        jLabel5.setBounds(210, 140, 14, 14);
 
         cmbKategoria.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         cmbKategoria.setModel(comboBoxModel);
@@ -283,36 +308,13 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         getContentPane().add(cmbStav);
         cmbStav.setBounds(287, 71, 100, 20);
 
-        cmbDenOd.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        cmbDenOd.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
-        getContentPane().add(cmbDenOd);
-        cmbDenOd.setBounds(287, 110, 50, 20);
+        panelOd.setBackground(new java.awt.Color(255, 255, 204));
+        getContentPane().add(panelOd);
+        panelOd.setBounds(240, 100, 200, 30);
 
-        cmbMesOd.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        cmbMesOd.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
-        getContentPane().add(cmbMesOd);
-        cmbMesOd.setBounds(340, 110, 50, 20);
-
-        cmbRokOd.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        cmbRokOd.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021" }));
-        cmbRokOd.setLightWeightPopupEnabled(false);
-        getContentPane().add(cmbRokOd);
-        cmbRokOd.setBounds(390, 110, 60, 20);
-
-        cmbDenDo.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        cmbDenDo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
-        getContentPane().add(cmbDenDo);
-        cmbDenDo.setBounds(287, 135, 50, 20);
-
-        cmbMesDo.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        cmbMesDo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
-        getContentPane().add(cmbMesDo);
-        cmbMesDo.setBounds(340, 135, 50, 20);
-
-        cmbRokDo.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        cmbRokDo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021" }));
-        getContentPane().add(cmbRokDo);
-        cmbRokDo.setBounds(390, 135, 60, 20);
+        panelDo.setBackground(new java.awt.Color(255, 255, 204));
+        getContentPane().add(panelDo);
+        panelDo.setBounds(240, 130, 200, 30);
 
         lblPozadie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filtrovanieform.png"))); // NOI18N
         getContentPane().add(lblPozadie);
@@ -326,12 +328,9 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         List<Uloha> filtrovaneUlohyKategoriou = new LinkedList<>();
         List<Uloha> filtrovaneUlohyPrioritou = new LinkedList<>();
         List<Uloha> filtrovaneUlohyStavom = new LinkedList<>();
-        List<Uloha> filtrovaneUlohyDenOd = new LinkedList<>();
-        List<Uloha> filtrovaneUlohyMesiacOd = new LinkedList<>();
-        List<Uloha> filtrovaneUlohyRokOd = new LinkedList<>();
-        List<Uloha> filtrovaneUlohyDenDo = new LinkedList<>();
-        List<Uloha> filtrovaneUlohyMesiacDo = new LinkedList<>();
-        List<Uloha> filtrovaneUlohyRokDo = new LinkedList<>();
+        List<Uloha> filtrovaneUlohyOd = new LinkedList<>();
+        List<Uloha> filtrovaneUlohyDo = new LinkedList<>();
+
         if (!cmbKategoria.getSelectedItem().equals(" ")) {
             for (Uloha uloha : ulohy) {
                 if (uloha.getKategoria().getNazov().equals(cmbKategoria.getSelectedItem())) {
@@ -367,79 +366,38 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         } else {
             filtrovaneUlohyStavom = filtrovaneUlohyPrioritou;
         }
-        if (!cmbDenOd.getSelectedItem().equals(" ")) {
-            if (filtrovaneUlohyStavom != null) {
-                for (Uloha uloha : filtrovaneUlohyStavom) {
-                    if (Integer.parseInt(uloha.getDatum().substring(8, 10))
-                            >= Integer.parseInt(cmbDenOd.getSelectedItem().toString())) {
-                        filtrovaneUlohyDenOd.add(uloha);
-                    }
+
+        Date datumOd = null;
+        Date datumDo = null;
+
+        if (!datePickerOd.getJFormattedTextField().getText().isEmpty()) {
+            datumOd = (Date) datePickerOd.getModel().getValue();
+        }
+
+        if (!datePickerDo.getJFormattedTextField().getText().isEmpty()) {
+            datumDo = (Date) datePickerDo.getModel().getValue();
+        }
+        if (datumOd != null) {
+            for (Uloha uloha : filtrovaneUlohyStavom) {
+                if (uloha.getDatum().compareTo(datumOd) >= 0) {
+                    filtrovaneUlohyDo.add(uloha);
                 }
             }
         } else {
-            filtrovaneUlohyDenOd = filtrovaneUlohyStavom;
+            filtrovaneUlohyDo = filtrovaneUlohyStavom;
         }
-        if (!cmbMesOd.getSelectedItem().equals(" ")) {
-            if (filtrovaneUlohyDenOd != null) {
-                for (Uloha uloha : filtrovaneUlohyDenOd) {
-                    if (Integer.parseInt(uloha.getDatum().substring(5, 7))
-                            >= Integer.parseInt(cmbMesOd.getSelectedItem().toString())) {
-                        filtrovaneUlohyMesiacOd.add(uloha);
-                    }
+
+        if (datumDo != null) {
+            for (Uloha uloha : filtrovaneUlohyDo) {
+                if (uloha.getDatum().compareTo(datumDo) <= 0) {
+                    filtrovaneUlohyOd.add(uloha);
                 }
             }
         } else {
-            filtrovaneUlohyMesiacOd = filtrovaneUlohyDenOd;
+            filtrovaneUlohyOd = filtrovaneUlohyDo;
+
         }
-        if (!cmbRokOd.getSelectedItem().equals(" ")) {
-            if (filtrovaneUlohyMesiacOd != null) {
-                for (Uloha uloha : filtrovaneUlohyMesiacOd) {
-                    if (Integer.parseInt(uloha.getDatum().substring(0, 4))
-                            >= Integer.parseInt(cmbRokOd.getSelectedItem().toString())) {
-                        filtrovaneUlohyRokOd.add(uloha);
-                    }
-                }
-            }
-        } else {
-            filtrovaneUlohyRokOd = filtrovaneUlohyMesiacOd;
-        }
-        if (!cmbDenDo.getSelectedItem().equals(" ")) {
-            if (filtrovaneUlohyRokOd != null) {
-                for (Uloha uloha : filtrovaneUlohyRokOd) {
-                    if (Integer.parseInt(uloha.getDatum().substring(8, 10))
-                            <= Integer.parseInt(cmbDenDo.getSelectedItem().toString())) {
-                        filtrovaneUlohyDenDo.add(uloha);
-                    }
-                }
-            }
-        } else {
-            filtrovaneUlohyDenDo = filtrovaneUlohyRokOd;
-        }
-        if (!cmbMesDo.getSelectedItem().equals(" ")) {
-            if (filtrovaneUlohyDenDo != null) {
-                for (Uloha uloha : filtrovaneUlohyDenDo) {
-                    if (Integer.parseInt(uloha.getDatum().substring(5, 7))
-                            <= Integer.parseInt(cmbMesDo.getSelectedItem().toString())) {
-                        filtrovaneUlohyMesiacDo.add(uloha);
-                    }
-                }
-            }
-        } else {
-            filtrovaneUlohyMesiacDo = filtrovaneUlohyDenDo;
-        }
-        if (!cmbRokDo.getSelectedItem().equals(" ")) {
-            if (filtrovaneUlohyMesiacDo != null) {
-                for (Uloha uloha : filtrovaneUlohyMesiacDo) {
-                    if (Integer.parseInt(uloha.getDatum().substring(0, 4))
-                            <= Integer.parseInt(cmbRokDo.getSelectedItem().toString())) {
-                        filtrovaneUlohyRokDo.add(uloha);
-                    }
-                }
-            }
-        } else {
-            filtrovaneUlohyRokDo = filtrovaneUlohyMesiacDo;
-        }
-        ulohaTableModel.filtruj(filtrovaneUlohyRokDo);
+        ulohaTableModel.filtruj(filtrovaneUlohyOd);
     }//GEN-LAST:event_btnOKActionPerformed
 
     private void btnVymazActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVymazActionPerformed
@@ -523,14 +481,8 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
     private javax.swing.JButton btnPridaj;
     private javax.swing.JButton btnUprav;
     private javax.swing.JButton btnVymaz;
-    private javax.swing.JComboBox cmbDenDo;
-    private javax.swing.JComboBox cmbDenOd;
     private javax.swing.JComboBox cmbKategoria;
-    private javax.swing.JComboBox cmbMesDo;
-    private javax.swing.JComboBox cmbMesOd;
     private javax.swing.JComboBox cmbPriorita;
-    private javax.swing.JComboBox cmbRokDo;
-    private javax.swing.JComboBox cmbRokOd;
     private javax.swing.JComboBox cmbStav;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
@@ -545,6 +497,8 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
     private javax.swing.JLabel lblStav;
     private javax.swing.JLabel lblUvod;
     private javax.swing.JLabel lblZnacka;
+    private javax.swing.JPanel panelDo;
+    private javax.swing.JPanel panelOd;
     private javax.swing.JTable tblFiltre;
     private javax.swing.JTable tblUloha;
     // End of variables declaration//GEN-END:variables

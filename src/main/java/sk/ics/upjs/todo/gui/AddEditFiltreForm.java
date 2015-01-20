@@ -1,8 +1,16 @@
 package sk.ics.upjs.todo.gui;
 
+import java.awt.Color;
 import java.awt.Frame;
+import java.util.Date;
 import java.util.List;
 import javax.swing.ComboBoxModel;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import sk.ics.upjs.todo.dao.Factory;
 import sk.ics.upjs.todo.dao.FilterDao;
 import sk.ics.upjs.todo.dao.KategoriaDao;
@@ -17,6 +25,9 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
     private static final ComboBoxModel comboBoxModel = Factory.INSTANCE.getKategoryCmbModel();
     private boolean add = false;
 
+    private JDatePickerImpl datePickerOd;
+    private JDatePickerImpl datePickerDo;
+
     public AddEditFiltreForm(Frame parent) {
         this(new Filter(), parent);
         this.add = true;
@@ -29,30 +40,57 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
 
     public AddEditFiltreForm(Filter vybranyFilter, Frame parent) {
         this(parent, true);
+
+        UtilDateModel modelOd = new UtilDateModel();
+        JDatePanelImpl datePanelOd = new JDatePanelImpl(modelOd);
+        datePickerOd = new JDatePickerImpl(datePanelOd);
+        Color background = new Color(255, 255, 204);
+        datePickerOd.setBackground(background);
+        panelOd.add(datePickerOd);
+
+        UtilDateModel modelDo = new UtilDateModel();
+        JDatePanelImpl datePanelDo = new JDatePanelImpl(modelDo);
+        datePickerDo = new JDatePickerImpl(datePanelDo);
+        datePickerDo.setBackground(background);
+        panelDo.add(datePickerDo);
+
         this.setTitle("menežovanie filtrov");
         this.filter = vybranyFilter;
         if (filter.getKategoria() != null) {
             cmbKategoria.setSelectedItem(filter.getKategoria().getNazov());
-        }
-        cmbPriorita.setSelectedItem(filter.getPriorita());
-
-        if (filter.isStav() == false) {
-            cmbStav.setSelectedItem("Nesplnená");
         } else {
-            cmbStav.setSelectedItem("Splnená");
+            cmbKategoria.setSelectedItem(" ");
+        }
+
+        cmbPriorita.setSelectedItem(filter.getPriorita());
+        if (!this.add) {
+            if (filter.isStav() == false) {
+                cmbStav.setSelectedItem("Nesplnená");
+            } else {
+                cmbStav.setSelectedItem("Splnená");
+            }
+        } else {
+            cmbStav.setSelectedItem(" ");
+
         }
         txtNazov.setText(filter.getNazov());
         if (filter.getDatumOd() != null) {
-            String datumOd = filter.getDatumOd();
-            cmbDenOd.setSelectedItem(datumOd.substring(8, 10));
-            cmbMesOd.setSelectedItem(datumOd.substring(5, 7));
-            cmbRokOd.setSelectedItem(datumOd.substring(0, 4));
+            Date datum = filter.getDatumOd();
+            int den = datum.getDate();
+            int mesiac = datum.getMonth();
+            int rok = datum.getYear() + 1900;
+
+            datePickerOd.getModel().setDate(rok, mesiac, den);
+            datePickerOd.getModel().setSelected(true);
         }
         if (filter.getDatumDo() != null) {
-            String datumDo = filter.getDatumDo();
-            cmbDenDo.setSelectedItem(datumDo.substring(8, 10));
-            cmbMesDo.setSelectedItem(datumDo.substring(5, 7));
-            cmbRokDo.setSelectedItem(datumDo.substring(0, 4));
+            Date datum = filter.getDatumDo();
+            int den = datum.getDate();
+            int mesiac = datum.getMonth();
+            int rok = datum.getYear() + 1900;
+
+            datePickerDo.getModel().setDate(rok, mesiac, den);
+            datePickerDo.getModel().setSelected(true);
         }
     }
 
@@ -76,24 +114,21 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
         lblDatumDo = new javax.swing.JLabel();
         cmbKategoria = new javax.swing.JComboBox();
         cmbStav = new javax.swing.JComboBox();
-        cmbDenOd = new javax.swing.JComboBox();
-        cmbMesOd = new javax.swing.JComboBox();
-        cmbRokOd = new javax.swing.JComboBox();
-        cmbDenDo = new javax.swing.JComboBox();
-        cmbMesDo = new javax.swing.JComboBox();
-        cmbRokDo = new javax.swing.JComboBox();
         cmbPriorita = new javax.swing.JComboBox();
+        panelDo = new javax.swing.JPanel();
+        panelOd = new javax.swing.JPanel();
         lblPozadie = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(490, 230));
+        setMinimumSize(new java.awt.Dimension(500, 220));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         lblZnacka.setBackground(new java.awt.Color(204, 153, 255));
         lblZnacka.setFont(new java.awt.Font("Gungsuh", 0, 36)); // NOI18N
         lblZnacka.setText("dori");
         getContentPane().add(lblZnacka);
-        lblZnacka.setBounds(380, 130, 85, 42);
+        lblZnacka.setBounds(390, 140, 85, 42);
 
         lblKategoria.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblKategoria.setText("kategória");
@@ -113,7 +148,7 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
         lblDatumOd.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblDatumOd.setText("dátum od");
         getContentPane().add(lblDatumOd);
-        lblDatumOd.setBounds(240, 14, 52, 14);
+        lblDatumOd.setBounds(220, 20, 52, 14);
 
         btnOK.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         btnOK.setText("OK");
@@ -139,7 +174,7 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
         lblDatumDo.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblDatumDo.setText("dátum do");
         getContentPane().add(lblDatumDo);
-        lblDatumDo.setBounds(240, 45, 52, 14);
+        lblDatumDo.setBounds(220, 50, 52, 14);
 
         cmbKategoria.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         cmbKategoria.setModel(comboBoxModel);
@@ -151,44 +186,17 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
         getContentPane().add(cmbStav);
         cmbStav.setBounds(87, 121, 120, 20);
 
-        cmbDenOd.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        cmbDenOd.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
-        cmbDenOd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbDenOdActionPerformed(evt);
-            }
-        });
-        getContentPane().add(cmbDenOd);
-        cmbDenOd.setBounds(302, 11, 50, 20);
-
-        cmbMesOd.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        cmbMesOd.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
-        getContentPane().add(cmbMesOd);
-        cmbMesOd.setBounds(357, 11, 50, 20);
-
-        cmbRokOd.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        cmbRokOd.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021" }));
-        getContentPane().add(cmbRokOd);
-        cmbRokOd.setBounds(412, 11, 57, 20);
-
-        cmbDenDo.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        cmbDenDo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
-        getContentPane().add(cmbDenDo);
-        cmbDenDo.setBounds(302, 42, 50, 20);
-
-        cmbMesDo.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        cmbMesDo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
-        getContentPane().add(cmbMesDo);
-        cmbMesDo.setBounds(357, 41, 50, 20);
-
-        cmbRokDo.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        cmbRokDo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021" }));
-        getContentPane().add(cmbRokDo);
-        cmbRokDo.setBounds(412, 41, 57, 20);
-
         cmbPriorita.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Nízka", "Stredná", "Vysoká" }));
         getContentPane().add(cmbPriorita);
-        cmbPriorita.setBounds(87, 83, 120, 20);
+        cmbPriorita.setBounds(87, 83, 120, 26);
+
+        panelDo.setBackground(new java.awt.Color(255, 255, 204));
+        getContentPane().add(panelDo);
+        panelDo.setBounds(280, 40, 200, 30);
+
+        panelOd.setBackground(new java.awt.Color(255, 255, 204));
+        getContentPane().add(panelOd);
+        panelOd.setBounds(280, 10, 200, 30);
 
         lblPozadie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/addeditfiltreform.jpg"))); // NOI18N
         getContentPane().add(lblPozadie);
@@ -198,76 +206,51 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-
-        StringBuilder datumOd = new StringBuilder();
-        if (!cmbRokOd.getSelectedItem().toString().equals(" ")) {
-            datumOd.append(cmbRokOd.getSelectedItem().toString());
-        } else {
-            datumOd.append("2014");
-        }
-        if (!cmbMesOd.getSelectedItem().toString().equals(" ")) {
-            datumOd.append(cmbMesOd.getSelectedItem().toString());
-        } else {
-            datumOd.append("01");
-        }
-        if (!cmbDenOd.getSelectedItem().toString().equals(" ")) {
-            datumOd.append(cmbDenOd.getSelectedItem().toString());
-        } else {
-            datumOd.append("01");
-        }
-
-        StringBuilder datumDo = new StringBuilder();
-
-        if (!cmbRokDo.getSelectedItem().toString().equals(" ")) {
-            datumDo.append(cmbRokDo.getSelectedItem().toString());
-        } else {
-            datumDo.append("2022");
-        }
-        if (!cmbMesDo.getSelectedItem().toString().equals(" ")) {
-            datumDo.append(cmbMesDo.getSelectedItem().toString());
-        } else {
-            datumDo.append("12");
-        }
-        if (!cmbDenDo.getSelectedItem().toString().equals(" ")) {
-            datumDo.append(cmbDenDo.getSelectedItem().toString());
-        } else {
-            datumDo.append("31");
-        }
-        List<Kategoria> vsetkyKategorie = kategoriaDao.dajVsetky();
-        String nazovKat = cmbKategoria.getSelectedItem().toString();
-        Kategoria pridavanaKategoria = null;
-        for (Kategoria kategoria : vsetkyKategorie) {
-            if (kategoria.getNazov().equals(nazovKat)) {
-                pridavanaKategoria = kategoria;
+        if (nepraznaKategoria()) {
+            List<Kategoria> vsetkyKategorie = kategoriaDao.dajVsetky();
+            String nazovKat = cmbKategoria.getSelectedItem().toString();
+            Kategoria pridavanaKategoria = null;
+            for (Kategoria kategoria : vsetkyKategorie) {
+                if (kategoria.getNazov().equals(nazovKat)) {
+                    pridavanaKategoria = kategoria;
+                }
             }
-        }
+            Date datumOd = null;
+            Date datumDo = null;
+            if (!datePickerOd.getJFormattedTextField().getText().isEmpty()) {
+                datumOd = (Date) datePickerOd.getModel().getValue();
+            }
 
-        filter.setNazov(txtNazov.getText().trim());
-        filter.setDatumOd(datumOd.toString());
-        filter.setDatumDo(datumDo.toString());
-        filter.setKategoria(pridavanaKategoria);
-        if (cmbPriorita.getSelectedItem() != null) {
-            filter.setPriorita(cmbPriorita.getSelectedItem().toString());
-        } else {
-            filter.setPriorita(" ");
+            if (!datePickerDo.getJFormattedTextField().getText().isEmpty()) {
+                datumDo = (Date) datePickerDo.getModel().getValue();
+            }
+            filter.setNazov(txtNazov.getText().trim());
+            filter.setDatumOd(datumOd);
+            filter.setDatumDo(datumDo);
+            filter.setKategoria(pridavanaKategoria);
+            if (cmbPriorita.getSelectedItem() != null) {
+                filter.setPriorita(cmbPriorita.getSelectedItem().toString());
+            } else {
+                filter.setPriorita(" ");
+            }
+            if (cmbStav.getSelectedItem().toString().equals("Splnená")) {
+                filter.setStav(true);
+            } else {
+                if (cmbStav.getSelectedItem().toString().equals(" ")) {
+                    JOptionPane.showMessageDialog(this, "Stav úlohy bude "
+                            + "automaticky nastavený na Nesplnená ",
+                            "Upozornenie", INFORMATION_MESSAGE);
+                }
+                filter.setStav(false);
+            }
+            if (add) {
+                filterDao.pridajFilter(filter);
+            } else {
+                filterDao.upravFilter(filter);
+            }
+            dispose();
         }
-        if (cmbStav.getSelectedItem().toString().equals("Splnená")) {
-            filter.setStav(true);
-        } else {
-            filter.setStav(false);
-        }
-        if (add) {
-            filterDao.pridajFilter(filter);
-        } else {
-            filterDao.upravFilter(filter);
-        }
-        dispose();
-
     }//GEN-LAST:event_btnOKActionPerformed
-
-    private void cmbDenOdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDenOdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbDenOdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -314,14 +297,8 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOK;
-    private javax.swing.JComboBox cmbDenDo;
-    private javax.swing.JComboBox cmbDenOd;
     private javax.swing.JComboBox cmbKategoria;
-    private javax.swing.JComboBox cmbMesDo;
-    private javax.swing.JComboBox cmbMesOd;
     private javax.swing.JComboBox cmbPriorita;
-    private javax.swing.JComboBox cmbRokDo;
-    private javax.swing.JComboBox cmbRokOd;
     private javax.swing.JComboBox cmbStav;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblDatumDo;
@@ -331,7 +308,17 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
     private javax.swing.JLabel lblPriorita;
     private javax.swing.JLabel lblStav;
     private javax.swing.JLabel lblZnacka;
+    private javax.swing.JPanel panelDo;
+    private javax.swing.JPanel panelOd;
     private javax.swing.JTextField txtNazov;
     // End of variables declaration//GEN-END:variables
+
+    private boolean nepraznaKategoria() {
+        if (cmbKategoria.getSelectedItem().toString().equals(" ")) {
+            JOptionPane.showMessageDialog(this, "Vypln kategoriu!", "Chyba", ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
 
 }

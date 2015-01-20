@@ -17,39 +17,27 @@ public class DatabazovyFilterDao implements FilterDao {
 
     @Override
     public List<Filter> dajVsetky() {
-        return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy, filterRowMapper);
+        return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy
+                + " JOIN KATEGORIE ON FILTRE.kategoria_id = KATEGORIE.kategoria_id\n",
+                filterRowMapper);
     }
 
     @Override
     public void pridajFilter(Filter filter) {
         String sql = "INSERT INTO " + tabulkaZDatabazy + "\n"
                 + "(filter_nazov,priorita,datumOd,datumDo,\n"
-                + "kategoria_id,kategoria_nazov,kategoria_popis,stav) \n"
-                + "VALUES(?,?,?,?,?,?,?,?)\n";
+                + "kategoria_id,stav) \n"
+                + "VALUES(?,?,?,?,?,?)\n";
         String stav = "";
         if (!filter.isStav()) {
             stav = "0";
         } else {
             stav = "1";
         }
-        long kategoriaId;
-        String kategoriaNazov;
-        String kategoriaPopis;
-// musim rozlisit pripady kvoli null pointer exception
-        if (filter.getKategoria() == null) {
-            kategoriaId = -1;
-            kategoriaNazov = "";
-            kategoriaPopis = "";
-        } else {
-            kategoriaId = filter.getKategoria().getId();
-            kategoriaNazov = filter.getKategoria().getNazov();
-            kategoriaPopis = filter.getKategoria().getPopis();
-        }
-        Object[] parametre = {filter.getNazov(), filter.getPriorita(),
-            filter.getDatumOd(), filter.getDatumDo(),
-            kategoriaId, kategoriaNazov, kategoriaPopis, stav};
 
-        jdbcTemplate.update(sql, parametre);
+        jdbcTemplate.update(sql, filter.getNazov(), filter.getPriorita(),
+                filter.getDatumOd(), filter.getDatumDo(),
+                filter.getKategoria().getId(), stav);
     }
 
     @Override
@@ -66,8 +54,6 @@ public class DatabazovyFilterDao implements FilterDao {
                 + " datumOd = ?,\n"
                 + " datumDo = ?,\n"
                 + " kategoria_id = ?,\n"
-                + " kategoria_nazov = ?,\n"
-                + " kategoria_popis = ?,\n"
                 + " stav = ?\n"
                 + " WHERE filter_id = ?\n";
         String stav = new String();
@@ -77,12 +63,9 @@ public class DatabazovyFilterDao implements FilterDao {
             stav = "1";
         }
 
-        Object[] parametre = {filter.getNazov(),
-            filter.getPriorita(), filter.getDatumOd(), filter.getDatumDo(),
-            filter.getKategoria().getId(), filter.getKategoria().getNazov(),
-            filter.getKategoria().getPopis(), stav, filter.getId()};
-
-        jdbcTemplate.update(dopyt, parametre);
+        jdbcTemplate.update(dopyt, filter.getNazov(),
+                filter.getPriorita(), filter.getDatumOd(), filter.getDatumDo(),
+                filter.getKategoria().getId(), stav, filter.getId());
     }
 
 }

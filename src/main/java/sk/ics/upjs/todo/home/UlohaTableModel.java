@@ -38,11 +38,7 @@ public class UlohaTableModel extends AbstractTableModel {
             return uloha.getNazov();
         } else {
             //dátum úlohy
-            Date datum = new Date((Integer.parseInt(uloha.getDatum().substring(0, 4)) - 1900),
-                    Integer.parseInt(uloha.getDatum().substring(5, 7)) - 1,
-                    Integer.parseInt(uloha.getDatum().substring(8, 10)),
-                    Integer.parseInt(uloha.getCas().substring(0, 2)),
-                    Integer.parseInt(uloha.getCas().substring(3, 5)));
+            Date datum = uloha.getDatum();
             long datumUlohy = datum.getTime();
             StringBuilder zostava = new StringBuilder();
             //počty daných období v milisekundách
