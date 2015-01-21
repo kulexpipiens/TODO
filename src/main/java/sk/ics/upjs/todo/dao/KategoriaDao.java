@@ -1,7 +1,7 @@
 package sk.ics.upjs.todo.dao;
 
 import java.util.List;
-import sk.ics.upjs.todo.home.Kategoria;
+import sk.ics.upjs.todo.entity.Kategoria;
 
 public interface KategoriaDao {
     

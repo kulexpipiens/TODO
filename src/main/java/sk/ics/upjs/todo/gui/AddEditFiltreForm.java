@@ -14,8 +14,8 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import sk.ics.upjs.todo.dao.Factory;
 import sk.ics.upjs.todo.dao.FilterDao;
 import sk.ics.upjs.todo.dao.KategoriaDao;
-import sk.ics.upjs.todo.home.Filter;
-import sk.ics.upjs.todo.home.Kategoria;
+import sk.ics.upjs.todo.entity.Filter;
+import sk.ics.upjs.todo.entity.Kategoria;
 
 public class AddEditFiltreForm extends javax.swing.JDialog {
 

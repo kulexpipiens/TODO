@@ -2,14 +2,14 @@ package sk.ics.upjs.todo.dao;
 
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.ics.upjs.todo.home.Kategoria;
+import sk.ics.upjs.todo.entity.Kategoria;
 import sk.ics.upjs.todo.home.KategoriaRowMapper;
 
 public class DatabazovyKategoriaDao implements KategoriaDao {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
     private static final String tabulkaZDatabazy = "KATEGORIE";
-    private KategoriaRowMapper kategoriaRowMapper = new KategoriaRowMapper();
+    private final KategoriaRowMapper kategoriaRowMapper = new KategoriaRowMapper();
     
     public DatabazovyKategoriaDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

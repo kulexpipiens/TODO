@@ -1,7 +1,7 @@
 package sk.ics.upjs.todo.dao;
 
 import java.util.List;
-import sk.ics.upjs.todo.home.Filter;
+import sk.ics.upjs.todo.entity.Filter;
 
 public interface FilterDao {
 

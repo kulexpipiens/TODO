@@ -6,9 +6,9 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.*;
 import sk.ics.upjs.todo.dao.Factory;
-import sk.ics.upjs.todo.home.Kategoria;
+import sk.ics.upjs.todo.entity.Kategoria;
 import sk.ics.upjs.todo.dao.KategoriaDao;
-import sk.ics.upjs.todo.home.Uloha;
+import sk.ics.upjs.todo.entity.Uloha;
 import sk.ics.upjs.todo.dao.UlohaDao;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
@@ -19,7 +19,7 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
 
     private static final UlohaDao ulohaDao = Factory.INSTANCE.ulohaDao();
     private static final KategoriaDao kategoriaDao = Factory.INSTANCE.kategoriaDao();
-    private ComboBoxModel modelKategorii = Factory.INSTANCE.getKategoryCmbModel();
+    private final ComboBoxModel modelKategorii = Factory.INSTANCE.getKategoryCmbModel();
     private Uloha uloha;
 
     private JDatePickerImpl datePicker;

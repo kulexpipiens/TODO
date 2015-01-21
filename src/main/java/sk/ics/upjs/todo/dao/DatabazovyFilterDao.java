@@ -2,12 +2,12 @@ package sk.ics.upjs.todo.dao;
 
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.ics.upjs.todo.home.Filter;
+import sk.ics.upjs.todo.entity.Filter;
 import sk.ics.upjs.todo.home.FilterRowMapper;
 
 public class DatabazovyFilterDao implements FilterDao {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
     private static final String tabulkaZDatabazy = "FILTRE";
     private static final FilterRowMapper filterRowMapper = new FilterRowMapper();
 

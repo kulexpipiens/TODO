@@ -1,15 +1,14 @@
 package sk.ics.upjs.todo.gui;
 
 import java.awt.Frame;
-import javax.swing.JOptionPane;
 import sk.ics.upjs.todo.dao.Factory;
 import sk.ics.upjs.todo.dao.UlohaDao;
-import sk.ics.upjs.todo.home.Uloha;
+import sk.ics.upjs.todo.entity.Uloha;
 
 public class DetailUlohaForm extends javax.swing.JDialog {
 
     private Uloha uloha;
-    private UlohaDao ulohaDao = Factory.INSTANCE.ulohaDao();
+    private final UlohaDao ulohaDao = Factory.INSTANCE.ulohaDao();
 
     /**
      * Creates new form DetailForm

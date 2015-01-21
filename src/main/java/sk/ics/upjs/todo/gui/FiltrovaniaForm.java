@@ -14,8 +14,8 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import sk.ics.upjs.todo.dao.Factory;
 import sk.ics.upjs.todo.dao.FilterDao;
 import sk.ics.upjs.todo.dao.UlohaDao;
-import sk.ics.upjs.todo.home.Filter;
-import sk.ics.upjs.todo.home.Uloha;
+import sk.ics.upjs.todo.entity.Filter;
+import sk.ics.upjs.todo.entity.Uloha;
 import sk.ics.upjs.todo.home.UlohaTableModel;
 
 public class FiltrovaniaForm extends javax.swing.JDialog {

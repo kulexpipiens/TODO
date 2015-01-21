@@ -1,4 +1,4 @@
-package sk.ics.upjs.todo.home;
+package sk.ics.upjs.todo.entity;
 
 //entita úloha + getre + setre + metóda toString
 import java.util.Date;

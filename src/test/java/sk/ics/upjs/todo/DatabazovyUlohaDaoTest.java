@@ -9,8 +9,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import sk.ics.upjs.todo.dao.DatabazovyUlohaDao;
 import sk.ics.upjs.todo.dao.Factory;
 import sk.ics.upjs.todo.dao.UlohaDao;
-import sk.ics.upjs.todo.home.Kategoria;
-import sk.ics.upjs.todo.home.Uloha;
+import sk.ics.upjs.todo.entity.Kategoria;
+import sk.ics.upjs.todo.entity.Uloha;
 
 public class DatabazovyUlohaDaoTest {
 

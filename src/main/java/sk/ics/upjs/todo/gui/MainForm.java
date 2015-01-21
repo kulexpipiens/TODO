@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import sk.ics.upjs.todo.dao.Factory;
-import sk.ics.upjs.todo.home.Uloha;
+import sk.ics.upjs.todo.entity.Uloha;
 import sk.ics.upjs.todo.dao.UlohaDao;
 import sk.ics.upjs.todo.home.UlohaTableModel;
 

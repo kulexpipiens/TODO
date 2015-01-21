@@ -5,7 +5,7 @@ import java.util.List;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.ics.upjs.todo.home.Kategoria;
+import sk.ics.upjs.todo.entity.Kategoria;
 
 //továreň na jdbcTemplate, ulohaDao, kategoriaDao, dataSource, filterDao
 public enum Factory {

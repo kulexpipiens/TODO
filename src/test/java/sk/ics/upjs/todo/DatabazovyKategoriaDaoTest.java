@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import sk.ics.upjs.todo.dao.DatabazovyKategoriaDao;
 import sk.ics.upjs.todo.dao.Factory;
 import sk.ics.upjs.todo.dao.KategoriaDao;
-import sk.ics.upjs.todo.home.Kategoria;
+import sk.ics.upjs.todo.entity.Kategoria;
 
 public class DatabazovyKategoriaDaoTest {
 

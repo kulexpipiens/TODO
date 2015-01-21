@@ -1,5 +1,6 @@
 package sk.ics.upjs.todo.home;
 
+import sk.ics.upjs.todo.entity.Filter;
 import java.util.*;
 import javax.swing.table.AbstractTableModel;
 import sk.ics.upjs.todo.dao.Factory;

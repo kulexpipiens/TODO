@@ -1,12 +1,11 @@
 package sk.ics.upjs.todo.gui;
 
-import java.util.List;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import sk.ics.upjs.todo.dao.Factory;
-import sk.ics.upjs.todo.home.Kategoria;
+import sk.ics.upjs.todo.entity.Kategoria;
 import sk.ics.upjs.todo.dao.KategoriaDao;
 import sk.ics.upjs.todo.home.KategoriaTableModel;
 

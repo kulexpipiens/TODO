@@ -1,5 +1,6 @@
 package sk.ics.upjs.todo.home;
 
+import sk.ics.upjs.todo.entity.Uloha;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;

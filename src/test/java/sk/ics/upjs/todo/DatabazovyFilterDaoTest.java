@@ -8,8 +8,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import sk.ics.upjs.todo.dao.DatabazovyFilterDao;
 import sk.ics.upjs.todo.dao.Factory;
 import sk.ics.upjs.todo.dao.FilterDao;
-import sk.ics.upjs.todo.home.Filter;
-import sk.ics.upjs.todo.home.Kategoria;
+import sk.ics.upjs.todo.entity.Filter;
+import sk.ics.upjs.todo.entity.Kategoria;
 
 public class DatabazovyFilterDaoTest {
 

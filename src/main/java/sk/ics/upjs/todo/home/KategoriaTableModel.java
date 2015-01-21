@@ -1,5 +1,6 @@
 package sk.ics.upjs.todo.home;
 
+import sk.ics.upjs.todo.entity.Kategoria;
 import sk.ics.upjs.todo.dao.Factory;
 import sk.ics.upjs.todo.dao.KategoriaDao;
 import java.util.*;

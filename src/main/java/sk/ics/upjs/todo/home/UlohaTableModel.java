@@ -1,5 +1,6 @@
 package sk.ics.upjs.todo.home;
 
+import sk.ics.upjs.todo.entity.Uloha;
 import sk.ics.upjs.todo.dao.Factory;
 import sk.ics.upjs.todo.dao.UlohaDao;
 import java.util.Date;
@@ -17,7 +18,7 @@ public class UlohaTableModel extends AbstractTableModel {
 
     private static final UlohaDao ulohaDao = Factory.INSTANCE.ulohaDao();
 
-    private List<Uloha> ulohy = new LinkedList<Uloha>();
+    private List<Uloha> ulohy = new LinkedList<>();
 
     @Override
     public int getRowCount() {

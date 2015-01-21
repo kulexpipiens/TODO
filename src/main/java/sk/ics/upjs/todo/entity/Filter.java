@@ -1,5 +1,5 @@
 
-package sk.ics.upjs.todo.home;
+package sk.ics.upjs.todo.entity;
 
 import java.util.Date;
 

@@ -1,7 +1,7 @@
 package sk.ics.upjs.todo.dao;
 
 import java.util.*;
-import sk.ics.upjs.todo.home.Uloha;
+import sk.ics.upjs.todo.entity.Uloha;
 
 public interface UlohaDao {
 

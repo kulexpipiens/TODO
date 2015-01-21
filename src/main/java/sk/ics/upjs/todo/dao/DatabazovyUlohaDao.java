@@ -2,15 +2,15 @@ package sk.ics.upjs.todo.dao;
 
 import java.util.*;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.ics.upjs.todo.home.Uloha;
+import sk.ics.upjs.todo.entity.Uloha;
 import sk.ics.upjs.todo.home.UlohaRowMapper;
 
 public class DatabazovyUlohaDao implements UlohaDao {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
     // tabulka s ktorou pracujem
     private static final String tabulkaZDatabazy = "ULOHY";
-    private UlohaRowMapper mapovacUloh = new UlohaRowMapper();
+    private final UlohaRowMapper mapovacUloh = new UlohaRowMapper();
 
     public DatabazovyUlohaDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
