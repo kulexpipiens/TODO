@@ -1,6 +1,5 @@
 package sk.ics.upjs.todo;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.util.Date;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
@@ -14,9 +13,9 @@ import sk.ics.upjs.todo.entity.Uloha;
 
 public class DatabazovyUlohaDaoTest {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-    private UlohaDao ulohaDao;
+    private final UlohaDao ulohaDao;
 
     private static final int POCET_ULOH_V_DATABAZE = 3;
     private static final int POCET_DNESNYCH_ULOH_V_DATABAZE = 0;
