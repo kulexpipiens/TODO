@@ -22,6 +22,8 @@ public class DatabazovyUlohaDao implements UlohaDao {
         return jdbcTemplate.query("SELECT * FROM \n" + tabulkaZDatabazy
                 + " JOIN KATEGORIE ON ULOHY.kategoria_id = KATEGORIE.kategoria_id\n"
                 + " WHERE datum >= SUBDATE(curdate(),INTERVAL 2 DAY)\n"
+                + " AND " + tabulkaZDatabazy + ".vlastnik='"
+                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
                 + " ORDER BY datum\n", mapovacUloh);
     }
 
@@ -30,14 +32,15 @@ public class DatabazovyUlohaDao implements UlohaDao {
     public void pridajUlohu(Uloha uloha) {
         String sql = "INSERT INTO " + tabulkaZDatabazy + "\n"
                 + "(uloha_nazov,uloha_popis,priorita,datum,cas,\n"
-                + "kategoria_id,stav) \n"
-                + "VALUES(?,?,?,?,?,?,?)\n";
+                + "kategoria_id,stav,vlastnik) \n"
+                + "VALUES(?,?,?,?,?,?,?,?)\n";
 
         jdbcTemplate.update(sql, uloha.getNazov(),
                 uloha.getPopis(),
                 uloha.getPriorita(),
                 vratStringDatumu(uloha), vratStringCasu(uloha),
-                uloha.getKategoria().getId(), "0");
+                uloha.getKategoria().getId(), "0",
+                PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno());
 
     }
 
@@ -76,15 +79,15 @@ public class DatabazovyUlohaDao implements UlohaDao {
     @Override
     public void oznacZaSplenenu(Uloha uloha) {
         String stav = "1";
-        jdbcTemplate.update("update " + tabulkaZDatabazy
-                + " set stav=? where uloha_id = ?", stav, uloha.getId());
+        jdbcTemplate.update("UPDATE " + tabulkaZDatabazy
+                + " SET stav=? WHERE uloha_id = ?", stav, uloha.getId());
     }
 
     @Override
     public void oznacZaNesplnenu(Uloha uloha) {
         String stav = "0";
-        jdbcTemplate.update("update " + tabulkaZDatabazy
-                + " set stav=? where uloha_id = ?", stav, uloha.getId());
+        jdbcTemplate.update("UPDATE " + tabulkaZDatabazy
+                + " SET stav=? WHERE uloha_id = ?", stav, uloha.getId());
     }
 
     //vráti zoznam úloh, ktorým končí termín dnes
@@ -94,6 +97,8 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 + " JOIN KATEGORIE ON ULOHY.kategoria_id = KATEGORIE.kategoria_id\n"
                 + " WHERE date_format(datum, '%Y-%m-%d')\n"
                 + " = date_format(curdate(), '%Y-%m-%d')\n"
+                + " AND vlasnik='"
+                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
                 + " ORDER BY datum;\n", mapovacUloh);
     }
 
@@ -106,6 +111,8 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 + " SUBDATE(curdate(),INTERVAL DAYOFWEEK(curdate())-2 DAY)\n"
                 + " AND datum <=\n"
                 + " ADDDATE(curdate(), INTERVAL 8 - DAYOFWEEK(curdate()) DAY)\n"
+                + " AND vlasnik='"
+                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
                 + " ORDER BY datum;\n",
                 mapovacUloh);
     }
@@ -117,6 +124,8 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 + " JOIN KATEGORIE ON ULOHY.kategoria_id = KATEGORIE.kategoria_id\n"
                 + " WHERE date_format(datum, '%Y-%m')\n"
                 + " = date_format(curdate(), '%Y-%m')\n"
+                + " AND vlasnik='"
+                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
                 + " ORDER BY datum;\n", mapovacUloh);
 
     }

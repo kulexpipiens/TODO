@@ -18,7 +18,9 @@ public class DatabazovyFilterDao implements FilterDao {
     @Override
     public List<Filter> dajVsetky() {
         return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy
-                + " JOIN KATEGORIE ON FILTRE.kategoria_id = KATEGORIE.kategoria_id\n",
+                + " JOIN KATEGORIE ON FILTRE.kategoria_id = KATEGORIE.kategoria_id"
+                + " WHERE FILTRE.vlastnik='"
+                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'",
                 filterRowMapper);
     }
 
@@ -26,8 +28,8 @@ public class DatabazovyFilterDao implements FilterDao {
     public void pridajFilter(Filter filter) {
         String sql = "INSERT INTO " + tabulkaZDatabazy + "\n"
                 + "(filter_nazov,priorita,datumOd,datumDo,\n"
-                + "kategoria_id,stav) \n"
-                + "VALUES(?,?,?,?,?,?)\n";
+                + "kategoria_id,stav,vlastnik) \n"
+                + "VALUES(?,?,?,?,?,?,?)\n";
         String stav = "";
         if (!filter.isStav()) {
             stav = "0";
@@ -37,13 +39,14 @@ public class DatabazovyFilterDao implements FilterDao {
 
         jdbcTemplate.update(sql, filter.getNazov(), filter.getPriorita(),
                 filter.getDatumOd(), filter.getDatumDo(),
-                filter.getKategoria().getId(), stav);
+                filter.getKategoria().getId(), stav,
+                PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno());
     }
 
     @Override
     public void vymazFilter(Filter filter) {
-        jdbcTemplate.update("delete from " + tabulkaZDatabazy
-                + " where filter_id = ?", filter.getId());
+        jdbcTemplate.update("DELETE FROM " + tabulkaZDatabazy
+                + " WHERE filter_id = ?", filter.getId());
     }
 
     @Override

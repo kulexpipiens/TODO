@@ -43,6 +43,7 @@ public class DatabazovyPouzivatelDao implements PouzivatelDao {
         Map<String, Object> hodnoty = new HashMap<>();
         hodnoty.put("Meno", pouzivatel.getMeno());
         hodnoty.put("Heslo", pouzivatel.getHeslo());
+        hodnoty.put("Mail", pouzivatel.getMail());
 
         SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
         insert.setTableName("UZIVATELIA");

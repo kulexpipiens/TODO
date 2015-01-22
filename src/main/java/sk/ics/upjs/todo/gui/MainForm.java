@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import sk.ics.upjs.todo.dao.Factory;
+import sk.ics.upjs.todo.dao.PrihlasovaciARegistrovaciServis;
 import sk.ics.upjs.todo.entity.Uloha;
 import sk.ics.upjs.todo.dao.UlohaDao;
 import sk.ics.upjs.todo.home.UlohaTableModel;
@@ -35,6 +36,7 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
+        lblPouzivatel.setText(PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         aktualizujZoznamUloh();
     }
@@ -73,6 +75,8 @@ public class MainForm extends javax.swing.JFrame {
         btnVsetky = new javax.swing.JButton();
         btnKategorie = new javax.swing.JButton();
         btnFilters = new javax.swing.JButton();
+        lblPouzivatel = new javax.swing.JLabel();
+        btnOdhlas = new javax.swing.JButton();
         lblPozadie = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -84,7 +88,7 @@ public class MainForm extends javax.swing.JFrame {
         lblZnacka.setFont(new java.awt.Font("Gungsuh", 0, 36)); // NOI18N
         lblZnacka.setText("dori");
         getContentPane().add(lblZnacka);
-        lblZnacka.setBounds(390, 200, 85, 42);
+        lblZnacka.setBounds(380, 160, 70, 43);
 
         btnPridaj.setBackground(new java.awt.Color(204, 204, 204));
         btnPridaj.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
@@ -207,6 +211,19 @@ public class MainForm extends javax.swing.JFrame {
         getContentPane().add(btnFilters);
         btnFilters.setBounds(415, 60, 80, 43);
 
+        lblPouzivatel.setText("Neprihlásený");
+        getContentPane().add(lblPouzivatel);
+        lblPouzivatel.setBounds(410, 230, 80, 15);
+
+        btnOdhlas.setText("Odhlás");
+        btnOdhlas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOdhlasActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnOdhlas);
+        btnOdhlas.setBounds(410, 210, 70, 20);
+
         lblPozadie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mainform.jpg"))); // NOI18N
         getContentPane().add(lblPozadie);
         lblPozadie.setBounds(0, 0, 500, 260);
@@ -290,6 +307,12 @@ public class MainForm extends javax.swing.JFrame {
         filter.setVisible(true);
     }//GEN-LAST:event_btnFiltersActionPerformed
 
+    private void btnOdhlasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOdhlasActionPerformed
+        PrihlasovaciARegistrovaciServis.INSTANCE.odhlas();
+        PrihlasovanieForm.main(null);
+        dispose();
+    }//GEN-LAST:event_btnOdhlasActionPerformed
+
     //zabezpečí že po dvojkliku myšou sa zobrazí detail úlohy, na ktorú sa kliklo
     private void tblUlohaMouseClicked(java.awt.event.MouseEvent evt) {
         if (evt.getClickCount() == 2) {
@@ -345,6 +368,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton btnDnesne;
     private javax.swing.JButton btnFilters;
     private javax.swing.JButton btnKategorie;
+    private javax.swing.JButton btnOdhlas;
     private javax.swing.JButton btnPridaj;
     private javax.swing.JButton btnTentoMesiac;
     private javax.swing.JButton btnTentoTyzden;
@@ -352,6 +376,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton btnVsetky;
     private javax.swing.JButton btnVymaz;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblPouzivatel;
     private javax.swing.JLabel lblPozadie;
     private javax.swing.JLabel lblZnacka;
     private javax.swing.JTable tblUloha;

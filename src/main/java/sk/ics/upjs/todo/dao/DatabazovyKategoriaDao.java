@@ -10,7 +10,7 @@ public class DatabazovyKategoriaDao implements KategoriaDao {
     private final JdbcTemplate jdbcTemplate;
     private static final String tabulkaZDatabazy = "KATEGORIE";
     private final KategoriaRowMapper kategoriaRowMapper = new KategoriaRowMapper();
-    
+
     public DatabazovyKategoriaDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -18,30 +18,35 @@ public class DatabazovyKategoriaDao implements KategoriaDao {
     //prida novu kategoriu do tabulky s ktorou pracujem
     @Override
     public void pridajKategoriu(Kategoria kategoria) {
-        String sql = "insert into " + tabulkaZDatabazy + "(kategoria_nazov, kategoria_popis) values(?,?)";
-        jdbcTemplate.update(sql, kategoria.getNazov(), kategoria.getPopis());
+        String sql = "INSERT INTO " + tabulkaZDatabazy
+                + "(kategoria_nazov, kategoria_popis, vlastnik) VALUES(?,?,?)";
+        jdbcTemplate.update(sql, kategoria.getNazov(), kategoria.getPopis(),
+                PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno());
     }
 
     //vymaze kategoriu z tabulky s ktorou pracujem
     @Override
     public void vymazKategoriu(Kategoria kategoria) {
-        jdbcTemplate.update("delete from " + tabulkaZDatabazy
-                + " where kategoria_id = ?", kategoria.getId());
+        jdbcTemplate.update("DELETE FROM " + tabulkaZDatabazy
+                + " WHERE kategoria_id = ?", kategoria.getId());
     }
 
     //upravi kategoriu v tabulke s ktorou pracujem
     @Override
     public void upravKategoriu(Kategoria kategoria) {
-        String sql = "update " + tabulkaZDatabazy +"\n"
-                + " set kategoria_nazov = ?,\n"
+        String sql = "UPDATE " + tabulkaZDatabazy + "\n"
+                + " SET kategoria_nazov = ?,\n"
                 + " kategoria_popis = ?\n"
-                + " where kategoria_id = ?;\n";
+                + " WHERE kategoria_id = ?;\n";
         jdbcTemplate.update(sql, kategoria.getNazov(), kategoria.getPopis(), kategoria.getId());
     }
 
     //vrati zoznam kategórií
     @Override
     public List<Kategoria> dajVsetky() {
-        return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy, kategoriaRowMapper);
+        return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy
+                + " WHERE vlastnik='"
+                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'",
+                kategoriaRowMapper);
     }
 }
