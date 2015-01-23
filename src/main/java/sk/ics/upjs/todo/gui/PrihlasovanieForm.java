@@ -7,6 +7,8 @@ package sk.ics.upjs.todo.gui;
 
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import sk.ics.upjs.todo.dao.PrihlasovaciARegistrovaciServis;
 import sk.ics.upjs.todo.entity.Pouzivatel;
 import sk.ics.upjs.todo.exceptions.ZleMenoAleboHesloException;
@@ -158,7 +160,9 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
         String meno = txtMeno.getText();
         String heslo = new String(txtHeslo.getPassword());
         if (meno.equals("") || heslo.equals("")) {
-            JOptionPane.showMessageDialog(this, "Zadajte používateľské meno aj heslo!");
+            JOptionPane.showMessageDialog(this,
+                    "Zadajte používateľské meno aj heslo!",
+                    "Upozornenie", INFORMATION_MESSAGE);
             return;
         }
         try {
@@ -172,7 +176,7 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
             MainForm.main(null);
             dispose();
         } catch (ZleMenoAleboHesloException e) {
-            JOptionPane.showMessageDialog(this, e.getSprava());
+            JOptionPane.showMessageDialog(this, e.getSprava(), "Chyba", ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnPrihlasActionPerformed
 

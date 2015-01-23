@@ -32,14 +32,14 @@ public class DatabazovyUlohaDao implements UlohaDao {
     public void pridajUlohu(Uloha uloha) {
         String sql = "INSERT INTO " + tabulkaZDatabazy + "\n"
                 + "(uloha_nazov,uloha_popis,priorita,datum,cas,\n"
-                + "kategoria_id,stav,vlastnik) \n"
-                + "VALUES(?,?,?,?,?,?,?,?)\n";
+                + "kategoria_id,stav,trvanie,vlastnik) \n"
+                + "VALUES(?,?,?,?,?,?,?,?,?)\n";
 
         jdbcTemplate.update(sql, uloha.getNazov(),
                 uloha.getPopis(),
                 uloha.getPriorita(),
                 vratStringDatumu(uloha), vratStringCasu(uloha),
-                uloha.getKategoria().getId(), "0",
+                uloha.getKategoria().getId(), "0", uloha.getTrvanie(),
                 PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno());
 
     }
@@ -62,6 +62,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 + " cas = ?,\n"
                 + " kategoria_id = ?,\n"
                 + " stav = ?\n"
+                + " trvanie = ?\n"
                 + " WHERE uloha_id = ?\n";
         String stav = new String();
         if (uloha.getStav()) {
@@ -72,7 +73,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
 
         jdbcTemplate.update(dopyt, uloha.getNazov(), uloha.getPopis(), uloha.getPriorita(),
                 vratStringDatumu(uloha), vratStringCasu(uloha),
-                uloha.getKategoria().getId(), stav, uloha.getId());
+                uloha.getKategoria().getId(), stav, uloha.getTrvanie(), uloha.getId());
     }
 
 //oznaci ulohu za splnenu
@@ -97,7 +98,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 + " JOIN KATEGORIE ON ULOHY.kategoria_id = KATEGORIE.kategoria_id\n"
                 + " WHERE date_format(datum, '%Y-%m-%d')\n"
                 + " = date_format(curdate(), '%Y-%m-%d')\n"
-                + " AND vlasnik='"
+                + " AND " + tabulkaZDatabazy + ".vlastnik='"
                 + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
                 + " ORDER BY datum;\n", mapovacUloh);
     }
@@ -111,7 +112,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 + " SUBDATE(curdate(),INTERVAL DAYOFWEEK(curdate())-2 DAY)\n"
                 + " AND datum <=\n"
                 + " ADDDATE(curdate(), INTERVAL 8 - DAYOFWEEK(curdate()) DAY)\n"
-                + " AND vlasnik='"
+                + " AND " + tabulkaZDatabazy + ".vlastnik='"
                 + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
                 + " ORDER BY datum;\n",
                 mapovacUloh);
@@ -124,7 +125,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 + " JOIN KATEGORIE ON ULOHY.kategoria_id = KATEGORIE.kategoria_id\n"
                 + " WHERE date_format(datum, '%Y-%m')\n"
                 + " = date_format(curdate(), '%Y-%m')\n"
-                + " AND vlasnik='"
+                + " AND " + tabulkaZDatabazy + ".vlastnik='"
                 + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
                 + " ORDER BY datum;\n", mapovacUloh);
 
@@ -156,6 +157,37 @@ public class DatabazovyUlohaDao implements UlohaDao {
         cas.append(uloha.getDatum().getMinutes());
         cas.append("00");
         return cas.toString();
+    }
+
+    @Override
+    public List<Uloha> dajZCasovehoIntervalu(Calendar datumOd, Calendar datumDo) {
+        String retazecOd = dajStringZCalendara(datumOd);
+
+        String retazecDo = dajStringZCalendara(datumDo);
+
+        return jdbcTemplate.query("SELECT * FROM \n" + tabulkaZDatabazy
+                + " JOIN KATEGORIE ON ULOHY.kategoria_id = KATEGORIE.kategoria_id\n"
+                + " WHERE datum >=" + retazecOd
+                + " AND datum <= " + retazecDo
+                + " AND " + tabulkaZDatabazy + ".vlastnik='"
+                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
+                + " ORDER BY datum\n", mapovacUloh);
+    }
+
+    private String dajStringZCalendara(Calendar datum) {
+        String mesiac, den;
+        if ((datum.get(Calendar.MONTH) + 1) < 10) {
+            mesiac = "0" + (datum.get(Calendar.MONTH) + 1);
+        } else {
+            mesiac = "" + (datum.get(Calendar.MONTH) + 1);
+        }
+        if (datum.get(Calendar.DAY_OF_MONTH) < 10) {
+            den = "0" + datum.get(Calendar.DAY_OF_MONTH);
+        } else {
+            den = "" + datum.get(Calendar.DAY_OF_MONTH);
+        }
+
+        return "" + datum.get(Calendar.YEAR) + mesiac + den;
     }
 
 }

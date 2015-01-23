@@ -54,7 +54,7 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
         datePickerDo.setBackground(background);
         panelDo.add(datePickerDo);
 
-        this.setTitle("menežovanie filtrov");
+        this.setTitle("Menežovanie filtrov");
         this.filter = vybranyFilter;
         if (filter.getKategoria() != null) {
             cmbKategoria.setSelectedItem(filter.getKategoria().getNazov());
@@ -128,27 +128,27 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
         lblZnacka.setFont(new java.awt.Font("Gungsuh", 0, 36)); // NOI18N
         lblZnacka.setText("dori");
         getContentPane().add(lblZnacka);
-        lblZnacka.setBounds(390, 140, 85, 42);
+        lblZnacka.setBounds(390, 140, 70, 43);
 
         lblKategoria.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblKategoria.setText("kategória");
         getContentPane().add(lblKategoria);
-        lblKategoria.setBounds(10, 49, 59, 14);
+        lblKategoria.setBounds(10, 49, 53, 14);
 
         lblPriorita.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblPriorita.setText("priorita");
         getContentPane().add(lblPriorita);
-        lblPriorita.setBounds(20, 84, 49, 14);
+        lblPriorita.setBounds(20, 84, 41, 14);
 
         lblStav.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblStav.setText("stav");
         getContentPane().add(lblStav);
-        lblStav.setBounds(41, 124, 28, 14);
+        lblStav.setBounds(41, 124, 24, 14);
 
         lblDatumOd.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblDatumOd.setText("dátum od");
         getContentPane().add(lblDatumOd);
-        lblDatumOd.setBounds(220, 20, 52, 14);
+        lblDatumOd.setBounds(220, 20, 54, 14);
 
         btnOK.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         btnOK.setText("OK");
@@ -158,7 +158,7 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btnOK);
-        btnOK.setBounds(398, 80, 47, 23);
+        btnOK.setBounds(398, 80, 28, 26);
 
         jLabel1.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -174,21 +174,21 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
         lblDatumDo.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblDatumDo.setText("dátum do");
         getContentPane().add(lblDatumDo);
-        lblDatumDo.setBounds(220, 50, 52, 14);
+        lblDatumDo.setBounds(220, 50, 54, 14);
 
         cmbKategoria.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         cmbKategoria.setModel(comboBoxModel);
         getContentPane().add(cmbKategoria);
-        cmbKategoria.setBounds(87, 47, 120, 20);
+        cmbKategoria.setBounds(87, 47, 120, 24);
 
         cmbStav.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         cmbStav.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Splnená", "Nesplnená" }));
         getContentPane().add(cmbStav);
-        cmbStav.setBounds(87, 121, 120, 20);
+        cmbStav.setBounds(87, 121, 120, 24);
 
         cmbPriorita.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Nízka", "Stredná", "Vysoká" }));
         getContentPane().add(cmbPriorita);
-        cmbPriorita.setBounds(87, 83, 120, 26);
+        cmbPriorita.setBounds(87, 83, 120, 25);
 
         panelDo.setBackground(new java.awt.Color(255, 255, 204));
         getContentPane().add(panelDo);

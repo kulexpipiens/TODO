@@ -77,6 +77,7 @@ public class MainForm extends javax.swing.JFrame {
         btnFilters = new javax.swing.JButton();
         lblPouzivatel = new javax.swing.JLabel();
         btnOdhlas = new javax.swing.JButton();
+        btnGrafy = new javax.swing.JButton();
         lblPozadie = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -224,6 +225,15 @@ public class MainForm extends javax.swing.JFrame {
         getContentPane().add(btnOdhlas);
         btnOdhlas.setBounds(410, 210, 70, 20);
 
+        btnGrafy.setText("Grafy");
+        btnGrafy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGrafyActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnGrafy);
+        btnGrafy.setBounds(415, 110, 80, 50);
+
         lblPozadie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mainform.jpg"))); // NOI18N
         getContentPane().add(lblPozadie);
         lblPozadie.setBounds(0, 0, 500, 260);
@@ -309,9 +319,16 @@ public class MainForm extends javax.swing.JFrame {
 
     private void btnOdhlasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOdhlasActionPerformed
         PrihlasovaciARegistrovaciServis.INSTANCE.odhlas();
+        // ak sa pouzivatel odhlasi, tak sa spusti prihlasovacie okno...
         PrihlasovanieForm.main(null);
+        // ...a aktualne sa zavrie
         dispose();
     }//GEN-LAST:event_btnOdhlasActionPerformed
+
+    private void btnGrafyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGrafyActionPerformed
+        VyberObdobiaPreGrafForm vyberObdobiaPreGrafForm = new VyberObdobiaPreGrafForm(this, true);
+        vyberObdobiaPreGrafForm.setVisible(true);
+    }//GEN-LAST:event_btnGrafyActionPerformed
 
     //zabezpečí že po dvojkliku myšou sa zobrazí detail úlohy, na ktorú sa kliklo
     private void tblUlohaMouseClicked(java.awt.event.MouseEvent evt) {
@@ -367,6 +384,7 @@ public class MainForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDnesne;
     private javax.swing.JButton btnFilters;
+    private javax.swing.JButton btnGrafy;
     private javax.swing.JButton btnKategorie;
     private javax.swing.JButton btnOdhlas;
     private javax.swing.JButton btnPridaj;

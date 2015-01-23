@@ -7,9 +7,9 @@ import java.util.Date;
 import org.springframework.jdbc.core.RowMapper;
 
 public class UlohaRowMapper implements RowMapper<Uloha> {
-
+    
     KategoriaRowMapper kategoriaRowMapper = new KategoriaRowMapper();
-
+    
     @Override
     public Uloha mapRow(ResultSet rs, int i) throws SQLException {
         Uloha uloha = new Uloha();
@@ -22,8 +22,9 @@ public class UlohaRowMapper implements RowMapper<Uloha> {
         uloha.setPriorita(rs.getString("priorita"));
         uloha.setStav(rs.getBoolean("stav"));
         uloha.setKategoria(kategoriaRowMapper.mapRow(rs, i));
-
+        uloha.setTrvanie(rs.getInt("trvanie"));
+        
         return uloha;
     }
-
+    
 }

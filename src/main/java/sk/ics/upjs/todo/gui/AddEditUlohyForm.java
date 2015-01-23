@@ -110,6 +110,8 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtPopis = new javax.swing.JTextArea();
         vnutornyFrame = new javax.swing.JPanel();
+        lblTrvanie = new javax.swing.JLabel();
+        txtTrvanie = new javax.swing.JTextField();
         lblPozadie = new javax.swing.JLabel();
 
         lblZnacka.setBackground(new java.awt.Color(204, 153, 255));
@@ -125,7 +127,7 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         lblZnacka1.setFont(new java.awt.Font("Gungsuh", 0, 36)); // NOI18N
         lblZnacka1.setText("dori");
         getContentPane().add(lblZnacka1);
-        lblZnacka1.setBounds(360, 190, 99, 42);
+        lblZnacka1.setBounds(360, 190, 99, 43);
 
         lblUloha.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         lblUloha.setText("úloha");
@@ -140,17 +142,17 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         lblPriorita.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         lblPriorita.setText("priorita");
         getContentPane().add(lblPriorita);
-        lblPriorita.setBounds(62, 183, 46, 15);
+        lblPriorita.setBounds(62, 183, 45, 15);
 
         lblKategoria.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         lblKategoria.setText("kategória");
         getContentPane().add(lblKategoria);
-        lblKategoria.setBounds(62, 207, 56, 15);
+        lblKategoria.setBounds(62, 207, 60, 15);
 
         lblDatum.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         lblDatum.setText("dátum");
         getContentPane().add(lblDatum);
-        lblDatum.setBounds(290, 40, 33, 15);
+        lblDatum.setBounds(290, 40, 40, 15);
 
         btnOk.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         btnOk.setText("OK");
@@ -161,7 +163,7 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btnOk);
-        btnOk.setBounds(260, 140, 100, 30);
+        btnOk.setBounds(280, 160, 100, 30);
 
         txtNazov.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
         txtNazov.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
@@ -172,12 +174,12 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         cmbPriorita.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         cmbPriorita.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Nízka", "Stredná", "Vysoká" }));
         getContentPane().add(cmbPriorita);
-        cmbPriorita.setBounds(131, 177, 90, 21);
+        cmbPriorita.setBounds(131, 177, 90, 25);
 
         cmbKategoria.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         cmbKategoria.setModel(modelKategorii);
         getContentPane().add(cmbKategoria);
-        cmbKategoria.setBounds(131, 204, 90, 21);
+        cmbKategoria.setBounds(131, 204, 90, 25);
 
         lblCas.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         lblCas.setText("čas");
@@ -216,6 +218,12 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         getContentPane().add(vnutornyFrame);
         vnutornyFrame.setBounds(240, 60, 200, 30);
 
+        lblTrvanie.setText("trvanie:");
+        getContentPane().add(lblTrvanie);
+        lblTrvanie.setBounds(240, 130, 50, 15);
+        getContentPane().add(txtTrvanie);
+        txtTrvanie.setBounds(290, 130, 90, 20);
+
         lblPozadie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/addeditulohyform.jpg"))); // NOI18N
         getContentPane().add(lblPozadie);
         lblPozadie.setBounds(0, 0, 462, 240);
@@ -246,6 +254,7 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
             uloha.setNazov(txtNazov.getText());
             uloha.setStav(false);
             uloha.setPriorita(cmbPriorita.getSelectedItem().toString());
+            uloha.setTrvanie(Integer.valueOf(txtTrvanie.getText()));
 
             if (add) {
                 ulohaDao.pridajUlohu(uloha);
@@ -314,6 +323,7 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
     private javax.swing.JLabel lblPopis;
     private javax.swing.JLabel lblPozadie;
     private javax.swing.JLabel lblPriorita;
+    private javax.swing.JLabel lblTrvanie;
     private javax.swing.JLabel lblUloha;
     private javax.swing.JLabel lblZnacka;
     private javax.swing.JLabel lblZnacka1;
@@ -321,6 +331,7 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
     private javax.swing.JTextField txtMinuty;
     private javax.swing.JTextField txtNazov;
     private javax.swing.JTextArea txtPopis;
+    private javax.swing.JTextField txtTrvanie;
     private javax.swing.JPanel vnutornyFrame;
     // End of variables declaration//GEN-END:variables
 
@@ -369,6 +380,11 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
             podmienka = false;
         }
 
+        if (!txtTrvanie.getText().matches("-?\\d+")) {
+            sprava = "Nesprávny formát travania.";
+            podmienka = false;
+        }
+        
         if (!podmienka) {
             JOptionPane.showMessageDialog(this, sprava, "Chyba", ERROR_MESSAGE);
         }

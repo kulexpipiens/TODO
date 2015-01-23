@@ -6,6 +6,8 @@
 package sk.ics.upjs.todo.gui;
 
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import sk.ics.upjs.todo.dao.PrihlasovaciARegistrovaciServis;
 import sk.ics.upjs.todo.entity.Pouzivatel;
 import sk.ics.upjs.todo.exceptions.NeplatneRegistracneMenoException;
@@ -131,13 +133,14 @@ public class RegistraciaForm extends javax.swing.JDialog {
             pouzivatel.setMeno(txtMeno.getText());
             pouzivatel.setMail(txtMail.getText());
             pouzivatel.setHeslo(new String(txtHeslo.getPassword()));
-            
+
             PrihlasovaciARegistrovaciServis.INSTANCE.zaregistruj(pouzivatel);
-            
-            JOptionPane.showMessageDialog(this, "Regitrácia prebehla úspešne, môžete sa prihlásiť!");
+
+            JOptionPane.showMessageDialog(this, "Regitrácia prebehla úspešne, môžete sa prihlásiť!",
+                    "Informácia", INFORMATION_MESSAGE);
             dispose();
         } catch (NeplatneRegistracneMenoException e) {
-            JOptionPane.showMessageDialog(this, e.getSprava());
+            JOptionPane.showMessageDialog(this, e.getSprava(), "Chyba", ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnRegistrujActionPerformed
 

@@ -12,6 +12,15 @@ public class Uloha {
     private Date datum;
     private Kategoria kategoria;
     private boolean stav;
+    private int trvanie; // v minutach
+
+    public int getTrvanie() {
+        return trvanie;
+    }
+
+    public void setTrvanie(int trvanie) {
+        this.trvanie = trvanie;
+    }
 
     /* public String getCas() {
      return Integer.toString(this.datum.getHours()+':'+this.getDatum().getMinutes());
