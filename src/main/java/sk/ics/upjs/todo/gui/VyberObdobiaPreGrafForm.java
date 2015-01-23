@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.ics.upjs.todo.gui;
 
 import java.awt.Color;
@@ -12,10 +7,6 @@ import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
-/**
- *
- * @author kulexpipiens
- */
 public class VyberObdobiaPreGrafForm extends javax.swing.JDialog {
 
     java.awt.Frame parent;
@@ -38,9 +29,7 @@ public class VyberObdobiaPreGrafForm extends javax.swing.JDialog {
     public VyberObdobiaPreGrafForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-
         this.parent = parent;
-        this.setTitle("Grafické znázornenie udalostí");
 
         nastavOdDoVyberyDatumov();
     }
@@ -86,26 +75,34 @@ public class VyberObdobiaPreGrafForm extends javax.swing.JDialog {
         panelDo = new javax.swing.JPanel();
         btnZobrazGraf = new javax.swing.JButton();
         btnZavriet = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Grafické znázornenie udalostí");
+        setResizable(false);
 
-        lblInfo.setText("Zobrazí časový prehľad udalostí:");
+        lblInfo.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
+        lblInfo.setText("Zobraziť časový prehľad udalostí:");
 
+        lblDatumOd.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblDatumOd.setText("Dátum od:");
 
+        lblDatumDo.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblDatumDo.setText("Dátum do:");
 
         panelOd.setBackground(new java.awt.Color(255, 255, 204));
 
         panelDo.setBackground(new java.awt.Color(255, 255, 204));
 
-        btnZobrazGraf.setText("Zobraz graf");
+        btnZobrazGraf.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
+        btnZobrazGraf.setText("Zobraziť graf...");
         btnZobrazGraf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnZobrazGrafActionPerformed(evt);
             }
         });
 
+        btnZavriet.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         btnZavriet.setText("Zavrieť");
         btnZavriet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,50 +110,52 @@ public class VyberObdobiaPreGrafForm extends javax.swing.JDialog {
             }
         });
 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prihlasovanie_registracia_form.jpg"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblInfo)
-                        .addContainerGap(206, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblDatumOd)
-                            .addComponent(lblDatumDo))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(panelOd, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
-                            .addComponent(panelDo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(48, 48, 48))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnZavriet)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnZobrazGraf)
-                        .addGap(52, 52, 52))))
+                        .addComponent(btnZobrazGraf))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblInfo)
+                            .addComponent(lblDatumDo)
+                            .addComponent(lblDatumOd)
+                            .addComponent(panelOd, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(panelDo, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
                 .addComponent(lblInfo)
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblDatumOd)
-                    .addComponent(panelOd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblDatumDo)
-                    .addComponent(panelDo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(lblDatumOd)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelOd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
+                .addComponent(lblDatumDo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelDo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnZobrazGraf)
                     .addComponent(btnZavriet))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -218,6 +217,7 @@ public class VyberObdobiaPreGrafForm extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnZavriet;
     private javax.swing.JButton btnZobrazGraf;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblDatumDo;
     private javax.swing.JLabel lblDatumOd;
     private javax.swing.JLabel lblInfo;

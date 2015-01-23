@@ -13,19 +13,13 @@ import sk.ics.upjs.todo.dao.PrihlasovaciARegistrovaciServis;
 import sk.ics.upjs.todo.entity.Pouzivatel;
 import sk.ics.upjs.todo.exceptions.ZleMenoAleboHesloException;
 
-/**
- *
- * @author kulexpipiens
- */
 public class PrihlasovanieForm extends javax.swing.JFrame {
 
-    /**
-     * Creates new form PrihasovanieForm
-     */
     public PrihlasovanieForm() {
         initComponents();
-
-        setTitle("Prihlásenie");
+        
+        // v navrharovi nejako nechce ist nastavit farbu, tak to urobime nasilu
+        getContentPane().setBackground(GuiFactory.INSTANCE.getFarbaPozadia());
     }
 
     /**
@@ -47,8 +41,10 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
         txtHeslo = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Prihlásenie");
+        setResizable(false);
 
-        lblLogo.setText("Logo");
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prihlasovanie_registracia_form.jpg"))); // NOI18N
 
         txtMeno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -56,10 +52,13 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
             }
         });
 
+        lblMeno.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblMeno.setText("Meno:");
 
-        lblHeslo.setText("Heslo");
+        lblHeslo.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
+        lblHeslo.setText("Heslo:");
 
+        btnRegistracia.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         btnRegistracia.setText("Registrácia");
         btnRegistracia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,6 +71,7 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
             }
         });
 
+        btnPrihlas.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         btnPrihlas.setText("Prihlásiť");
         btnPrihlas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -84,6 +84,7 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
             }
         });
 
+        btnZavriet.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         btnZavriet.setText("Zavrieť");
         btnZavriet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,42 +111,39 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblMeno)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtMeno))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btnRegistracia)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnZavriet)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPrihlas))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblLogo)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblHeslo)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblHeslo)
+                            .addComponent(lblMeno))
                         .addGap(18, 18, 18)
-                        .addComponent(txtHeslo)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtMeno)
+                            .addComponent(txtHeslo))))
                 .addContainerGap())
+            .addComponent(lblLogo)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(lblLogo)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtMeno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblMeno))
-                .addGap(18, 18, 18)
+                    .addComponent(lblMeno)
+                    .addComponent(txtMeno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblHeslo)
-                    .addComponent(txtHeslo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(txtHeslo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblHeslo))
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRegistracia)
                     .addComponent(btnPrihlas)
-                    .addComponent(btnZavriet))
+                    .addComponent(btnZavriet)
+                    .addComponent(btnRegistracia))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 

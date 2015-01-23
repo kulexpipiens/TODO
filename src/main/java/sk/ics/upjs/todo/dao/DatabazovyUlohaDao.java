@@ -72,7 +72,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
         }
 
         jdbcTemplate.update(dopyt,
-                new Object[]{uloha.getNazov(), 
+                uloha.getNazov(), 
                 uloha.getPopis(), 
                 uloha.getPriorita(),
                 vratStringDatumu(uloha), 
@@ -80,7 +80,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 uloha.getKategoria().getId(), 
                 stav, 
                 uloha.getTrvanie(), 
-                uloha.getId()});
+                uloha.getId());
     }
 
 //oznaci ulohu za splnenu

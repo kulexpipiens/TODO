@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.ics.upjs.todo.gui;
 
 import javax.swing.JOptionPane;
@@ -12,18 +7,14 @@ import sk.ics.upjs.todo.dao.PrihlasovaciARegistrovaciServis;
 import sk.ics.upjs.todo.entity.Pouzivatel;
 import sk.ics.upjs.todo.exceptions.NeplatneRegistracneMenoException;
 
-/**
- *
- * @author kulexpipiens
- */
 public class RegistraciaForm extends javax.swing.JDialog {
 
-    /**
-     * Creates new form RegistraciaForm
-     */
     public RegistraciaForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        // v navrharovi nejako nechce ist nastavit farbu, tak to urobime nasilu
+        getContentPane().setBackground(GuiFactory.INSTANCE.getFarbaPozadia());
     }
 
     /**
@@ -46,22 +37,31 @@ public class RegistraciaForm extends javax.swing.JDialog {
         btnZavri = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setIconImage(null);
+        setResizable(false);
 
-        lblLogo.setText("Logo");
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prihlasovanie_registracia_form.jpg"))); // NOI18N
+        lblLogo.setMinimumSize(new java.awt.Dimension(315, 161));
+        lblLogo.setPreferredSize(new java.awt.Dimension(315, 161));
 
+        lblMeno.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblMeno.setText("Meno:");
 
+        lblMail.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblMail.setText("E-mail:");
 
+        lblHeslo.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblHeslo.setText("Heslo:");
 
-        btnRegistruj.setText("Registruj");
+        btnRegistruj.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
+        btnRegistruj.setText("Registrovať");
         btnRegistruj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistrujActionPerformed(evt);
             }
         });
 
+        btnZavri.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         btnZavri.setText("Zavrieť");
         btnZavri.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,9 +76,6 @@ public class RegistraciaForm extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblLogo)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblMeno)
@@ -90,18 +87,18 @@ public class RegistraciaForm extends javax.swing.JDialog {
                             .addComponent(txtMail)
                             .addComponent(txtHeslo)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 137, Short.MAX_VALUE)
+                        .addGap(0, 101, Short.MAX_VALUE)
                         .addComponent(btnZavri)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnRegistruj)))
                 .addContainerGap())
+            .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblLogo)
-                .addGap(19, 19, 19)
+                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 58, Short.MAX_VALUE)
+                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtMeno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblMeno))
@@ -117,7 +114,7 @@ public class RegistraciaForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistruj)
                     .addComponent(btnZavri))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();

@@ -215,7 +215,7 @@ public class MainForm extends javax.swing.JFrame {
         lblPouzivatel.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblPouzivatel.setText("Neprihlásený");
         getContentPane().add(lblPouzivatel);
-        lblPouzivatel.setBounds(410, 230, 90, 14);
+        lblPouzivatel.setBounds(420, 230, 90, 14);
 
         btnOdhlas.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         btnOdhlas.setText("Odhlás");
@@ -347,7 +347,8 @@ public class MainForm extends javax.swing.JFrame {
             }
             DetailUlohaForm detail = new DetailUlohaForm(vybrataUloha, this);
             detail.setVisible(true);
-            aktualizujZoznamUloh();
+            // ked ma niekto zobrazene nepr. mesacne, tak sa mu ten vyber resetuje
+            // aktualizujZoznamUloh();
         }
     }
 

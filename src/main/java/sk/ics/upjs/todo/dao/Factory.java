@@ -1,6 +1,7 @@
 package sk.ics.upjs.todo.dao;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import java.awt.Color;
 import java.util.List;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;

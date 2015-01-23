@@ -33,22 +33,22 @@ public class GrafForm extends JDialog {
         koniec.setTime(new Date(2015 - 1900, 0, 1, 23, 59));
     }
 
-    GrafForm(Frame parent, boolean b, Date datumOd, Date datumDo) {
+    public GrafForm(Frame parent, boolean b, Date datumOd, Date datumDo) {
         this(parent, b);
 
-        this.setTitle("Grafické znázornenie udalostí");
+        setTitle("Grafické znázornenie udalostí");
         // nastavime od akeho datumu po aky datum chceme zobrazit prehlad
         this.datumOd.setTime(datumOd);
         this.datumDo.setTime(datumDo);
 
         vytvorGraf();
-
+        
         // pridame panel z grafom do JDialogu a dame ho do stredu okna
-        this.getContentPane().add(panelSGrafom, BorderLayout.CENTER);
+        getContentPane().add(panelSGrafom, BorderLayout.CENTER);
         // nastavime aby po zavreti ukoncilo JDialog
-        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         // nastavime velkost a pociatocne umiestnenie okna
-        this.setBounds(50, 50, 800, 500);
+        setBounds(50, 50, 800, 500);
         // zviditelnime okno
     }
 
@@ -85,13 +85,14 @@ public class GrafForm extends JDialog {
         mnozinaDat.add(prioritaStredna);
         mnozinaDat.add(prioritaNizka);
 
-        /* vytvorime samotny graf, nazov mu nedame, y/ova suradnica budu dni, 
-         x-ova časy v jednotlivé dni, legendu zobrazíme, tooltip nechceme, 
+        /* vytvorime samotny graf, nazov mu nedame, y-ova suradnica budu dni, 
+         x-ova casy v jednotlive dni, legendu zobrazime, tooltip nechceme, 
          ani generovat url
          */
         graf = ChartFactory.createGanttChart("", "Deň", "Čas", mnozinaDat, true, false, false);
+        
         /*
-         Vytvorime chardPanel, ale jemu dovolime iba niktore moznosti
+         Vytvorime chartPanel, ale jemu dovolime iba niktore moznosti
          po kliknuti pravym tlacidlom mysi (mozeme zobrazit nastavenia - 
          pisma..., mozeme graf ulozit, mozeme graf tlacit, nemozeme graf 
          zoomovat - lebo nechceme aby niekto videl, že v skutocnosti xova 
