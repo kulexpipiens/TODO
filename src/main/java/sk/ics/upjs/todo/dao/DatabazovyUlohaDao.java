@@ -61,7 +61,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 + " datum = ?,\n"
                 + " cas = ?,\n"
                 + " kategoria_id = ?,\n"
-                + " stav = ?\n"
+                + " stav = ?,\n"
                 + " trvanie = ?\n"
                 + " WHERE uloha_id = ?\n";
         String stav = new String();
@@ -71,9 +71,16 @@ public class DatabazovyUlohaDao implements UlohaDao {
             stav = "1";
         }
 
-        jdbcTemplate.update(dopyt, uloha.getNazov(), uloha.getPopis(), uloha.getPriorita(),
-                vratStringDatumu(uloha), vratStringCasu(uloha),
-                uloha.getKategoria().getId(), stav, uloha.getTrvanie(), uloha.getId());
+        jdbcTemplate.update(dopyt,
+                new Object[]{uloha.getNazov(), 
+                uloha.getPopis(), 
+                uloha.getPriorita(),
+                vratStringDatumu(uloha), 
+                vratStringCasu(uloha),
+                uloha.getKategoria().getId(), 
+                stav, 
+                uloha.getTrvanie(), 
+                uloha.getId()});
     }
 
 //oznaci ulohu za splnenu

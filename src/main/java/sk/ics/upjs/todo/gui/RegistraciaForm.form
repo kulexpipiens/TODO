@@ -44,7 +44,7 @@
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="161" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="137" max="32767" attributes="0"/>
                       <Component id="btnZavri" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnRegistruj" min="-2" max="-2" attributes="0"/>
@@ -64,17 +64,17 @@
                   <Component id="txtMeno" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblMeno" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="txtMail" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblMail" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="txtHeslo" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblHeslo" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnRegistruj" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnZavri" alignment="3" min="-2" max="-2" attributes="0"/>

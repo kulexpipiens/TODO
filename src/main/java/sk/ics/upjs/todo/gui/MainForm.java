@@ -1,5 +1,3 @@
-// Ak toto niekto cita, tak to znamena, ze Alica uspene robi push push! :D
-
 package sk.ics.upjs.todo.gui;
 
 import javax.swing.JOptionPane;
@@ -16,6 +14,8 @@ public class MainForm extends javax.swing.JFrame {
     private static final UlohaDao ulohaDao = Factory.INSTANCE.ulohaDao();
 
     private static final UlohaTableModel ulohaTableModel = new UlohaTableModel();
+    
+    private static final PrihlasovaciARegistrovaciServis prihlasovaciARegistrovaciServis = PrihlasovaciARegistrovaciServis.INSTANCE;
 
     public MainForm() {
         initComponents();
@@ -36,7 +36,7 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        lblPouzivatel.setText(PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno());
+        lblPouzivatel.setText(prihlasovaciARegistrovaciServis.getPouzivatel().getMeno());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         aktualizujZoznamUloh();
     }
@@ -89,11 +89,11 @@ public class MainForm extends javax.swing.JFrame {
         lblZnacka.setFont(new java.awt.Font("Gungsuh", 0, 36)); // NOI18N
         lblZnacka.setText("dori");
         getContentPane().add(lblZnacka);
-        lblZnacka.setBounds(380, 160, 70, 43);
+        lblZnacka.setBounds(380, 160, 85, 42);
 
         btnPridaj.setBackground(new java.awt.Color(204, 204, 204));
         btnPridaj.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        btnPridaj.setText("pridaj..");
+        btnPridaj.setText("pridaj...");
         btnPridaj.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnPridaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,7 +105,7 @@ public class MainForm extends javax.swing.JFrame {
 
         btnUprav.setBackground(new java.awt.Color(204, 204, 204));
         btnUprav.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        btnUprav.setText("uprav..");
+        btnUprav.setText("uprav...");
         btnUprav.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnUprav.setEnabled(false);
         btnUprav.addActionListener(new java.awt.event.ActionListener() {
@@ -162,7 +162,7 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnTentoTyzden);
-        btnTentoTyzden.setBounds(143, 220, 90, 23);
+        btnTentoTyzden.setBounds(70, 220, 90, 23);
 
         btnTentoMesiac.setBackground(new java.awt.Color(204, 204, 204));
         btnTentoMesiac.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
@@ -174,7 +174,7 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnTentoMesiac);
-        btnTentoMesiac.setBounds(240, 220, 100, 23);
+        btnTentoMesiac.setBounds(160, 220, 100, 23);
 
         btnVsetky.setBackground(new java.awt.Color(204, 204, 204));
         btnVsetky.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
@@ -186,11 +186,11 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnVsetky);
-        btnVsetky.setBounds(80, 220, 50, 23);
+        btnVsetky.setBounds(260, 220, 50, 23);
 
         btnKategorie.setBackground(new java.awt.Color(204, 204, 204));
         btnKategorie.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        btnKategorie.setText("Kategórie..");
+        btnKategorie.setText("Kategórie...");
         btnKategorie.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnKategorie.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,7 +202,7 @@ public class MainForm extends javax.swing.JFrame {
 
         btnFilters.setBackground(new java.awt.Color(204, 204, 204));
         btnFilters.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        btnFilters.setText("Filtre..");
+        btnFilters.setText("Filtre...");
         btnFilters.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnFilters.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -212,10 +212,12 @@ public class MainForm extends javax.swing.JFrame {
         getContentPane().add(btnFilters);
         btnFilters.setBounds(415, 60, 80, 43);
 
+        lblPouzivatel.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblPouzivatel.setText("Neprihlásený");
         getContentPane().add(lblPouzivatel);
-        lblPouzivatel.setBounds(410, 230, 80, 15);
+        lblPouzivatel.setBounds(410, 230, 90, 14);
 
+        btnOdhlas.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         btnOdhlas.setText("Odhlás");
         btnOdhlas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,16 +225,17 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnOdhlas);
-        btnOdhlas.setBounds(410, 210, 70, 20);
+        btnOdhlas.setBounds(420, 210, 70, 20);
 
-        btnGrafy.setText("Grafy");
+        btnGrafy.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
+        btnGrafy.setText("Grafy...");
         btnGrafy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGrafyActionPerformed(evt);
             }
         });
         getContentPane().add(btnGrafy);
-        btnGrafy.setBounds(415, 110, 80, 50);
+        btnGrafy.setBounds(415, 110, 80, 40);
 
         lblPozadie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mainform.jpg"))); // NOI18N
         getContentPane().add(lblPozadie);
@@ -318,7 +321,7 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFiltersActionPerformed
 
     private void btnOdhlasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOdhlasActionPerformed
-        PrihlasovaciARegistrovaciServis.INSTANCE.odhlas();
+        prihlasovaciARegistrovaciServis.odhlas();
         // ak sa pouzivatel odhlasi, tak sa spusti prihlasovacie okno...
         PrihlasovanieForm.main(null);
         // ...a aktualne sa zavrie

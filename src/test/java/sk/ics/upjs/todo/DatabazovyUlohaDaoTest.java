@@ -7,8 +7,10 @@ import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.ics.upjs.todo.dao.DatabazovyUlohaDao;
 import sk.ics.upjs.todo.dao.Factory;
+import sk.ics.upjs.todo.dao.PrihlasovaciARegistrovaciServis;
 import sk.ics.upjs.todo.dao.UlohaDao;
 import sk.ics.upjs.todo.entity.Kategoria;
+import sk.ics.upjs.todo.entity.Pouzivatel;
 import sk.ics.upjs.todo.entity.Uloha;
 
 public class DatabazovyUlohaDaoTest {
@@ -16,6 +18,8 @@ public class DatabazovyUlohaDaoTest {
     private final JdbcTemplate jdbcTemplate;
 
     private final UlohaDao ulohaDao;
+    
+    private Pouzivatel pouzivatel;
 
     private static final int POCET_ULOH_V_DATABAZE = 3;
     private static final int POCET_DNESNYCH_ULOH_V_DATABAZE = 0;
@@ -25,6 +29,11 @@ public class DatabazovyUlohaDaoTest {
     public DatabazovyUlohaDaoTest() {
         this.jdbcTemplate = new JdbcTemplate(Factory.INSTANCE.dataSourceTest());
         ulohaDao = new DatabazovyUlohaDao(jdbcTemplate);
+        
+        pouzivatel = new Pouzivatel();
+        pouzivatel.setMeno("Admin");
+        pouzivatel.setHeslo("qwerty123456");
+        PrihlasovaciARegistrovaciServis.INSTANCE.prihlas(pouzivatel);
     }
 
     @Test

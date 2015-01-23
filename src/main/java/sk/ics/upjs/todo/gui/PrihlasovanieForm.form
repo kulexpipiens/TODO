@@ -33,9 +33,9 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="btnRegistracia" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="120" max="32767" attributes="0"/>
+                      <EmptySpace pref="75" max="32767" attributes="0"/>
                       <Component id="btnZavriet" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnPrihlas" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
@@ -44,7 +44,7 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="lblHeslo" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Component id="txtHeslo" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -110,7 +110,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnPrihlas">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Prihlas"/>
+        <Property name="text" type="java.lang.String" value="Prihl&#xe1;si&#x165;"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrihlasActionPerformed"/>

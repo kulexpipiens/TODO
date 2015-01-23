@@ -29,6 +29,7 @@ public class DatabazovyPouzivatelDaoTest {
         Pouzivatel pouzivatel = new Pouzivatel();
         pouzivatel.setMeno("Admin");
         pouzivatel.setHeslo("");
+        pouzivatel.setMail("");
         pouzivateliaDao.registruj(pouzivatel);
     }
 
@@ -44,6 +45,7 @@ public class DatabazovyPouzivatelDaoTest {
         Pouzivatel pouzivatel = new Pouzivatel();
         pouzivatel.setMeno("Mato");
         pouzivatel.setHeslo("hihihi");
+        pouzivatel.setMail("mato@hihihi.sk");
         pouzivateliaDao.registruj(pouzivatel);
     }
 
@@ -52,10 +54,11 @@ public class DatabazovyPouzivatelDaoTest {
      * vynimku
      */
     @Test(expected = NeplatneRegistracneMenoException.class)
-    public void registrujTestPreOpetovnuRegistraciu() {
+    public void registrujTestPreOpatovnuRegistraciu() {
         Pouzivatel pouzivatel = new Pouzivatel();
         pouzivatel.setMeno("Mato");
         pouzivatel.setHeslo("hihihi");
+        pouzivatel.setMail("mato@hihihi.sk");
         pouzivateliaDao.registruj(pouzivatel);
     }
 

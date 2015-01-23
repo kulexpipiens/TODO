@@ -7,21 +7,29 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import sk.ics.upjs.todo.dao.DatabazovyFilterDao;
 import sk.ics.upjs.todo.dao.Factory;
 import sk.ics.upjs.todo.dao.FilterDao;
+import sk.ics.upjs.todo.dao.PrihlasovaciARegistrovaciServis;
 import sk.ics.upjs.todo.entity.Filter;
 import sk.ics.upjs.todo.entity.Kategoria;
+import sk.ics.upjs.todo.entity.Pouzivatel;
 
 public class DatabazovyFilterDaoTest {
 
     private JdbcTemplate jdbcTemplate;
 
     private FilterDao filterDao;
+    
+    private Pouzivatel pouzivatel;
 
     private static final int POCET_FILTROV_V_DATABAZE = 3;
 
     public DatabazovyFilterDaoTest() {
         this.jdbcTemplate = new JdbcTemplate(Factory.INSTANCE.dataSourceTest());
         filterDao = new DatabazovyFilterDao(jdbcTemplate);
-
+        
+        pouzivatel = new Pouzivatel();
+        pouzivatel.setMeno("Admin");
+        pouzivatel.setHeslo("qwerty123456");
+        PrihlasovaciARegistrovaciServis.INSTANCE.prihlas(pouzivatel);
     }
 
     @Test

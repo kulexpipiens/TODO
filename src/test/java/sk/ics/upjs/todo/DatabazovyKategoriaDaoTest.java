@@ -8,19 +8,28 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import sk.ics.upjs.todo.dao.DatabazovyKategoriaDao;
 import sk.ics.upjs.todo.dao.Factory;
 import sk.ics.upjs.todo.dao.KategoriaDao;
+import sk.ics.upjs.todo.dao.PrihlasovaciARegistrovaciServis;
 import sk.ics.upjs.todo.entity.Kategoria;
+import sk.ics.upjs.todo.entity.Pouzivatel;
 
 public class DatabazovyKategoriaDaoTest {
 
     private JdbcTemplate jdbcTemplate;
 
     private KategoriaDao kategoriaDao;
+    
+    private Pouzivatel pouzivatel;
 
     private static final int POCET_KATEGORII_V_DATABAZE = 8;
 
     public DatabazovyKategoriaDaoTest() {
         this.jdbcTemplate = new JdbcTemplate(Factory.INSTANCE.dataSourceTest());
         kategoriaDao = new DatabazovyKategoriaDao(jdbcTemplate);
+        
+        pouzivatel = new Pouzivatel();
+        pouzivatel.setMeno("Admin");
+        pouzivatel.setHeslo("qwerty123456");
+        PrihlasovaciARegistrovaciServis.INSTANCE.prihlas(pouzivatel);
     }
 
     @Test

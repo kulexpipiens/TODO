@@ -72,7 +72,7 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
             }
         });
 
-        btnPrihlas.setText("Prihlas");
+        btnPrihlas.setText("Prihlásiť");
         btnPrihlas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPrihlasActionPerformed(evt);
@@ -115,16 +115,16 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
                         .addComponent(txtMeno))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnRegistracia)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                         .addComponent(btnZavriet)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPrihlas))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblLogo)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblHeslo)
-                        .addGap(22, 22, 22)
+                        .addGap(18, 18, 18)
                         .addComponent(txtHeslo)))
                 .addContainerGap())
         );
