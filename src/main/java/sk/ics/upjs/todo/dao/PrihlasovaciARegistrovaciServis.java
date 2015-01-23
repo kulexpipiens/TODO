@@ -19,13 +19,13 @@ public enum PrihlasovaciARegistrovaciServis {
         pouzivatel = null;
     }
 
-    // prihlasi pouzivatela s danym menom a heslo (alebo vyhadze vynimky ak su neplatne udaje)
+    // prihlasi pouzivatela s danym menom a heslom (alebo vyhadze vynimky, ak su neplatne udaje)
     public void prihlas(Pouzivatel pouzivatel) {
         pouzivatel = pouzivateliaDao.prihlas(pouzivatel);
         this.pouzivatel = pouzivatel;
     }
 
-    // zaregistruje pouzivatela s danym menom a heslo (alebo vyhadze vynimky ak su neplatne udaje)
+    // zaregistruje pouzivatela s danym menom a heslo (alebo vyhadze vynimky, ak su neplatne udaje)
     public void zaregistruj(Pouzivatel pouzivatel) {
         pouzivateliaDao.registruj(pouzivatel);
     }

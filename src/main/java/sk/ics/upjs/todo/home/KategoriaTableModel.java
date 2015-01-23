@@ -31,11 +31,11 @@ public class KategoriaTableModel extends AbstractTableModel {
     // vráti buď názov, alebo popis, podľa toho, v ktorom stĺpci sme
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Kategoria kategoia = kategorie.get(rowIndex);
+        Kategoria kategoria = kategorie.get(rowIndex);
         if (columnIndex == 0) {
-            return kategoia.getNazov();
+            return kategoria.getNazov();
         } else {
-            return kategoia.getPopis();
+            return kategoria.getPopis();
         }
     }
 

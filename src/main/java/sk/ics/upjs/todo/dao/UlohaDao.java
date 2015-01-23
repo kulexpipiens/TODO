@@ -21,7 +21,7 @@ public interface UlohaDao {
     
     public List<Uloha> dajZCasovehoIntervalu(Calendar datumOd, Calendar datumDo);
 
-    public void oznacZaSplenenu(Uloha uloha);
+    public void oznacZaSplnenu(Uloha uloha);
     
     public void oznacZaNesplnenu(Uloha uloha);
 }

@@ -117,7 +117,7 @@ public class KategorieForm extends javax.swing.JDialog {
         lblZnacka.setFont(new java.awt.Font("Gungsuh", 0, 36)); // NOI18N
         lblZnacka.setText("dori");
         getContentPane().add(lblZnacka);
-        lblZnacka.setBounds(360, 180, 70, 43);
+        lblZnacka.setBounds(360, 180, 85, 42);
 
         txtNazov.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
         txtNazov.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
@@ -149,7 +149,7 @@ public class KategorieForm extends javax.swing.JDialog {
         Kategoria kategoria = new Kategoria();
         kategoria.setNazov(txtNazov.getText().trim());
         kategoria.setPopis(txtPopis.getText().trim());
-        if (neprazdnyNazov()) {
+        if (neprazdnyNazov(kategoria)) {
             if (neduplicitnaKategoria(kategoria)) {
                 kategoriaDao.pridajKategoriu(kategoria);
                 aktualizujZoznamKategorii();
@@ -262,8 +262,8 @@ public class KategorieForm extends javax.swing.JDialog {
         kategoriaTableModel.obnov();
     }
 
-    private boolean neprazdnyNazov() {
-        if (txtNazov.getText().trim().isEmpty()) {
+    private boolean neprazdnyNazov(Kategoria pridavanaKategoria) {
+        if (pridavanaKategoria.getNazov().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vyplň názov!", "Chyba", ERROR_MESSAGE);
             return false;
         }
@@ -271,7 +271,6 @@ public class KategorieForm extends javax.swing.JDialog {
     }
 
     private boolean neduplicitnaKategoria(Kategoria pridavanaKategoria) {
-
         for (Kategoria kategoria : kategoriaDao.dajVsetky()) {
             if (pridavanaKategoria.getNazov().trim().equals(kategoria.getNazov().trim())
                     && pridavanaKategoria.getPopis().trim().equals(kategoria.getPopis().trim())) {

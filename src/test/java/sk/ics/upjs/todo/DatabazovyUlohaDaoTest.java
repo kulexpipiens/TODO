@@ -86,7 +86,7 @@ public class DatabazovyUlohaDaoTest {
     public void testOznacZaSplnenu() {
         List<Uloha> zoznamUloh = ulohaDao.dajVsetky();
         Uloha ulohaZmena = zoznamUloh.get(0);
-        ulohaDao.oznacZaSplenenu(ulohaZmena);
+        ulohaDao.oznacZaSplnenu(ulohaZmena);
 
         zoznamUloh = ulohaDao.dajVsetky();
         assertEquals(true, zoznamUloh.get(0).getStav());
@@ -104,7 +104,7 @@ public class DatabazovyUlohaDaoTest {
 
     /*
      * POZOR pri nasledujucich testoch, ako plynie cas, tak pocty dnesnych, 
-     * tyzdnovych a mesacnych uloh sa meni !!!
+     * tyzdnovych a mesacnych uloh sa menia !!!
      * Teda treba pred testovanim specificky popridavat ulohy...
      */
     @Test

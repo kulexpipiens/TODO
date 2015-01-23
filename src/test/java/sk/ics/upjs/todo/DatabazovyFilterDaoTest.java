@@ -1,6 +1,5 @@
 package sk.ics.upjs.todo;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -57,11 +56,11 @@ public class DatabazovyFilterDaoTest {
     @Test
     public void testUpravFilter() {
         List<Filter> zoznamFiltrov = filterDao.dajVsetky();
-        Filter filterZmema
+        Filter filterZmena
                 = zoznamFiltrov.get(zoznamFiltrov.size() - 1);
-        filterZmema.setPriorita("Nízka");
+        filterZmena.setPriorita("Nízka");
 
-        filterDao.upravFilter(filterZmema);
+        filterDao.upravFilter(filterZmena);
 
         zoznamFiltrov = filterDao.dajVsetky();
         assertEquals("Nízka",

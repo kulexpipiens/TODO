@@ -78,7 +78,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
 
 //oznaci ulohu za splnenu
     @Override
-    public void oznacZaSplenenu(Uloha uloha) {
+    public void oznacZaSplnenu(Uloha uloha) {
         String stav = "1";
         jdbcTemplate.update("UPDATE " + tabulkaZDatabazy
                 + " SET stav=? WHERE uloha_id = ?", stav, uloha.getId());

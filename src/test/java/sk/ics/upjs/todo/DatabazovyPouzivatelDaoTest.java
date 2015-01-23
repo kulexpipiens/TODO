@@ -22,7 +22,7 @@ public class DatabazovyPouzivatelDaoTest {
     }
 
     /**
-     * Testujem, ci sa vyhodi vynimka ak zadam pri registracii uz pouzite meno
+     * Testujem, ci sa vyhodi vynimka, ak zadam pri registracii uz pouzite meno
      */
     @Test(expected = NeplatneRegistracneMenoException.class)
     public void registrujTestPreMenoKtoreExistuje() {
@@ -33,7 +33,7 @@ public class DatabazovyPouzivatelDaoTest {
     }
 
     /**
-     * Testujem, ci sa podari zaregistrovat uzivatela s menom ake este nie je
+     * Testujem, ci sa podari zaregistrovat uzivatela s menom, ake este nie je
      * pouzite
      */
     @Test
@@ -60,7 +60,7 @@ public class DatabazovyPouzivatelDaoTest {
     }
 
     /**
-     * Testujem, ci sa vyhodi vynimka ak zadam pri prihlaseni neregistrovane
+     * Testujem, ci sa vyhodi vynimka, ak zadam pri prihlaseni neregistrovane
      * meno
      */
     @Test(expected = ZleMenoAleboHesloException.class)
@@ -74,7 +74,7 @@ public class DatabazovyPouzivatelDaoTest {
     }
 
     /**
-     * Testujem, ci sa vyhodi vynimka ak zadam pri prihlaseni zle heslo
+     * Testujem, ci sa vyhodi vynimka, ak zadam pri prihlaseni zle heslo
      */
     @Test(expected = ZleMenoAleboHesloException.class)
     public void prihlasTestPreNeplatneHeslo() {

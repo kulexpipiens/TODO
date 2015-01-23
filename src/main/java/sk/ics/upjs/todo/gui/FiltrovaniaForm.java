@@ -34,10 +34,12 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         initComponents();
         this.setTitle("filtre");
 
+        // farba pozadia datepickera
+        Color background = new Color(255, 255, 204);
+        
         UtilDateModel modelOd = new UtilDateModel();
         JDatePanelImpl datePanelOd = new JDatePanelImpl(modelOd);
         datePickerOd = new JDatePickerImpl(datePanelOd);
-        Color background = new Color(255, 255, 204);
         datePickerOd.setBackground(background);
         panelOd.add(datePickerOd);
 
@@ -330,6 +332,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         List<Uloha> filtrovaneUlohyOd = new LinkedList<>();
         List<Uloha> filtrovaneUlohyDo = new LinkedList<>();
 
+        // odfiltruje na zaklade kategorie
         if (!cmbKategoria.getSelectedItem().equals(" ")) {
             for (Uloha uloha : ulohy) {
                 if (uloha.getKategoria().getNazov().equals(cmbKategoria.getSelectedItem())) {
@@ -339,6 +342,8 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         } else {
             filtrovaneUlohyKategoriou = ulohy;
         }
+        
+        // z tych na zaklade kategorie odfiltruje podla priority
         if (!cmbPriorita.getSelectedItem().equals(" ")) {
             if (filtrovaneUlohyKategoriou != null) {
                 for (Uloha uloha : filtrovaneUlohyKategoriou) {
@@ -350,6 +355,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         } else {
             filtrovaneUlohyPrioritou = filtrovaneUlohyKategoriou;
         }
+        
         if (!cmbStav.getSelectedItem().equals(" ")) {
             if (filtrovaneUlohyPrioritou != null) {
                 for (Uloha uloha : filtrovaneUlohyPrioritou) {
@@ -379,24 +385,26 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         if (datumOd != null) {
             for (Uloha uloha : filtrovaneUlohyStavom) {
                 if (uloha.getDatum().compareTo(datumOd) >= 0) {
-                    filtrovaneUlohyDo.add(uloha);
-                }
-            }
-        } else {
-            filtrovaneUlohyDo = filtrovaneUlohyStavom;
-        }
-
-        if (datumDo != null) {
-            for (Uloha uloha : filtrovaneUlohyDo) {
-                if (uloha.getDatum().compareTo(datumDo) <= 0) {
                     filtrovaneUlohyOd.add(uloha);
                 }
             }
         } else {
-            filtrovaneUlohyOd = filtrovaneUlohyDo;
+            filtrovaneUlohyOd = filtrovaneUlohyStavom;
+        }
+
+        if (datumDo != null) {
+            for (Uloha uloha : filtrovaneUlohyOd) {
+                if (uloha.getDatum().compareTo(datumDo) <= 0) {
+                    filtrovaneUlohyDo.add(uloha);
+                }
+            }
+        } else {
+            filtrovaneUlohyDo = filtrovaneUlohyOd;
 
         }
-        ulohaTableModel.filtruj(filtrovaneUlohyOd);
+        
+        // filtrovaneUlohyDo je konecny vyfiltrovany zoznam
+        ulohaTableModel.filtruj(filtrovaneUlohyDo);
     }//GEN-LAST:event_btnOKActionPerformed
 
     private void btnVymazActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVymazActionPerformed
@@ -409,7 +417,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         }
         int tlacidlo = JOptionPane.showConfirmDialog(this,
                 "Naozaj odstrániť?",
-                "Odstránenie úlohy",
+                "Odstránenie filtra",
                 JOptionPane.YES_NO_OPTION
         );
         if (tlacidlo == JOptionPane.YES_OPTION) {

@@ -10,9 +10,6 @@ public class DetailUlohaForm extends javax.swing.JDialog {
     private Uloha uloha;
     private final UlohaDao ulohaDao = Factory.INSTANCE.ulohaDao();
 
-    /**
-     * Creates new form DetailForm
-     */
     public DetailUlohaForm() {
         initComponents();
     }
@@ -37,7 +34,7 @@ public class DetailUlohaForm extends javax.swing.JDialog {
 
         lblDatum.setText(Integer.toString(uloha.getDatum().getDate()) + '.'
                 + Integer.toString(uloha.getDatum().getMonth() + 1) + '.'
-                + Integer.toString(uloha.getDatum().getYear() + 1900));
+                + Integer.toString(uloha.getDatum().getYear() + 1900));       
         String hodiny = "";
         String minuty = "";
         if (uloha.getDatum().getHours() < 10) {
@@ -180,7 +177,7 @@ public class DetailUlohaForm extends javax.swing.JDialog {
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
         if (!uloha.getStav() && checkBox.isSelected()) {
-            ulohaDao.oznacZaSplenenu(uloha);
+            ulohaDao.oznacZaSplnenu(uloha);
         }
         if (uloha.getStav() && !checkBox.isSelected()) {
             ulohaDao.oznacZaNesplnenu(uloha);
