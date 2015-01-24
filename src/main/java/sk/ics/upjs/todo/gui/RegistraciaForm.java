@@ -40,7 +40,7 @@ public class RegistraciaForm extends javax.swing.JDialog {
         setIconImage(null);
         setResizable(false);
 
-        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prihlasovanie_registracia_form.jpg"))); // NOI18N
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo.jpg"))); // NOI18N
         lblLogo.setMinimumSize(new java.awt.Dimension(315, 161));
         lblLogo.setPreferredSize(new java.awt.Dimension(315, 161));
 

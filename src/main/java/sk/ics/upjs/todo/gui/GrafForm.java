@@ -29,6 +29,7 @@ public class GrafForm extends JDialog {
 
     public GrafForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        // typ Date to ma tak, ze sa tam musi odratat 1900
         zaciatok.setTime(new Date(2015 - 1900, 0, 1, 0, 0));
         koniec.setTime(new Date(2015 - 1900, 0, 1, 23, 59));
     }
@@ -43,13 +44,12 @@ public class GrafForm extends JDialog {
 
         vytvorGraf();
         
-        // pridame panel z grafom do JDialogu a dame ho do stredu okna
+        // pridame panel s grafom do JDialogu a dame ho do stredu okna
         getContentPane().add(panelSGrafom, BorderLayout.CENTER);
         // nastavime aby po zavreti ukoncilo JDialog
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         // nastavime velkost a pociatocne umiestnenie okna
         setBounds(50, 50, 800, 500);
-        // zviditelnime okno
     }
 
     private void vytvorGraf() {
@@ -92,7 +92,7 @@ public class GrafForm extends JDialog {
         graf = ChartFactory.createGanttChart("", "Deň", "Čas", mnozinaDat, true, false, false);
         
         /*
-         Vytvorime chartPanel, ale jemu dovolime iba niktore moznosti
+         Vytvorime chartPanel, ale jemu dovolime iba niektore moznosti
          po kliknuti pravym tlacidlom mysi (mozeme zobrazit nastavenia - 
          pisma..., mozeme graf ulozit, mozeme graf tlacit, nemozeme graf 
          zoomovat - lebo nechceme aby niekto videl, že v skutocnosti xova 
@@ -107,12 +107,12 @@ public class GrafForm extends JDialog {
         Calendar cal = Calendar.getInstance();
         cal.setTime(casZacatia);
 
-        // zistim o aky den ide a pripravim si jeho string hodnotu
+        // zistim, o aky den ide, a pripravim si jeho string hodnotu
         String den = cal.get(Calendar.YEAR) + " "
                 + (cal.get(Calendar.MONTH) + 1)
                 + " " + cal.get(Calendar.DAY_OF_MONTH);
 
-        /* pripravim si cas zaciatku, kedze graf by bral iny den ako iny den
+        /* pripravim si cas zaciatku, kedze graf by bral iny den ako iny den,
          teda sa nepohybuje v rozpati 24 hodin, ale v neurcitom rozpati,
          tak si musim vytvorit pomocny datum zaciatku a konca kde bude datum
          pre vsetky ulohy rovnaky iba cas sa bude menit podla ulohy

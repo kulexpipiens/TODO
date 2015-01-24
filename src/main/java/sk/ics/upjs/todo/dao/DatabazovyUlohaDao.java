@@ -4,6 +4,7 @@ import java.util.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.ics.upjs.todo.entity.Uloha;
 import sk.ics.upjs.todo.home.UlohaRowMapper;
+import sk.ics.upjs.todo.notifikacie.NotifikaciaDao;
 
 public class DatabazovyUlohaDao implements UlohaDao {
 
@@ -11,6 +12,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
     // tabulka s ktorou pracujem
     private static final String tabulkaZDatabazy = "ULOHY";
     private final UlohaRowMapper mapovacUloh = new UlohaRowMapper();
+    private NotifikaciaDao notifikaciaDao = Factory.INSTANCE.notifikaciaDao();
 
     public DatabazovyUlohaDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -27,7 +29,8 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 + " ORDER BY datum\n", mapovacUloh);
     }
 
-//prida ulohu do tabulky s ktorou pracujem
+    // prida ulohu do tabulky s ktorou pracujem
+    // tiez prida id ulohy do zoznamu notifikacii
     @Override
     public void pridajUlohu(Uloha uloha) {
         String sql = "INSERT INTO " + tabulkaZDatabazy + "\n"
@@ -38,20 +41,30 @@ public class DatabazovyUlohaDao implements UlohaDao {
         jdbcTemplate.update(sql, uloha.getNazov(),
                 uloha.getPopis(),
                 uloha.getPriorita(),
-                vratStringDatumu(uloha), vratStringCasu(uloha),
-                uloha.getKategoria().getId(), "0", uloha.getTrvanie(),
+                vratStringDatumu(uloha),
+                vratStringCasu(uloha),
+                uloha.getKategoria().getId(),
+                "0",
+                uloha.getTrvanie(),
                 PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno());
 
+        // je to takto trochu drevorubacske a krajsie by bolo zistovat id cez simpleJdbcInsert
+        // a executeAndReturnKey, ale ten hadze vynimky, lebo ma problemy s ukladanim datumu a casu do databazy
+        String sqlIdUlohy = "SELECT MAX(uloha_id) FROM ULOHY";
+        long idUlohy = (long) jdbcTemplate.queryForObject(sqlIdUlohy, new Object[]{}, Long.class);
+        notifikaciaDao.pridajNotifikaciu(idUlohy);
+        
     }
 
-//vymaze ulohu z tabulky s ktorou pracujem
+    // vymaze ulohu z tabulky s ktorou pracujem a tiez vymaze zaznam v notifikaciach
     @Override
     public void vymazUlohu(Uloha uloha) {
         jdbcTemplate.update("DELETE FROM " + tabulkaZDatabazy
                 + " WHERE uloha_id = ?", uloha.getId());
+        notifikaciaDao.vymazNotifikaciu(uloha.getId());
     }
 
-//uprava ulohy z tabulky
+    //uprava ulohy z tabulky
     @Override
     public void upravUlohu(Uloha uloha) {
         String dopyt = "UPDATE " + tabulkaZDatabazy + "\n"
@@ -72,15 +85,17 @@ public class DatabazovyUlohaDao implements UlohaDao {
         }
 
         jdbcTemplate.update(dopyt,
-                uloha.getNazov(), 
-                uloha.getPopis(), 
+                uloha.getNazov(),
+                uloha.getPopis(),
                 uloha.getPriorita(),
-                vratStringDatumu(uloha), 
+                vratStringDatumu(uloha),
                 vratStringCasu(uloha),
-                uloha.getKategoria().getId(), 
-                stav, 
-                uloha.getTrvanie(), 
+                uloha.getKategoria().getId(),
+                stav,
+                uloha.getTrvanie(),
                 uloha.getId());
+        
+        notifikaciaDao.pridajNotifikaciu(uloha.getId());
     }
 
 //oznaci ulohu za splnenu

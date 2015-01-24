@@ -1,14 +1,14 @@
 package sk.ics.upjs.todo.dao;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
-import java.awt.Color;
 import java.util.List;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.ics.upjs.todo.entity.Kategoria;
+import sk.ics.upjs.todo.notifikacie.DatabazovyNotifikaciaDao;
+import sk.ics.upjs.todo.notifikacie.NotifikaciaDao;
 
-//továreň na jdbcTemplate, ulohaDao, kategoriaDao, dataSource, filterDao
 public enum Factory {
 
     INSTANCE;
@@ -18,6 +18,8 @@ public enum Factory {
     private KategoriaDao kategoriaDao;
 
     private FilterDao filterDao;
+
+    private NotifikaciaDao notifikaciaDao;
 
     private JdbcTemplate jdbcTemplate;
 
@@ -48,6 +50,13 @@ public enum Factory {
             this.kategoriaDao = new DatabazovyKategoriaDao(jdbcTemplate());
         }
         return this.kategoriaDao;
+    }
+
+    public NotifikaciaDao notifikaciaDao() {
+        if (this.notifikaciaDao == null) {
+            this.notifikaciaDao = new DatabazovyNotifikaciaDao();
+        }
+        return this.notifikaciaDao;
     }
 
     public MysqlDataSource dataSource() {

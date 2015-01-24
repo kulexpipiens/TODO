@@ -44,7 +44,7 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
         setTitle("Prihlásenie");
         setResizable(false);
 
-        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prihlasovanie_registracia_form.jpg"))); // NOI18N
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo.jpg"))); // NOI18N
 
         txtMeno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
