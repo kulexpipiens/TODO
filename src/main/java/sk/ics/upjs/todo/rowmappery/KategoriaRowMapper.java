@@ -1,4 +1,4 @@
-package sk.ics.upjs.todo.home;
+package sk.ics.upjs.todo.rowmappery;
 
 import sk.ics.upjs.todo.entity.Kategoria;
 import java.sql.ResultSet;

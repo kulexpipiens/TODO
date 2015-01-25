@@ -1,8 +1,10 @@
-package sk.ics.upjs.todo.notifikacie;
+package sk.ics.upjs.todo.dao;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
+import sk.ics.upjs.todo.entity.Notifikacia;
+import sk.ics.upjs.todo.rowmappery.NotifikaciaRowMapper;
 
 public class DatabazovyNotifikaciaDao implements NotifikaciaDao {
 

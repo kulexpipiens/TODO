@@ -1,5 +1,8 @@
 package sk.ics.upjs.todo.notifikacie;
 
+import sk.ics.upjs.todo.entity.Notifikacia;
+import sk.ics.upjs.todo.dao.DatabazovyNotifikaciaDao;
+import sk.ics.upjs.todo.dao.NotifikaciaDao;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;

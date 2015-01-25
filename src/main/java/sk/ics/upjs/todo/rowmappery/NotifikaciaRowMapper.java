@@ -1,5 +1,6 @@
-package sk.ics.upjs.todo.notifikacie;
+package sk.ics.upjs.todo.rowmappery;
 
+import sk.ics.upjs.todo.entity.Notifikacia;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;

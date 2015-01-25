@@ -3,8 +3,7 @@ package sk.ics.upjs.todo.dao;
 import java.util.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.ics.upjs.todo.entity.Uloha;
-import sk.ics.upjs.todo.home.UlohaRowMapper;
-import sk.ics.upjs.todo.notifikacie.NotifikaciaDao;
+import sk.ics.upjs.todo.rowmappery.UlohaRowMapper;
 
 public class DatabazovyUlohaDao implements UlohaDao {
 
@@ -64,7 +63,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
         notifikaciaDao.vymazNotifikaciu(uloha.getId());
     }
 
-    //uprava ulohy z tabulky
+    // upravi ulohu a tiez zaznam v notifikaciach
     @Override
     public void upravUlohu(Uloha uloha) {
         String dopyt = "UPDATE " + tabulkaZDatabazy + "\n"

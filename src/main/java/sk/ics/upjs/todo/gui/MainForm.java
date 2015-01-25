@@ -7,7 +7,7 @@ import sk.ics.upjs.todo.dao.Factory;
 import sk.ics.upjs.todo.dao.PrihlasovaciARegistrovaciServis;
 import sk.ics.upjs.todo.entity.Uloha;
 import sk.ics.upjs.todo.dao.UlohaDao;
-import sk.ics.upjs.todo.home.UlohaTableModel;
+import sk.ics.upjs.todo.modely.UlohaTableModel;
 
 public class MainForm extends javax.swing.JFrame {
 

@@ -7,7 +7,7 @@ import javax.swing.event.ListSelectionListener;
 import sk.ics.upjs.todo.dao.Factory;
 import sk.ics.upjs.todo.entity.Kategoria;
 import sk.ics.upjs.todo.dao.KategoriaDao;
-import sk.ics.upjs.todo.home.KategoriaTableModel;
+import sk.ics.upjs.todo.modely.KategoriaTableModel;
 
 public class KategorieForm extends javax.swing.JDialog {
 

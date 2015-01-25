@@ -1,4 +1,4 @@
-package sk.ics.upjs.todo.home;
+package sk.ics.upjs.todo.modely;
 
 import sk.ics.upjs.todo.entity.Uloha;
 import sk.ics.upjs.todo.dao.Factory;

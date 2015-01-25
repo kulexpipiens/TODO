@@ -1,4 +1,4 @@
-package sk.ics.upjs.todo.notifikacie;
+package sk.ics.upjs.todo.entity;
 
 import java.util.Date;
 

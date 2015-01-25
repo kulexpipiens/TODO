@@ -1,5 +1,6 @@
 package sk.ics.upjs.todo.notifikacie;
 
+import sk.ics.upjs.todo.entity.Notifikacia;
 import java.util.Date;
 import java.util.Properties;
 import javax.mail.Message;

@@ -6,8 +6,6 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.ics.upjs.todo.entity.Kategoria;
-import sk.ics.upjs.todo.notifikacie.DatabazovyNotifikaciaDao;
-import sk.ics.upjs.todo.notifikacie.NotifikaciaDao;
 
 public enum Factory {
 

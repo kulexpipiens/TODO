@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.util.*;
 import javax.swing.ComboBoxModel;
-import sk.ics.upjs.todo.home.FilterTableModel;
+import sk.ics.upjs.todo.modely.FilterTableModel;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -16,7 +16,7 @@ import sk.ics.upjs.todo.dao.FilterDao;
 import sk.ics.upjs.todo.dao.UlohaDao;
 import sk.ics.upjs.todo.entity.Filter;
 import sk.ics.upjs.todo.entity.Uloha;
-import sk.ics.upjs.todo.home.UlohaTableModel;
+import sk.ics.upjs.todo.modely.UlohaTableModel;
 
 public class FiltrovaniaForm extends javax.swing.JDialog {
 

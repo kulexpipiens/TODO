@@ -1,6 +1,7 @@
-package sk.ics.upjs.todo.notifikacie;
+package sk.ics.upjs.todo.dao;
 
 import java.util.List;
+import sk.ics.upjs.todo.entity.Notifikacia;
 
 public interface NotifikaciaDao {
     

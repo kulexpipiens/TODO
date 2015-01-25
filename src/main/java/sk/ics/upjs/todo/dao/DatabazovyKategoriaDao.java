@@ -3,7 +3,7 @@ package sk.ics.upjs.todo.dao;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.ics.upjs.todo.entity.Kategoria;
-import sk.ics.upjs.todo.home.KategoriaRowMapper;
+import sk.ics.upjs.todo.rowmappery.KategoriaRowMapper;
 
 public class DatabazovyKategoriaDao implements KategoriaDao {
 
