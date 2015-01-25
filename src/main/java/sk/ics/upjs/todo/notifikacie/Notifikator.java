@@ -12,7 +12,7 @@ public class Notifikator {
     private static List<Notifikacia> notifikacie = new LinkedList<>();
     private static final NotifikaciaDao notifikaciaDao = new DatabazovyNotifikaciaDao();
     private static final MailSender mailSender = new MailSender();
-    private static final int POCET_MILISEKUND_V_HODINE = 60*60*1000;
+    private static final int POCET_MILISEKUND_V_HODINE = 3600000;
 
     public static void main(String args[]) {
         // prechadzame cez vsetky notifikacie
@@ -29,7 +29,7 @@ public class Notifikator {
             
             Date aktualnyCas = new Date();
             // ak uz uloha mala byt splnena, vymazeme notifikaciu a koncime
-            if(aktualnyCas.compareTo(n.getDatum()) < 0)
+            if(n.getDatum().compareTo(aktualnyCas) < 0)
             {
                 notifikaciaDao.vymazNotifikaciu(n.getIdUlohy());
                 continue;
@@ -37,13 +37,12 @@ public class Notifikator {
             
             // ak rozdiel medzi aktualnym casom a casom ulohy je v rozpati, ktore si
             // definoval pouzivatel, posleme email s notifikaciou a vymazeme ju
-            if((aktualnyCas.getTime() - n.getDatum().getTime())/POCET_MILISEKUND_V_HODINE
-                    < n.getDobaNotifikacie())
+            double rozdiel = (n.getDatum().getTime() - aktualnyCas.getTime())/POCET_MILISEKUND_V_HODINE;
+            if(rozdiel <= n.getDobaNotifikacie())
             {
                 mailSender.odosliMail(n);
                 notifikaciaDao.vymazNotifikaciu(n.getIdUlohy());
             }
-        }
-        
+        }     
     }
 }

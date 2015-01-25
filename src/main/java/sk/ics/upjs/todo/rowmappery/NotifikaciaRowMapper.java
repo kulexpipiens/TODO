@@ -26,7 +26,7 @@ public class NotifikaciaRowMapper implements RowMapper<Notifikacia> {
         notifikacia.setVlastnik(rs.getString("vlastnik"));
         notifikacia.setMail(rs.getString("Mail"));
         notifikacia.setChceNotifikacie(rs.getBoolean("chce_notifikacie"));
-        notifikacia.setDobaNotifikacie(rs.getInt("doba_notifikacii"));
+        notifikacia.setDobaNotifikacie(rs.getInt("doba_notifikacie"));
         
         return notifikacia;
     }

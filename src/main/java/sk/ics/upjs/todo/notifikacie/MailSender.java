@@ -56,18 +56,18 @@ public class MailSender {
                     InternetAddress.parse(notifikacia.getMail()));
 
             // Subject:
-            sprava.setSubject("Upozornenie na úlohu " + notifikacia.getNazov());
+            sprava.setSubject("Upozornenie na úlohu \"" + notifikacia.getNazov() + "\"");
 
             Date datum = notifikacia.getDatum();
             StringBuilder sb = new StringBuilder();
             sb.append("Nezabudnite na splnenie nasledovnej úlohy:")
                     .append("\n\nNázov: " + notifikacia.getNazov())
                     .append("\nPopis: " + notifikacia.getPopis())
-                    .append("\nDátum: " + + datum.getDate() + "." + datum.getMonth() + "." + datum.getYear())
-                    .append("\nČas: " + datum.getHours() + ":" + datum.getMinutes())
+                    .append("\nDátum: " + vratStringDatumu(notifikacia.getDatum()))
+                    .append("\nČas: " + vratStringCasu(notifikacia.getDatum()))
                     .append("\nTrvanie: " + notifikacia.getTrvanie() + " minút")
                     .append("\n\nVáš TODO list Dori.");
-            
+
             // Message:
             sprava.setText(sb.toString());
 
@@ -77,5 +77,29 @@ public class MailSender {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String vratStringDatumu(Date d) {
+        StringBuilder datum = new StringBuilder();
+        datum.append(d.getDate());
+        datum.append(".");
+        datum.append(d.getMonth() + 1);
+        datum.append(".");
+        datum.append(d.getYear() + 1900);
+        return datum.toString();
+    }
+
+    private String vratStringCasu(Date d) {
+        StringBuilder cas = new StringBuilder();
+        if (d.getHours() < 10) {
+            cas.append(0);
+        }
+        cas.append(d.getHours());
+        cas.append(":");
+        if (d.getMinutes() < 10) {
+            cas.append(0);
+        }
+        cas.append(d.getMinutes());
+        return cas.toString();
     }
 }

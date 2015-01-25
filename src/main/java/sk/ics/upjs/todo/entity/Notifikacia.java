@@ -15,6 +15,7 @@ public class Notifikacia {
     private String vlastnik;
     private String mail;
     private boolean chceNotifikacie;
+    // ako dlho pred casom splnenia ulohy ma prist upozornenie
     private int dobaNotifikacie; // v hodinach
 
     public long getId() {

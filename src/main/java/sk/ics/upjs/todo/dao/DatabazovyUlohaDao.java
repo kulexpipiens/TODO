@@ -66,6 +66,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
     // upravi ulohu a tiez zaznam v notifikaciach
     @Override
     public void upravUlohu(Uloha uloha) {
+        // ulohe pri uprave nastavime stav nesplnena
         String dopyt = "UPDATE " + tabulkaZDatabazy + "\n"
                 + " SET uloha_nazov = ?,\n"
                 + " uloha_popis = ?,\n"
@@ -73,15 +74,11 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 + " datum = ?,\n"
                 + " cas = ?,\n"
                 + " kategoria_id = ?,\n"
-                + " stav = ?,\n"
+                + " stav = 0,\n"
                 + " trvanie = ?\n"
                 + " WHERE uloha_id = ?\n";
         String stav = new String();
-        if (uloha.getStav()) {
-            stav = "0";
-        } else {
-            stav = "1";
-        }
+
 
         jdbcTemplate.update(dopyt,
                 uloha.getNazov(),
@@ -90,7 +87,6 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 vratStringDatumu(uloha),
                 vratStringCasu(uloha),
                 uloha.getKategoria().getId(),
-                stav,
                 uloha.getTrvanie(),
                 uloha.getId());
         

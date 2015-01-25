@@ -60,6 +60,7 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         }
 
         cmbPriorita.setSelectedItem(uloha.getPriorita());
+        txtTrvanie.setText(Integer.toString(uloha.getTrvanie()));
 
         if (uloha.getDatum() != null) {
             Date datum = uloha.getDatum();
