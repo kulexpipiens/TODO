@@ -6,9 +6,13 @@ import sk.ics.upjs.todo.exceptions.ZleMenoAleboHesloException;
 
 public interface PouzivatelDao {
     
-    Pouzivatel prihlas(Pouzivatel pouzivatel) throws ZleMenoAleboHesloException;
+    // prihlasi pouzivatela, ktory ma dane meno a heslo (ak su spravne)
+    Pouzivatel prihlas(String meno, String heslo) throws ZleMenoAleboHesloException;
     
+    // registruje noveho pouzivatela
     void registruj(Pouzivatel pouzivatel) throws NeplatneRegistracneMenoException;
     
-    
+    // ulozi nove nastavenia notifikacii pre uzivatela
+    void upravNotifikacie(Pouzivatel pouzivatel);
+      
 }

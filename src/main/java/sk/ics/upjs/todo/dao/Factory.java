@@ -19,9 +19,10 @@ public enum Factory {
 
     private NotifikaciaDao notifikaciaDao;
 
+    private PouzivatelDao pouzivatelDao;
+
     private JdbcTemplate jdbcTemplate;
 
-    //  private ComboBoxModel comboBoxModel;
     public JdbcTemplate jdbcTemplate() {
         if (this.jdbcTemplate == null) {
             this.jdbcTemplate = new JdbcTemplate(dataSource());
@@ -55,6 +56,13 @@ public enum Factory {
             this.notifikaciaDao = new DatabazovyNotifikaciaDao();
         }
         return this.notifikaciaDao;
+    }
+
+    public PouzivatelDao pouzivatelDao() {
+        if (this.pouzivatelDao == null) {
+            this.pouzivatelDao = new DatabazovyPouzivatelDao(jdbcTemplate());
+        }
+        return this.pouzivatelDao;
     }
 
     public MysqlDataSource dataSource() {

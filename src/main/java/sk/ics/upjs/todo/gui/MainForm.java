@@ -14,12 +14,11 @@ public class MainForm extends javax.swing.JFrame {
     private static final UlohaDao ulohaDao = Factory.INSTANCE.ulohaDao();
 
     private static final UlohaTableModel ulohaTableModel = new UlohaTableModel();
-    
+
     private static final PrihlasovaciARegistrovaciServis prihlasovaciARegistrovaciServis = PrihlasovaciARegistrovaciServis.INSTANCE;
 
     public MainForm() {
         initComponents();
-        this.setTitle("TODO list aka DORI");
         tblUloha.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -27,7 +26,6 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
         tblUloha.setModel(ulohaTableModel);
-        //tblUloha.setRowSorter(ulohaRowSorter);
         tblUloha.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblUloha.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -78,9 +76,11 @@ public class MainForm extends javax.swing.JFrame {
         lblPouzivatel = new javax.swing.JLabel();
         btnOdhlas = new javax.swing.JButton();
         btnGrafy = new javax.swing.JButton();
+        btnNotifikacie = new javax.swing.JButton();
         lblPozadie = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("TODO list aka DORI");
         setMinimumSize(new java.awt.Dimension(502, 285));
         setResizable(false);
         getContentPane().setLayout(null);
@@ -198,7 +198,7 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnKategorie);
-        btnKategorie.setBounds(415, 10, 80, 44);
+        btnKategorie.setBounds(415, 10, 80, 30);
 
         btnFilters.setBackground(new java.awt.Color(204, 204, 204));
         btnFilters.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
@@ -210,7 +210,7 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnFilters);
-        btnFilters.setBounds(415, 60, 80, 43);
+        btnFilters.setBounds(415, 45, 80, 30);
 
         lblPouzivatel.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblPouzivatel.setText("Neprihlásený");
@@ -229,13 +229,28 @@ public class MainForm extends javax.swing.JFrame {
 
         btnGrafy.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         btnGrafy.setText("Grafy...");
+        btnGrafy.setMaximumSize(new java.awt.Dimension(75, 17));
+        btnGrafy.setMinimumSize(new java.awt.Dimension(75, 17));
         btnGrafy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGrafyActionPerformed(evt);
             }
         });
         getContentPane().add(btnGrafy);
-        btnGrafy.setBounds(415, 110, 80, 40);
+        btnGrafy.setBounds(415, 80, 80, 30);
+
+        btnNotifikacie.setFont(new java.awt.Font("Gungsuh", 0, 8)); // NOI18N
+        btnNotifikacie.setText("Notifikácie");
+        btnNotifikacie.setMaximumSize(new java.awt.Dimension(75, 17));
+        btnNotifikacie.setMinimumSize(new java.awt.Dimension(75, 17));
+        btnNotifikacie.setPreferredSize(new java.awt.Dimension(75, 17));
+        btnNotifikacie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNotifikacieActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnNotifikacie);
+        btnNotifikacie.setBounds(415, 115, 80, 23);
 
         lblPozadie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mainform.jpg"))); // NOI18N
         getContentPane().add(lblPozadie);
@@ -328,12 +343,19 @@ public class MainForm extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnOdhlasActionPerformed
 
+    // otvori okno s vyberom obdobia pre graf
     private void btnGrafyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGrafyActionPerformed
         VyberObdobiaPreGrafForm vyberObdobiaPreGrafForm = new VyberObdobiaPreGrafForm(this, true);
         vyberObdobiaPreGrafForm.setVisible(true);
     }//GEN-LAST:event_btnGrafyActionPerformed
 
-    //zabezpečí že po dvojkliku myšou sa zobrazí detail úlohy, na ktorú sa kliklo
+    // otvori okno s nastavenim notifikacii
+    private void btnNotifikacieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotifikacieActionPerformed
+        NotifikacieForm notifikacieForm = new NotifikacieForm(this, true);
+        notifikacieForm.setVisible(true);
+    }//GEN-LAST:event_btnNotifikacieActionPerformed
+
+    // zabezpečí, že po dvojkliku myšou sa zobrazí detail úlohy, na ktorú sa kliklo
     private void tblUlohaMouseClicked(java.awt.event.MouseEvent evt) {
         if (evt.getClickCount() == 2) {
             int vybranyRiadok = tblUloha.getSelectedRow();
@@ -347,7 +369,8 @@ public class MainForm extends javax.swing.JFrame {
             }
             DetailUlohaForm detail = new DetailUlohaForm(vybrataUloha, this);
             detail.setVisible(true);
-            // ked ma niekto zobrazene nepr. mesacne, tak sa mu ten vyber resetuje
+            // ked ma niekto zobrazene nepr. mesacne, tak sa mu ten vyber 
+            // resetuje, preto tu aktualizaciu vypneme
             // aktualizujZoznamUloh();
         }
     }
@@ -390,6 +413,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton btnFilters;
     private javax.swing.JButton btnGrafy;
     private javax.swing.JButton btnKategorie;
+    private javax.swing.JButton btnNotifikacie;
     private javax.swing.JButton btnOdhlas;
     private javax.swing.JButton btnPridaj;
     private javax.swing.JButton btnTentoMesiac;

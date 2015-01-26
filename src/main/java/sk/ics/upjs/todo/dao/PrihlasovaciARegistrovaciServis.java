@@ -6,7 +6,7 @@ public enum PrihlasovaciARegistrovaciServis {
 
     INSTANCE;
 
-    private final PouzivatelDao pouzivateliaDao = new DatabazovyPouzivatelDao(Factory.INSTANCE.jdbcTemplate());
+    private final PouzivatelDao pouzivateliaDao = Factory.INSTANCE.pouzivatelDao();
     private Pouzivatel pouzivatel;
 
     // vrati pouzivatela
@@ -21,7 +21,7 @@ public enum PrihlasovaciARegistrovaciServis {
 
     // prihlasi pouzivatela s danym menom a heslom (alebo vyhadze vynimky, ak su neplatne udaje)
     public void prihlas(Pouzivatel pouzivatel) {
-        pouzivatel = pouzivateliaDao.prihlas(pouzivatel);
+        pouzivatel = pouzivateliaDao.prihlas(pouzivatel.getMeno(), pouzivatel.getHeslo());
         this.pouzivatel = pouzivatel;
     }
 

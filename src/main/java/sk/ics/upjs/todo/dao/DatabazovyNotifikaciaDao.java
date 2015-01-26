@@ -8,8 +8,8 @@ import sk.ics.upjs.todo.rowmappery.NotifikaciaRowMapper;
 
 public class DatabazovyNotifikaciaDao implements NotifikaciaDao {
 
-    private static JdbcTemplate jdbcTemplate;
-    private static NotifikaciaRowMapper mapovacNotifikacii = new NotifikaciaRowMapper();
+    private final JdbcTemplate jdbcTemplate;
+    private static final NotifikaciaRowMapper mapovacNotifikacii = new NotifikaciaRowMapper();
     private static final String nazovTabulky = "NOTIFIKACIE";
 
     /**
@@ -52,7 +52,8 @@ public class DatabazovyNotifikaciaDao implements NotifikaciaDao {
     @Override
     public void pridajNotifikaciu(long idUlohy) {
         // pri uprave ulohy tiez vkladame notifikaciu, lebo sa mohlo stat, ze uz
-        // bola odoslana, ale pouzivatel zmenil cas ulohy a bude ju treba poslat znovu
+        // bola odoslana, ale pouzivatel zmenil cas ulohy a bude ju treba poslat znovu,
+        // preto najprv vymazeme tu, ktora uz mozno existuje a nahradime ju novou
         vymazNotifikaciu(idUlohy);
         String sqlNotifikacia = "INSERT INTO " + nazovTabulky + " \n"
                 + "(id_ulohy)\n"

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.ics.upjs.todo.gui;
 
 import java.awt.event.KeyEvent;
@@ -17,8 +12,6 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
 
     public PrihlasovanieForm() {
         initComponents();
-        
-        // v navrharovi nejako nechce ist nastavit farbu, tak to urobime nasilu
         getContentPane().setBackground(GuiFactory.INSTANCE.getFarbaPozadia());
     }
 
@@ -59,7 +52,7 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
         lblHeslo.setText("Heslo:");
 
         btnRegistracia.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        btnRegistracia.setText("Registrácia");
+        btnRegistracia.setText("Registrácia...");
         btnRegistracia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistraciaActionPerformed(evt);
@@ -72,7 +65,7 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
         });
 
         btnPrihlas.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        btnPrihlas.setText("Prihlásiť");
+        btnPrihlas.setText("Prihlásiť...");
         btnPrihlas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPrihlasActionPerformed(evt);
@@ -164,7 +157,6 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
             return;
         }
         try {
-
             Pouzivatel pouzivatel = new Pouzivatel();
             pouzivatel.setMeno(meno);
             pouzivatel.setHeslo(heslo);

@@ -16,7 +16,6 @@ public class DetailUlohaForm extends javax.swing.JDialog {
 
     public DetailUlohaForm(Frame parent) {
         this(parent, true);
-        this.setTitle("Detail úlohy");
     }
 
     public DetailUlohaForm(Frame parent, boolean modal) {
@@ -84,6 +83,7 @@ public class DetailUlohaForm extends javax.swing.JDialog {
         lblPozadie = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Detail úlohy");
         setMinimumSize(new java.awt.Dimension(445, 285));
         getContentPane().setLayout(null);
 
@@ -142,7 +142,7 @@ public class DetailUlohaForm extends javax.swing.JDialog {
         checkBox.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         checkBox.setText("Splnená");
         getContentPane().add(checkBox);
-        checkBox.setBounds(280, 150, 115, 29);
+        checkBox.setBounds(280, 150, 115, 23);
 
         btnOk.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         btnOk.setText("OK");

@@ -111,7 +111,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Gungsuh" size="11" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Registr&#xe1;cia"/>
+        <Property name="text" type="java.lang.String" value="Registr&#xe1;cia..."/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegistraciaActionPerformed"/>
@@ -123,7 +123,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Gungsuh" size="11" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Prihl&#xe1;si&#x165;"/>
+        <Property name="text" type="java.lang.String" value="Prihl&#xe1;si&#x165;..."/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrihlasActionPerformed"/>

@@ -68,12 +68,10 @@ public class DatabazovyPouzivatelDaoTest {
      */
     @Test(expected = ZleMenoAleboHesloException.class)
     public void prihlasTestPreNeplatneMeno() {
-        Pouzivatel pouzivatel = new Pouzivatel();
+        String meno = "Alfonz";
+        String heslo = "password123";
 
-        pouzivatel.setMeno("Alfonz");
-        pouzivatel.setHeslo("password123");
-
-        pouzivateliaDao.prihlas(pouzivatel);
+        pouzivateliaDao.prihlas(meno, heslo);
     }
 
     /**
@@ -81,24 +79,20 @@ public class DatabazovyPouzivatelDaoTest {
      */
     @Test(expected = ZleMenoAleboHesloException.class)
     public void prihlasTestPreNeplatneHeslo() {
-        Pouzivatel pouzivatel = new Pouzivatel();
+        String meno = "Admin";
+        String heslo = "password123";
 
-        pouzivatel.setMeno("Admin");
-        pouzivatel.setHeslo("password123");
-
-        pouzivateliaDao.prihlas(pouzivatel);
+        pouzivateliaDao.prihlas(meno, heslo);
     }
 
     /**
      * Testujem, ci prebehne bez komplikacii prihlasenie so spravnymi udajmi
      */
     @Test
-    public void prihlasTestDobreUdaje() {
-        Pouzivatel pouzivatel = new Pouzivatel();
+    public void prihlasTestDobreUdaje() {      
+        String meno = "Mato";
+        String heslo = "hihihi";
 
-        pouzivatel.setMeno("Mato");
-        pouzivatel.setHeslo("hihihi");
-
-        pouzivateliaDao.prihlas(pouzivatel);
+        pouzivateliaDao.prihlas(meno, heslo);
     }
 }

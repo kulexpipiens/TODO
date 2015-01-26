@@ -12,7 +12,7 @@ public class RegistraciaForm extends javax.swing.JDialog {
     public RegistraciaForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         // v navrharovi nejako nechce ist nastavit farbu, tak to urobime nasilu
         getContentPane().setBackground(GuiFactory.INSTANCE.getFarbaPozadia());
     }
@@ -35,6 +35,9 @@ public class RegistraciaForm extends javax.swing.JDialog {
         lblHeslo = new javax.swing.JLabel();
         btnRegistruj = new javax.swing.JButton();
         btnZavri = new javax.swing.JButton();
+        chkChceNotifikacie = new javax.swing.JCheckBox();
+        txtDobaNotifikacie = new javax.swing.JTextField();
+        lblCasNotifikacie = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setIconImage(null);
@@ -69,10 +72,17 @@ public class RegistraciaForm extends javax.swing.JDialog {
             }
         });
 
+        chkChceNotifikacie.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
+        chkChceNotifikacie.setText("Chcem dostávať na mail notifikácie o úlohách");
+
+        lblCasNotifikacie.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
+        lblCasNotifikacie.setText("hod. pred časom splnenia úlohy");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,18 +97,25 @@ public class RegistraciaForm extends javax.swing.JDialog {
                             .addComponent(txtMail)
                             .addComponent(txtHeslo)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 101, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnZavri)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRegistruj)))
+                        .addComponent(btnRegistruj))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chkChceNotifikacie)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtDobaNotifikacie, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblCasNotifikacie)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 58, Short.MAX_VALUE)
-                .addGap(22, 22, 22)
+                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtMeno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblMeno))
@@ -111,6 +128,12 @@ public class RegistraciaForm extends javax.swing.JDialog {
                     .addComponent(txtHeslo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblHeslo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(chkChceNotifikacie)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtDobaNotifikacie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCasNotifikacie))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistruj)
                     .addComponent(btnZavri))
@@ -130,6 +153,15 @@ public class RegistraciaForm extends javax.swing.JDialog {
             pouzivatel.setMeno(txtMeno.getText());
             pouzivatel.setMail(txtMail.getText());
             pouzivatel.setHeslo(new String(txtHeslo.getPassword()));
+            pouzivatel.setChceNotifikacie(chkChceNotifikacie.isSelected());
+
+            // overenie pre pripad, ze uzivatel nezadal do doby notifikacie nic
+            String dobaNotifikacie = txtDobaNotifikacie.getText();
+            if (dobaNotifikacie.isEmpty()) {
+                pouzivatel.setDobaNotifikacie(null);
+            } else {
+                pouzivatel.setDobaNotifikacie(Integer.valueOf(dobaNotifikacie));
+            }
 
             PrihlasovaciARegistrovaciServis.INSTANCE.zaregistruj(pouzivatel);
 
@@ -186,10 +218,13 @@ public class RegistraciaForm extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistruj;
     private javax.swing.JButton btnZavri;
+    private javax.swing.JCheckBox chkChceNotifikacie;
+    private javax.swing.JLabel lblCasNotifikacie;
     private javax.swing.JLabel lblHeslo;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblMail;
     private javax.swing.JLabel lblMeno;
+    private javax.swing.JTextField txtDobaNotifikacie;
     private javax.swing.JPasswordField txtHeslo;
     private javax.swing.JTextField txtMail;
     private javax.swing.JTextField txtMeno;
