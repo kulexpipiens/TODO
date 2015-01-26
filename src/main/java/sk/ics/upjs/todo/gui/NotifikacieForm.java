@@ -1,6 +1,8 @@
 package sk.ics.upjs.todo.gui;
 
 import java.awt.Frame;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import sk.ics.upjs.todo.dao.Factory;
 import sk.ics.upjs.todo.dao.PouzivatelDao;
 import sk.ics.upjs.todo.dao.PrihlasovaciARegistrovaciServis;
@@ -11,6 +13,8 @@ public class NotifikacieForm extends javax.swing.JDialog {
     // budeme potrebovat upravit udaje o pouzivatelovi
     private static final PouzivatelDao pouzivatelDao = Factory.INSTANCE.pouzivatelDao();
     private Pouzivatel pouzivatel = PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel();
+
+    private static final VerifikatorVstupov verifikator = GuiFactory.INSTANCE.getVerifikatorVstupov();
 
     public NotifikacieForm(Frame parent, boolean modal) {
         super(parent, modal);
@@ -121,15 +125,20 @@ public class NotifikacieForm extends javax.swing.JDialog {
      */
     private void btnUlozitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUlozitActionPerformed
         pouzivatel.setChceNotifikacie(chkChceNotifikacie.isSelected());
-        
-        // overenie pre pripad, ze uzivatel nezadal do doby notifikacie nic
+
         String dobaNotifikacie = txtDobaNotifikacie.getText();
+        // overenie pre pripad, ze uzivatel nezadal do doby notifikacie nic
         if (dobaNotifikacie.isEmpty()) {
             pouzivatel.setDobaNotifikacie(null);
+        } // ak zadal cislo v zlom formate
+        else if (!verifikator.jeCeleCislo(txtDobaNotifikacie)) {
+            JOptionPane.showMessageDialog(this, "Zadajte dobu notifikácie v správnom formáte!",
+                    verifikator.getNadpis(), ERROR_MESSAGE);
+            return;
         } else {
             pouzivatel.setDobaNotifikacie(Integer.valueOf(dobaNotifikacie));
         }
-        
+
         pouzivatelDao.upravNotifikacie(pouzivatel);
         dispose();
     }//GEN-LAST:event_btnUlozitActionPerformed

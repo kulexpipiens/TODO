@@ -9,6 +9,8 @@ import sk.ics.upjs.todo.exceptions.NeplatneRegistracneMenoException;
 
 public class RegistraciaForm extends javax.swing.JDialog {
 
+    private static final VerifikatorVstupov verifikator = GuiFactory.INSTANCE.getVerifikatorVstupov();
+
     public RegistraciaForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -25,6 +27,7 @@ public class RegistraciaForm extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         txtMeno = new javax.swing.JTextField();
         lblLogo = new javax.swing.JLabel();
@@ -43,9 +46,18 @@ public class RegistraciaForm extends javax.swing.JDialog {
         setIconImage(null);
         setResizable(false);
 
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, txtMeno, org.jdesktop.beansbinding.ELProperty.create("Meno"), txtMeno, org.jdesktop.beansbinding.BeanProperty.create("name"));
+        bindingGroup.addBinding(binding);
+
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo.jpg"))); // NOI18N
         lblLogo.setMinimumSize(new java.awt.Dimension(315, 161));
         lblLogo.setPreferredSize(new java.awt.Dimension(315, 161));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, txtMail, org.jdesktop.beansbinding.ELProperty.create("E-mail"), txtMail, org.jdesktop.beansbinding.BeanProperty.create("name"));
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, txtHeslo, org.jdesktop.beansbinding.ELProperty.create("Heslo"), txtHeslo, org.jdesktop.beansbinding.BeanProperty.create("name"));
+        bindingGroup.addBinding(binding);
 
         lblMeno.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblMeno.setText("Meno:");
@@ -74,6 +86,9 @@ public class RegistraciaForm extends javax.swing.JDialog {
 
         chkChceNotifikacie.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         chkChceNotifikacie.setText("Chcem dostávať na mail notifikácie o úlohách");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, txtDobaNotifikacie, org.jdesktop.beansbinding.ELProperty.create("čas do splnenia úlohy"), txtDobaNotifikacie, org.jdesktop.beansbinding.BeanProperty.create("name"));
+        bindingGroup.addBinding(binding);
 
         lblCasNotifikacie.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblCasNotifikacie.setText("hod. pred časom splnenia úlohy");
@@ -140,6 +155,8 @@ public class RegistraciaForm extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        bindingGroup.bind();
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -150,22 +167,42 @@ public class RegistraciaForm extends javax.swing.JDialog {
     private void btnRegistrujActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrujActionPerformed
         try {
             Pouzivatel pouzivatel = new Pouzivatel();
-            pouzivatel.setMeno(txtMeno.getText());
+
+            String meno = txtMeno.getText();
+            String heslo = new String(txtHeslo.getPassword());
+            if (meno.isEmpty() || heslo.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Zadajte používateľské meno aj heslo!",
+                        verifikator.getNadpis(), ERROR_MESSAGE);
+                return;
+            }
+            pouzivatel.setMeno(meno);
+            pouzivatel.setHeslo(heslo);
+
+            if (!verifikator.jeEmail(txtMail)) {
+                JOptionPane.showMessageDialog(this, "Zadajte email v správnom formáte!",
+                        verifikator.getNadpis(), ERROR_MESSAGE);
+                return;
+            }
             pouzivatel.setMail(txtMail.getText());
-            pouzivatel.setHeslo(new String(txtHeslo.getPassword()));
+
             pouzivatel.setChceNotifikacie(chkChceNotifikacie.isSelected());
 
-            // overenie pre pripad, ze uzivatel nezadal do doby notifikacie nic
             String dobaNotifikacie = txtDobaNotifikacie.getText();
+            // overenie pre pripad, ze uzivatel nezadal do doby notifikacie nic
             if (dobaNotifikacie.isEmpty()) {
                 pouzivatel.setDobaNotifikacie(null);
+            } // ak zadal cislo v zlom formate
+            else if (!verifikator.jeCeleCislo(txtDobaNotifikacie)) {
+                JOptionPane.showMessageDialog(this, "Zadajte dobu notifikácie v správnom formáte!",
+                        verifikator.getNadpis(), ERROR_MESSAGE);
+                return;
             } else {
                 pouzivatel.setDobaNotifikacie(Integer.valueOf(dobaNotifikacie));
             }
 
             PrihlasovaciARegistrovaciServis.INSTANCE.zaregistruj(pouzivatel);
 
-            JOptionPane.showMessageDialog(this, "Regitrácia prebehla úspešne, môžete sa prihlásiť!",
+            JOptionPane.showMessageDialog(this, "Registrácia prebehla úspešne, môžete sa prihlásiť!",
                     "Informácia", INFORMATION_MESSAGE);
             dispose();
         } catch (NeplatneRegistracneMenoException e) {
@@ -187,16 +224,21 @@ public class RegistraciaForm extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RegistraciaForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistraciaForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RegistraciaForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistraciaForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RegistraciaForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistraciaForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RegistraciaForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistraciaForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -228,5 +270,6 @@ public class RegistraciaForm extends javax.swing.JDialog {
     private javax.swing.JPasswordField txtHeslo;
     private javax.swing.JTextField txtMail;
     private javax.swing.JTextField txtMeno;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

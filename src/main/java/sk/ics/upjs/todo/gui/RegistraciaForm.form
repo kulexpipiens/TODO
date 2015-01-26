@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="iconImage" type="java.awt.Image" editor="org.netbeans.modules.form.ComponentChooserEditor">
@@ -104,6 +104,9 @@
   </Layout>
   <SubComponents>
     <Component class="javax.swing.JTextField" name="txtMeno">
+      <BindingProperties>
+        <BindingProperty name="name" source="txtMeno" sourcePath="Meno" target="txtMeno" targetPath="name" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblLogo">
       <Properties>
@@ -119,8 +122,14 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtMail">
+      <BindingProperties>
+        <BindingProperty name="name" source="txtMail" sourcePath="E-mail" target="txtMail" targetPath="name" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
     </Component>
     <Component class="javax.swing.JPasswordField" name="txtHeslo">
+      <BindingProperties>
+        <BindingProperty name="name" source="txtHeslo" sourcePath="Heslo" target="txtHeslo" targetPath="name" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblMeno">
       <Properties>
@@ -177,6 +186,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtDobaNotifikacie">
+      <BindingProperties>
+        <BindingProperty name="name" source="txtDobaNotifikacie" sourcePath="&#x10d;as do splnenia &#xfa;lohy" target="txtDobaNotifikacie" targetPath="name" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblCasNotifikacie">
       <Properties>
