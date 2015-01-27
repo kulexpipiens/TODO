@@ -3,6 +3,7 @@ package sk.ics.upjs.todo;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.BeforeClass;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.ics.upjs.todo.dao.DatabazovyFilterDao;
 import sk.ics.upjs.todo.dao.Factory;
@@ -14,18 +15,20 @@ import sk.ics.upjs.todo.entity.Pouzivatel;
 
 public class DatabazovyFilterDaoTest {
 
-    private JdbcTemplate jdbcTemplate;
+    private static JdbcTemplate jdbcTemplate;
 
-    private FilterDao filterDao;
-    
-    private Pouzivatel pouzivatel;
+    private static FilterDao filterDao;
 
-    private static final int POCET_FILTROV_V_DATABAZE = 3;
+    private static Pouzivatel pouzivatel;
 
-    public DatabazovyFilterDaoTest() {
-        this.jdbcTemplate = new JdbcTemplate(Factory.INSTANCE.dataSourceTest());
+    private static final int POCET_FILTROV_V_DATABAZE = 2;
+
+    @BeforeClass
+    public static void setUp() {
+        System.setProperty("testovaciRezim", "true");
+        jdbcTemplate = new JdbcTemplate(Factory.INSTANCE.dataSource());
         filterDao = new DatabazovyFilterDao(jdbcTemplate);
-        
+
         pouzivatel = new Pouzivatel();
         pouzivatel.setMeno("Admin");
         pouzivatel.setHeslo("qwerty123456");
@@ -58,7 +61,10 @@ public class DatabazovyFilterDaoTest {
 
         filterDao.pridajFilter(filterPridaj);
         zoznamFiltrov = filterDao.dajVsetky();
+
         assertEquals(pocetFiltrovPovodne + 1, zoznamFiltrov.size());
+        filterPridaj = zoznamFiltrov.get(zoznamFiltrov.size() - 1);
+        filterDao.vymazFilter(filterPridaj);
     }
 
     @Test
@@ -66,6 +72,8 @@ public class DatabazovyFilterDaoTest {
         List<Filter> zoznamFiltrov = filterDao.dajVsetky();
         Filter filterZmena
                 = zoznamFiltrov.get(zoznamFiltrov.size() - 1);
+        String povodnaPriorita = filterZmena.getPriorita();
+
         filterZmena.setPriorita("Nízka");
 
         filterDao.upravFilter(filterZmena);
@@ -73,6 +81,9 @@ public class DatabazovyFilterDaoTest {
         zoznamFiltrov = filterDao.dajVsetky();
         assertEquals("Nízka",
                 zoznamFiltrov.get(zoznamFiltrov.size() - 1).getPriorita());
+
+        filterZmena.setPriorita(povodnaPriorita);
+        filterDao.upravFilter(filterZmena);
     }
 
     @Test
@@ -85,6 +96,8 @@ public class DatabazovyFilterDaoTest {
 
         zoznamFiltrov = filterDao.dajVsetky();
         assertEquals(pocetFiltrovPovodne - 1, zoznamFiltrov.size());
+
+        filterDao.pridajFilter(filterNaVymazanie);
     }
 
 }

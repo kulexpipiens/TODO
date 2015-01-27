@@ -1,5 +1,9 @@
 package sk.ics.upjs.todo.notifikacie;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import sk.ics.upjs.todo.entity.Notifikacia;
 import java.util.Date;
 import java.util.Properties;
@@ -14,15 +18,17 @@ import javax.mail.internet.MimeMessage;
 public class MailSender {
 
     // udaje odosielatela
-    private static final String odosielatel = "todolistpaz1c@gmail.com";
-    private static final String meno = "todolistpaz1c";
-    private static final String heslo = "1x6cen9Cd0";
+    private String odosielatel;
+    private String meno;
+    private String heslo;
 
     private final Properties nastavenia;
     private final String smtp;
     private final Session session;
 
     public MailSender() {
+        // inicializujeme prihlasovacie udaje
+        inicializuj();
         // server, cez ktory odosielame email
         smtp = "smtp.gmail.com";
 
@@ -101,5 +107,43 @@ public class MailSender {
         }
         cas.append(d.getMinutes());
         return cas.toString();
+    }
+
+    private void inicializuj() {
+        Properties properties = dajProperties();
+
+        odosielatel = (String) properties.get("odosielatel");
+        meno = (String) properties.get("meno");
+        heslo = (String) properties.get("heslo");
+    }
+
+    private Properties dajProperties() throws IllegalStateException {
+        try {
+            String propertiesFile = "/home/todo/mail.properties";
+
+            InputStream in;
+
+            try {
+                in = new FileInputStream(propertiesFile);
+            } catch (FileNotFoundException e1) {
+                // ak sme tu, tak sa nenasiel moj subor na disku, teda s projektom
+                // pracuje Alica a ona ma ine cesty k properties suborom
+                propertiesFile = "C:/todo/mail.properties";
+                try {
+                    in = new FileInputStream(propertiesFile);
+                } catch (FileNotFoundException e2) {
+                    // ak sme tu, tak program bezi na serveri
+                    propertiesFile = "~/todo/mail.properties";
+                    in = new FileInputStream(propertiesFile);
+                }
+            }
+
+            Properties properties = new Properties();
+            properties.load(in);
+
+            return properties;
+        } catch (IOException e) {
+            throw new IllegalStateException("Nenašiel sa konfiguračný súbor!");
+        }
     }
 }

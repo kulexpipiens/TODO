@@ -1,7 +1,12 @@
 package sk.ics.upjs.todo.dao;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -66,21 +71,13 @@ public enum Factory {
     }
 
     public MysqlDataSource dataSource() {
+        Properties properties = getProperties();
         MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setURL("jdbc:mysql://www.db4free.net:3306/todolistproject");
-        dataSource.setUser("todolist");
-        dataSource.setPassword("hruska123");
+        dataSource.setURL((String) properties.get("dataServer"));
+        dataSource.setUser((String) properties.get("dataLogin"));
+        dataSource.setPassword((String) properties.get("dataPass"));
 
         return dataSource;
-    }
-
-    public MysqlDataSource dataSourceTest() {
-        MysqlDataSource dataSourceTest = new MysqlDataSource();
-        dataSourceTest.setURL("jdbc:mysql://www.db4free.net:3306/todolisttestproj");
-        dataSourceTest.setUser("todolisttest");
-        dataSourceTest.setPassword("hruska123");
-
-        return dataSourceTest;
     }
 
     public ComboBoxModel getKategoryCmbModel() {
@@ -93,4 +90,37 @@ public enum Factory {
         return new DefaultComboBoxModel(poleKategorii);
     }
 
+    private Properties getProperties() {
+        try {
+            String propertiesFile;
+
+            if ("true".equals(System.getProperty("testovaciRezim"))) {
+                propertiesFile = "/home/todo/todo-test.properties";
+            } else {
+                propertiesFile = "/home/todo/todo.properties";
+            }
+
+            InputStream in;
+
+            try {
+                in = new FileInputStream(propertiesFile);
+            } catch (FileNotFoundException e) {
+                // ak sme tu, tak sa nenasiel moj subor na disku, teda s projektom
+                // pracuje Alica a ona ma ine cesty k properties suborom
+                if ("true".equals(System.getProperty("testovaciRezim"))) {
+                    propertiesFile = "C:/todo/todo-test.properties";
+                } else {
+                    propertiesFile = "C:/todo/todo.properties";
+                }
+                in = new FileInputStream(propertiesFile);
+            }
+
+            Properties properties = new Properties();
+            properties.load(in);
+
+            return properties;
+        } catch (IOException e) {
+            throw new IllegalStateException("Nenašiel sa konfiguračný súbor!");
+        }
+    }
 }

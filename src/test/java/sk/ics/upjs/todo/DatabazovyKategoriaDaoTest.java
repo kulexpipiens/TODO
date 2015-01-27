@@ -1,9 +1,9 @@
 package sk.ics.upjs.todo;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.BeforeClass;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.ics.upjs.todo.dao.DatabazovyKategoriaDao;
 import sk.ics.upjs.todo.dao.Factory;
@@ -14,18 +14,20 @@ import sk.ics.upjs.todo.entity.Pouzivatel;
 
 public class DatabazovyKategoriaDaoTest {
 
-    private JdbcTemplate jdbcTemplate;
+    private static JdbcTemplate jdbcTemplate;
 
-    private KategoriaDao kategoriaDao;
-    
-    private Pouzivatel pouzivatel;
+    private static KategoriaDao kategoriaDao;
 
-    private static final int POCET_KATEGORII_V_DATABAZE = 8;
+    private static Pouzivatel pouzivatel;
 
-    public DatabazovyKategoriaDaoTest() {
-        this.jdbcTemplate = new JdbcTemplate(Factory.INSTANCE.dataSourceTest());
+    private static final int POCET_KATEGORII_V_DATABAZE = 7;
+
+    @BeforeClass
+    public static void setUp() {
+        System.setProperty("testovaciRezim", "true");
+        jdbcTemplate = new JdbcTemplate(Factory.INSTANCE.dataSource());
         kategoriaDao = new DatabazovyKategoriaDao(jdbcTemplate);
-        
+
         pouzivatel = new Pouzivatel();
         pouzivatel.setMeno("Admin");
         pouzivatel.setHeslo("qwerty123456");
@@ -49,7 +51,10 @@ public class DatabazovyKategoriaDaoTest {
 
         kategoriaDao.pridajKategoriu(kategoriaPridaj);
         zoznamKategorii = kategoriaDao.dajVsetky();
+        kategoriaPridaj = zoznamKategorii.get(zoznamKategorii.size() - 1);
         assertEquals(pocetKategoriiPovodne + 1, zoznamKategorii.size());
+        
+        kategoriaDao.vymazKategoriu(kategoriaPridaj);
     }
 
     @Test
@@ -57,6 +62,7 @@ public class DatabazovyKategoriaDaoTest {
         List<Kategoria> zoznamKategorii = kategoriaDao.dajVsetky();
         Kategoria kategoriaZmena
                 = zoznamKategorii.get(zoznamKategorii.size() - 1);
+        String povodnyPopis = kategoriaZmena.getPopis();
         kategoriaZmena.setPopis("popis o kategorii zmeneny");
 
         kategoriaDao.upravKategoriu(kategoriaZmena);
@@ -64,6 +70,9 @@ public class DatabazovyKategoriaDaoTest {
         zoznamKategorii = kategoriaDao.dajVsetky();
         assertEquals("popis o kategorii zmeneny",
                 zoznamKategorii.get(zoznamKategorii.size() - 1).getPopis());
+
+        kategoriaZmena.setPopis(povodnyPopis);
+        kategoriaDao.upravKategoriu(kategoriaZmena);
     }
 
     @Test
@@ -76,6 +85,8 @@ public class DatabazovyKategoriaDaoTest {
 
         zoznamKategorii = kategoriaDao.dajVsetky();
         assertEquals(pocetKategoriiPovodne - 1, zoznamKategorii.size());
+
+        kategoriaDao.pridajKategoriu(kategoriaNaVymazanie);
     }
 
 }

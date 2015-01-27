@@ -3,6 +3,7 @@ package sk.ics.upjs.todo;
 import java.util.Date;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.ics.upjs.todo.dao.DatabazovyUlohaDao;
@@ -15,21 +16,23 @@ import sk.ics.upjs.todo.entity.Uloha;
 
 public class DatabazovyUlohaDaoTest {
 
-    private final JdbcTemplate jdbcTemplate;
+    private static JdbcTemplate jdbcTemplate;
 
-    private final UlohaDao ulohaDao;
-    
-    private Pouzivatel pouzivatel;
+    private static UlohaDao ulohaDao;
 
-    private static final int POCET_ULOH_V_DATABAZE = 3;
+    private static Pouzivatel pouzivatel;
+
+    private static final int POCET_ULOH_V_DATABAZE = 2;
     private static final int POCET_DNESNYCH_ULOH_V_DATABAZE = 0;
     private static final int POCET_TYZDNOVYCH_ULOH_V_DATABAZE = 0;
     private static final int POCET_MESACNYCH_ULOH_V_DATABAZE = 0;
 
-    public DatabazovyUlohaDaoTest() {
-        this.jdbcTemplate = new JdbcTemplate(Factory.INSTANCE.dataSourceTest());
+    @BeforeClass
+    public static void setUp() {
+        System.setProperty("testovaciRezim", "true");
+        jdbcTemplate = new JdbcTemplate(Factory.INSTANCE.dataSource());
         ulohaDao = new DatabazovyUlohaDao(jdbcTemplate);
-        
+
         pouzivatel = new Pouzivatel();
         pouzivatel.setMeno("Admin");
         pouzivatel.setHeslo("qwerty123456");
@@ -63,6 +66,9 @@ public class DatabazovyUlohaDaoTest {
         ulohaDao.pridajUlohu(ulohaPridaj);
         zoznamUloh = ulohaDao.dajVsetky();
         assertEquals(pocetUlohPovodne + 1, zoznamUloh.size());
+
+        ulohaPridaj = zoznamUloh.get(zoznamUloh.size() - 1);
+        ulohaDao.vymazUlohu(ulohaPridaj);
     }
 
     @Test
@@ -70,6 +76,7 @@ public class DatabazovyUlohaDaoTest {
         List<Uloha> zoznamUloh = ulohaDao.dajVsetky();
         Uloha ulohaZmena
                 = zoznamUloh.get(zoznamUloh.size() - 1);
+        String povodnyPopis = ulohaZmena.getPopis();
         ulohaZmena.setPopis("Zmeneny popis");
 
         ulohaDao.upravUlohu(ulohaZmena);
@@ -77,6 +84,9 @@ public class DatabazovyUlohaDaoTest {
         zoznamUloh = ulohaDao.dajVsetky();
         assertEquals("Zmeneny popis",
                 zoznamUloh.get(zoznamUloh.size() - 1).getPopis());
+
+        ulohaZmena.setPopis(povodnyPopis);
+        ulohaDao.upravUlohu(ulohaZmena);
     }
 
     @Test
@@ -89,6 +99,8 @@ public class DatabazovyUlohaDaoTest {
 
         zoznamUloh = ulohaDao.dajVsetky();
         assertEquals(pocetUlohPovodne - 1, zoznamUloh.size());
+        
+        ulohaDao.pridajUlohu(ulohaNaVymazanie);
     }
 
     @Test

@@ -17,7 +17,7 @@ public class DatabazovyPouzivatelDaoTest {
 
     @BeforeClass
     public static void setUp() {
-        jdbcTemplate = new JdbcTemplate(Factory.INSTANCE.dataSourceTest());
+        jdbcTemplate = new JdbcTemplate(Factory.INSTANCE.dataSource());
         pouzivateliaDao = new DatabazovyPouzivatelDao(jdbcTemplate);
     }
 
