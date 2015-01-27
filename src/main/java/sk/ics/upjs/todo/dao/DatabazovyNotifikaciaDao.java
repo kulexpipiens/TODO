@@ -1,7 +1,12 @@
 package sk.ics.upjs.todo.dao;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.ics.upjs.todo.entity.Notifikacia;
 import sk.ics.upjs.todo.rowmappery.NotifikaciaRowMapper;
@@ -80,11 +85,37 @@ public class DatabazovyNotifikaciaDao implements NotifikaciaDao {
      * @return dataSource
      */
     private MysqlDataSource dataSource() {
+        Properties properties = getProperties();
         MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setURL("jdbc:mysql://www.db4free.net:3306/todolistproject");
-        dataSource.setUser("todolist");
-        dataSource.setPassword("hruska123");
+        dataSource.setURL((String) properties.get("dataServer"));
+        dataSource.setUser((String) properties.get("dataLogin"));
+        dataSource.setPassword((String) properties.get("dataPass"));
 
         return dataSource;
+    }
+
+    private Properties getProperties() {
+        try {
+            String propertiesFile;
+
+            propertiesFile = "/home/todo/todo.properties";
+
+            InputStream in;
+
+            try {
+                in = new FileInputStream(propertiesFile);
+            } catch (FileNotFoundException e1) {
+                // ak sme tu, tak sme na serveri a hladame subor tam
+                propertiesFile = "~/todo/mail.properties";
+                in = new FileInputStream(propertiesFile);
+            }
+
+            Properties properties = new Properties();
+            properties.load(in);
+
+            return properties;
+        } catch (IOException e) {
+            throw new IllegalStateException("Nenašiel sa konfiguračný súbor!");
+        }
     }
 }
