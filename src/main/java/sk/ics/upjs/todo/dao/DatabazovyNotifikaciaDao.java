@@ -94,6 +94,10 @@ public class DatabazovyNotifikaciaDao implements NotifikaciaDao {
         return dataSource;
     }
 
+    /**
+     * Vrati properties pre pripojenie k databaze a na email
+     * @return 
+     */
     private Properties getProperties() {
         try {
             String propertiesFile;
@@ -103,12 +107,24 @@ public class DatabazovyNotifikaciaDao implements NotifikaciaDao {
             InputStream in;
 
             try {
+                // ak sme tu, tak sme u Martina
                 in = new FileInputStream(propertiesFile);
             } catch (FileNotFoundException e1) {
-                // ak sme tu, tak sme na serveri a hladame subor tam
-                propertiesFile = "~/todo/mail.properties";
-                in = new FileInputStream(propertiesFile);
+                // ak sme tu, tak sme u Alice alebo na serveri
+                // skusime najprv server
+                propertiesFile = "~/todo/todo.properties";
             }
+            
+            try {
+                // ak sme tu, tak sme na serveri
+                in = new FileInputStream(propertiesFile);
+            }           
+            catch (FileNotFoundException e2) {
+                // ak sme tu, tak sme u Alice
+                propertiesFile = "C:/todo/todo.properties";
+            }
+            
+            in = new FileInputStream(propertiesFile);
 
             Properties properties = new Properties();
             properties.load(in);
