@@ -133,7 +133,7 @@ public class MailSender {
                     in = new FileInputStream(propertiesFile);
                 } catch (FileNotFoundException e2) {
                     // ak sme tu, tak program bezi na serveri
-                    propertiesFile = "~/todo/mail.properties";
+                    propertiesFile = "/home/akacengova/todo/mail.properties";
                     in = new FileInputStream(propertiesFile);
                 }
             }

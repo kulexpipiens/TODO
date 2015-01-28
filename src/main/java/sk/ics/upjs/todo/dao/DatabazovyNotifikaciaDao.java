@@ -95,8 +95,7 @@ public class DatabazovyNotifikaciaDao implements NotifikaciaDao {
     }
 
     /**
-     * Vrati properties pre pripojenie k databaze a na email
-     * @return 
+     * @return properties pre pripojenie k databaze
      */
     private Properties getProperties() {
         try {
@@ -112,7 +111,7 @@ public class DatabazovyNotifikaciaDao implements NotifikaciaDao {
             } catch (FileNotFoundException e1) {
                 // ak sme tu, tak sme u Alice alebo na serveri
                 // skusime najprv server
-                propertiesFile = "~/todo/todo.properties";
+                propertiesFile = "/home/akacengova/todo/todo.properties";
             }
             
             try {
