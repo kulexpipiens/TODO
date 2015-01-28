@@ -14,9 +14,10 @@ public class DatabazovyPouzivatelDaoTest {
 
     private static JdbcTemplate jdbcTemplate;
     private static PouzivatelDao pouzivateliaDao;
-
+    
     @BeforeClass
     public static void setUp() {
+        System.setProperty("testovaciRezim", "true");
         jdbcTemplate = new JdbcTemplate(Factory.INSTANCE.dataSource());
         pouzivateliaDao = new DatabazovyPouzivatelDao(jdbcTemplate);
     }
