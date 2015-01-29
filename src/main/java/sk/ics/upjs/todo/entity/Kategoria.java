@@ -1,8 +1,6 @@
 package sk.ics.upjs.todo.entity;
 
 public class Kategoria {
-    
-    //entita kategória, getre a setre
 
     private long id;
     private String nazov;
@@ -31,7 +29,4 @@ public class Kategoria {
     public void setPopis(String popis) {
         this.popis = popis;
     }
-    
-    
-
 }

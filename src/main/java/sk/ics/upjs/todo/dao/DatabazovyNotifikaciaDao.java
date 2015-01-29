@@ -113,16 +113,15 @@ public class DatabazovyNotifikaciaDao implements NotifikaciaDao {
                 // skusime najprv server
                 propertiesFile = "/home/akacengova/todo/todo.properties";
             }
-            
+
             try {
                 // ak sme tu, tak sme na serveri
                 in = new FileInputStream(propertiesFile);
-            }           
-            catch (FileNotFoundException e2) {
-                // ak sme tu, tak sme u Alice
+            } catch (FileNotFoundException e2) {
+                // ak sme tu, tak sme u Alici
                 propertiesFile = "C:/todo/todo.properties";
             }
-            
+
             in = new FileInputStream(propertiesFile);
 
             Properties properties = new Properties();

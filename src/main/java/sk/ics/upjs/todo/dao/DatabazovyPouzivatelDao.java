@@ -62,7 +62,8 @@ public class DatabazovyPouzivatelDao implements PouzivatelDao {
 
     /**
      * Upravi v databze nastavenia notifikacii pre daneho uzivatela
-     * @param pouzivatel 
+     *
+     * @param pouzivatel
      */
     @Override
     public void upravNotifikacie(Pouzivatel pouzivatel) {
@@ -120,5 +121,5 @@ public class DatabazovyPouzivatelDao implements PouzivatelDao {
         }
         return true;
     }
-    
+
 }

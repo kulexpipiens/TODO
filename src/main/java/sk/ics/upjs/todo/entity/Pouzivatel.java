@@ -2,18 +2,16 @@ package sk.ics.upjs.todo.entity;
 
 public class Pouzivatel {
 
-    String meno;
-
-    String heslo;
-
-    String mail;
-
-    boolean chceNotifikacie;
-
-    // Ako dlho pred splnenim ulohy chce byt uzivatel informovany (v hodinach).
-    // Pouzivame typ Integer, aby sme mohli nastavit aj hodnotu null, 
-    // pretoze to nie je povinne pole
-    Integer dobaNotifikacie;
+    private String meno;
+    private String heslo;
+    private String mail;
+    private boolean chceNotifikacie;
+    /**
+     * Ako dlho pred splnenim ulohy chce byt uzivatel informovany (v hodinach)
+     * Pouzivame typ Integer, aby sme mohli nastavit aj hodnotu null, pretoze to
+     * nie je povinne pole
+     */
+    private Integer dobaNotifikacie;
 
     public String getMail() {
         return mail;

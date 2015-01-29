@@ -22,14 +22,6 @@ public class Uloha {
         this.trvanie = trvanie;
     }
 
-    /* public String getCas() {
-     return Integer.toString(this.datum.getHours()+':'+this.getDatum().getMinutes());
-     }
-
-     public void setCas(String cas) {
-     this.datum.setHours(Integer.parseInt(cas.substring(0, 1)));
-     this.datum.setMinutes(Integer.parseInt(cas.substring(3,4)));
-     }*/
     public String getNazov() {
         return nazov;
     }
@@ -85,11 +77,4 @@ public class Uloha {
     public void setStav(boolean stav) {
         this.stav = stav;
     }
-
-    @Override
-    public String toString() {
-        return "Uloha: " + nazov + " " + datum.getDate() + "." + datum.getMonth()
-                + "." + datum.getYear() + " " + datum.getHours() + ":" + datum.getMinutes();
-    }
-
 }

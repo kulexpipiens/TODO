@@ -18,10 +18,10 @@ public interface UlohaDao {
     public List<Uloha> dajTyzdnove();
 
     public List<Uloha> dajMesacne();
-    
+
     public List<Uloha> dajZCasovehoIntervalu(Calendar datumOd, Calendar datumDo);
 
     public void oznacZaSplnenu(Uloha uloha);
-    
+
     public void oznacZaNesplnenu(Uloha uloha);
 }

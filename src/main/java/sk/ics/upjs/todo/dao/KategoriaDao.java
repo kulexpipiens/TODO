@@ -4,7 +4,7 @@ import java.util.List;
 import sk.ics.upjs.todo.entity.Kategoria;
 
 public interface KategoriaDao {
-    
+
     public List<Kategoria> dajVsetky();
 
     public void pridajKategoriu(Kategoria kategoria);

@@ -43,18 +43,8 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
     public AddEditFiltreForm(Filter vybranyFilter, Frame parent) {
         this(parent, true);
 
-        UtilDateModel modelOd = new UtilDateModel();
-        JDatePanelImpl datePanelOd = new JDatePanelImpl(modelOd);
-        datePickerOd = new JDatePickerImpl(datePanelOd);
-        Color background = new Color(255, 255, 204);
-        datePickerOd.setBackground(background);
-        panelOd.add(datePickerOd);
-
-        UtilDateModel modelDo = new UtilDateModel();
-        JDatePanelImpl datePanelDo = new JDatePanelImpl(modelDo);
-        datePickerDo = new JDatePickerImpl(datePanelDo);
-        datePickerDo.setBackground(background);
-        panelDo.add(datePickerDo);
+        inicializujPanelOd();
+        inicializujPanelDo();
 
         this.setTitle("Menežovanie filtrov");
         this.filter = vybranyFilter;
@@ -73,8 +63,8 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
             }
         } else {
             cmbStav.setSelectedItem(" ");
-
         }
+        
         txtNazov.setText(filter.getNazov());
         if (filter.getDatumOd() != null) {
             Date datum = filter.getDatumOd();
@@ -94,6 +84,22 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
             datePickerDo.getModel().setDate(rok, mesiac, den);
             datePickerDo.getModel().setSelected(true);
         }
+    }
+
+    private void inicializujPanelDo() {
+        UtilDateModel modelDo = new UtilDateModel();
+        JDatePanelImpl datePanelDo = new JDatePanelImpl(modelDo);
+        datePickerDo = new JDatePickerImpl(datePanelDo);
+        datePickerDo.setBackground(GuiFactory.INSTANCE.getFarbaPozadia());
+        panelDo.add(datePickerDo);
+    }
+
+    private void inicializujPanelOd() {
+        UtilDateModel modelOd = new UtilDateModel();
+        JDatePanelImpl datePanelOd = new JDatePanelImpl(modelOd);
+        datePickerOd = new JDatePickerImpl(datePanelOd);
+        datePickerOd.setBackground(GuiFactory.INSTANCE.getFarbaPozadia());
+        panelOd.add(datePickerOd);
     }
 
     /**

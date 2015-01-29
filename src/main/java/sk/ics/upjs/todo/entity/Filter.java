@@ -1,9 +1,9 @@
-
 package sk.ics.upjs.todo.entity;
 
 import java.util.Date;
 
 public class Filter {
+
     private long id;
     private String nazov;
     private String priorita;
@@ -27,7 +27,7 @@ public class Filter {
     public void setNazov(String nazov) {
         this.nazov = nazov;
     }
-    
+
     public String getPriorita() {
         return priorita;
     }
@@ -67,7 +67,4 @@ public class Filter {
     public void setDatumDo(Date datumDo) {
         this.datumDo = datumDo;
     }
-    
-    
-    
 }
