@@ -181,9 +181,6 @@ public class DatabazovyUlohaDao implements UlohaDao {
 
         String retazecDo = dajStringZCalendara(datumDo);
 
-        System.out.println("Od:" + retazecOd);
-        System.out.println("Do:" + retazecDo);
-
         return jdbcTemplate.query("SELECT * FROM \n" + tabulkaZDatabazy
                 + " JOIN KATEGORIE ON ULOHY.kategoria_id = KATEGORIE.kategoria_id\n"
                 + " WHERE datum >=" + retazecOd

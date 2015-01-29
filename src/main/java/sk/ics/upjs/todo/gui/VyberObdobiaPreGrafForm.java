@@ -195,10 +195,6 @@ public class VyberObdobiaPreGrafForm extends javax.swing.JDialog {
         // poziadame UlohyDao o ulohy, ktore ideme zobrazit v grafe
         List<Uloha> ulohy = Factory.INSTANCE.ulohaDao().dajZCasovehoIntervalu(calendarOd, calendarDo);
 
-        for (Uloha uloha : ulohy) {
-            System.out.println(uloha.getNazov());
-        }
-
         // ak nie su v casovom intervale ziadne ulohy, tak budeme zbytocne zobrazovat graf
         if (ulohy.isEmpty()) {
             JOptionPane.showMessageDialog(this,
