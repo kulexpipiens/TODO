@@ -194,7 +194,7 @@ public class RegistraciaForm extends javax.swing.JDialog {
             if (dobaNotifikacie.isEmpty()) {
                 pouzivatel.setDobaNotifikacie(null);
             } // ak zadal cislo v zlom formate
-            else if (!verifikator.jeCeleCislo(txtDobaNotifikacie)) {
+            else if (!verifikator.jeCeleKladneCislo(txtDobaNotifikacie)) {
                 JOptionPane.showMessageDialog(this, "Zadajte dobu notifikácie v správnom formáte!",
                         verifikator.getNadpis(), ERROR_MESSAGE);
                 return;

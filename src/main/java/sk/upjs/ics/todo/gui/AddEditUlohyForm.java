@@ -174,16 +174,19 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         txtNazov.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
         txtNazov.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         txtNazov.setBorder(null);
+        txtNazov.setName("úloha"); // NOI18N
         getContentPane().add(txtNazov);
         txtNazov.setBounds(140, 10, 185, 15);
 
         cmbPriorita.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         cmbPriorita.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Nízka", "Stredná", "Vysoká" }));
+        cmbPriorita.setName("priorita"); // NOI18N
         getContentPane().add(cmbPriorita);
         cmbPriorita.setBounds(131, 177, 90, 25);
 
         cmbKategoria.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         cmbKategoria.setModel(modelKategorii);
+        cmbKategoria.setName("kategória"); // NOI18N
         getContentPane().add(cmbKategoria);
         cmbKategoria.setBounds(131, 204, 90, 25);
 
@@ -195,12 +198,14 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         txtHodiny.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         txtHodiny.setText("00");
         txtHodiny.setBorder(null);
+        txtHodiny.setName("hodiny"); // NOI18N
         getContentPane().add(txtHodiny);
         txtHodiny.setBounds(265, 104, 26, 15);
 
         txtMinuty.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         txtMinuty.setText("00");
         txtMinuty.setBorder(null);
+        txtMinuty.setName("minúty"); // NOI18N
         getContentPane().add(txtMinuty);
         txtMinuty.setBounds(303, 104, 26, 15);
 
@@ -214,6 +219,7 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         txtPopis.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
         txtPopis.setLineWrap(true);
         txtPopis.setRows(5);
+        txtPopis.setName("detail"); // NOI18N
         jScrollPane1.setViewportView(txtPopis);
 
         getContentPane().add(jScrollPane1);
@@ -221,12 +227,15 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
 
         vnutornyFrame.setBackground(new java.awt.Color(255, 255, 204));
         vnutornyFrame.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
+        vnutornyFrame.setName("dátum"); // NOI18N
         getContentPane().add(vnutornyFrame);
         vnutornyFrame.setBounds(240, 60, 200, 30);
 
         lblTrvanie.setText("trvanie:");
         getContentPane().add(lblTrvanie);
         lblTrvanie.setBounds(240, 130, 50, 15);
+
+        txtTrvanie.setName("trvanie"); // NOI18N
         getContentPane().add(txtTrvanie);
         txtTrvanie.setBounds(290, 130, 90, 20);
 
@@ -375,7 +384,6 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
             sprava = "Zadajte hodiny!";
             podmienka = false;
         }
-        //
         if (!txtMinuty.getText().matches("[0-9\\.]+")
                 || txtMinuty.getText().length() > 2) {
             sprava = "Nesprávny formát minút!";
@@ -383,12 +391,11 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         }
         if (!txtHodiny.getText().matches("[0-9\\.]+")
                 || txtHodiny.getText().length() > 2) {
-            sprava = "Nesprávny formát hodín.";
+            sprava = "Nesprávny formát hodín!";
             podmienka = false;
         }
-
         if (!txtTrvanie.getText().matches("-?\\d+")) {
-            sprava = "Nesprávny formát travania.";
+            sprava = "Nesprávny formát travania!";
             podmienka = false;
         }
 

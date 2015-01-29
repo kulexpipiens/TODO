@@ -1,6 +1,5 @@
 package sk.upjs.ics.todo.gui;
 
-import java.awt.Color;
 import java.awt.Frame;
 import java.util.Date;
 import java.util.List;
@@ -64,7 +63,7 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
         } else {
             cmbStav.setSelectedItem(" ");
         }
-        
+
         txtNazov.setText(filter.getNazov());
         if (filter.getDatumOd() != null) {
             Date datum = filter.getDatumOd();

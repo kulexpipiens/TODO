@@ -8,6 +8,7 @@ import sk.upjs.ics.todo.modely.FilterTableModel;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableRowSorter;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
@@ -25,9 +26,10 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
     private static final UlohaDao ulohaDao = Factory.INSTANCE.ulohaDao();
     private static final FilterTableModel filterTableModel = new FilterTableModel();
     private static final ComboBoxModel comboBoxModel = Factory.INSTANCE.getKategoryCmbModel();
+    private static final TableRowSorter ulohyRowSorter = new TableRowSorter(ulohaTableModel);
 
-    private final JDatePickerImpl datePickerOd;
-    private final JDatePickerImpl datePickerDo;
+    private JDatePickerImpl datePickerOd;
+    private JDatePickerImpl datePickerDo;
 
     public FiltrovaniaForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -36,20 +38,8 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         GuiFactory.INSTANCE.centruj(this);
         this.setTitle("filtre");
 
-        // farba pozadia datepickera
-        Color background = new Color(255, 255, 204);
-
-        UtilDateModel modelOd = new UtilDateModel();
-        JDatePanelImpl datePanelOd = new JDatePanelImpl(modelOd);
-        datePickerOd = new JDatePickerImpl(datePanelOd);
-        datePickerOd.setBackground(background);
-        panelOd.add(datePickerOd);
-
-        UtilDateModel modelDo = new UtilDateModel();
-        JDatePanelImpl datePanelDo = new JDatePanelImpl(modelDo);
-        datePickerDo = new JDatePickerImpl(datePanelDo);
-        datePickerDo.setBackground(background);
-        panelDo.add(datePickerDo);
+        inicializujPanelOd();
+        inicializujPanelDo();
 
         tblFiltre.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -73,6 +63,22 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         });
         aktualizujZoznamUloh();
         aktualizujZoznamFiltrov();
+    }
+
+    private void inicializujPanelDo() {
+        UtilDateModel modelDo = new UtilDateModel();
+        JDatePanelImpl datePanelDo = new JDatePanelImpl(modelDo);
+        datePickerDo = new JDatePickerImpl(datePanelDo);
+        datePickerDo.setBackground(GuiFactory.INSTANCE.getFarbaPozadia());
+        panelDo.add(datePickerDo);
+    }
+
+    private void inicializujPanelOd() {
+        UtilDateModel modelOd = new UtilDateModel();
+        JDatePanelImpl datePanelOd = new JDatePanelImpl(modelOd);
+        datePickerOd = new JDatePickerImpl(datePanelOd);
+        datePickerOd.setBackground(GuiFactory.INSTANCE.getFarbaPozadia());
+        panelOd.add(datePickerOd);
     }
 
     private void tblFiltreSelectionValueChanged(ListSelectionEvent e) {
@@ -207,6 +213,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         tblUloha.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         tblUloha.setModel(ulohaTableModel);
         tblUloha.setGridColor(new java.awt.Color(204, 204, 204));
+        tblUloha.setRowSorter(ulohyRowSorter);
         tblUloha.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(tblUloha);
 

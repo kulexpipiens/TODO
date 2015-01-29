@@ -108,7 +108,7 @@ public class GrafForm extends JDialog {
         mnozinaDat.add(prioritaStredna);
         mnozinaDat.add(prioritaNizka);
 
-        // prejdem vsetkymi ulohami a vlozim ich do prislusnej mnoziny dat
+        // prejdem vsetkymi ulohami a vlozim ich do prislusneho uchovavatela uloh
         for (Uloha uloha : ulohy) {
             Task ulohaPreGraf = dajUlohu(uloha);
             switch (uloha.getPriorita()) {
@@ -124,17 +124,16 @@ public class GrafForm extends JDialog {
             }
         }
 
-        /* vytvorime samotny graf, nazov mu nedame, y-ova suradnica budu dni, 
+        /* vytvorime samotny graf, nazov mu nedame, y-ova suradnica budu tri priority, 
          x-ova casy v jednotlive dni (tiez zbytocne nezobrazime nazvy), 
-         legendu zobrazime, tooltip nechceme, ani generovat url
+         legendu zobrazime, tooltip zobrazime, ani generovat url
          */
         graf = ChartFactory.createGanttChart("", "", "", mnozinaDat, true, true, false);
 
         /*
-         Vytvorime chartPanel, ale jemu dovolime iba niektore moznosti
-         po kliknuti pravym tlacidlom mysi (mozeme zobrazit nastavenia - 
-         pisma..., mozeme graf ulozit, mozeme graf tlacit, mozeme graf zoomovat,
-         mozeme zobrazit tooltipy)
+         Vytvorime chartPanel, a dovolime mu vsetky moznosti: po kliknuti pravym 
+         tlacidlom mysi (mozeme zobrazit nastavenia - pisma..., mozeme graf 
+         ulozit, mozeme graf tlacit, mozeme graf zoomovat, mozeme zobrazit tooltipy)
          */
         panelSGrafom = new ChartPanel(graf, true, true, true, true, true);
     }

@@ -25,7 +25,7 @@ public class DetailUlohaForm extends javax.swing.JDialog {
         GuiFactory.INSTANCE.centruj(this);
     }
 
-    //konštruktor, vytvorí detailné okno s údajmi o vybrane úlohe
+    // konštruktor, vytvorí detailné okno s údajmi o vybrane úlohe
     public DetailUlohaForm(Uloha uloha, Frame parent) {
         this(parent, true);
         this.uloha = uloha;
@@ -57,6 +57,8 @@ public class DetailUlohaForm extends javax.swing.JDialog {
         } else {
             checkBox.setSelected(false);
         }
+
+        lblTrvanie.setText(Integer.toString(uloha.getTrvanie()));
     }
 
     /**
@@ -76,12 +78,14 @@ public class DetailUlohaForm extends javax.swing.JDialog {
         lblDatumUkazovatel = new javax.swing.JLabel();
         lblPrioritaUkazovatel = new javax.swing.JLabel();
         lblStavUkazovatel = new javax.swing.JLabel();
-        lblKategoria = new javax.swing.JLabel();
+        lblTrvanie = new javax.swing.JLabel();
         lblKategoriaUkazovatel = new javax.swing.JLabel();
         checkBox = new javax.swing.JCheckBox();
         btnOk = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         lblPopis = new javax.swing.JTextArea();
+        lblTrvanieUkazovatel = new javax.swing.JLabel();
+        lblKategoria = new javax.swing.JLabel();
         lblPozadie = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -99,7 +103,7 @@ public class DetailUlohaForm extends javax.swing.JDialog {
         lblZnacka1.setFont(new java.awt.Font("Gungsuh", 0, 36)); // NOI18N
         lblZnacka1.setText("dori");
         getContentPane().add(lblZnacka1);
-        lblZnacka1.setBounds(340, 190, 99, 43);
+        lblZnacka1.setBounds(340, 200, 99, 43);
 
         lblDatum.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblDatum.setOpaque(true);
@@ -129,22 +133,22 @@ public class DetailUlohaForm extends javax.swing.JDialog {
         lblStavUkazovatel.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblStavUkazovatel.setText("stav:");
         getContentPane().add(lblStavUkazovatel);
-        lblStavUkazovatel.setBounds(280, 130, 90, 20);
+        lblStavUkazovatel.setBounds(280, 160, 90, 20);
 
-        lblKategoria.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        lblKategoria.setOpaque(true);
-        getContentPane().add(lblKategoria);
-        lblKategoria.setBounds(280, 90, 120, 20);
+        lblTrvanie.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
+        lblTrvanie.setOpaque(true);
+        getContentPane().add(lblTrvanie);
+        lblTrvanie.setBounds(280, 130, 120, 20);
 
         lblKategoriaUkazovatel.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblKategoriaUkazovatel.setText("kategória:");
         getContentPane().add(lblKategoriaUkazovatel);
-        lblKategoriaUkazovatel.setBounds(280, 70, 90, 14);
+        lblKategoriaUkazovatel.setBounds(280, 60, 90, 14);
 
         checkBox.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         checkBox.setText("Splnená");
         getContentPane().add(checkBox);
-        checkBox.setBounds(280, 150, 115, 24);
+        checkBox.setBounds(280, 180, 115, 24);
 
         btnOk.setFont(new java.awt.Font("Gungsuh", 0, 12)); // NOI18N
         btnOk.setText("OK");
@@ -155,7 +159,7 @@ public class DetailUlohaForm extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btnOk);
-        btnOk.setBounds(230, 200, 100, 30);
+        btnOk.setBounds(230, 210, 100, 30);
 
         lblPopis.setEditable(false);
         lblPopis.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
@@ -168,6 +172,15 @@ public class DetailUlohaForm extends javax.swing.JDialog {
 
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(10, 40, 220, 140);
+
+        lblTrvanieUkazovatel.setText("trvanie:");
+        getContentPane().add(lblTrvanieUkazovatel);
+        lblTrvanieUkazovatel.setBounds(280, 110, 60, 15);
+
+        lblKategoria.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
+        lblKategoria.setOpaque(true);
+        getContentPane().add(lblKategoria);
+        lblKategoria.setBounds(280, 80, 120, 20);
 
         lblPozadie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/detailform.jpg"))); // NOI18N
         getContentPane().add(lblPozadie);
@@ -236,6 +249,8 @@ public class DetailUlohaForm extends javax.swing.JDialog {
     private javax.swing.JLabel lblPriorita;
     private javax.swing.JLabel lblPrioritaUkazovatel;
     private javax.swing.JLabel lblStavUkazovatel;
+    private javax.swing.JLabel lblTrvanie;
+    private javax.swing.JLabel lblTrvanieUkazovatel;
     private javax.swing.JLabel lblZnacka1;
     // End of variables declaration//GEN-END:variables
 

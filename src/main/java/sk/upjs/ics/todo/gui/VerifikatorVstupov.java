@@ -27,9 +27,9 @@ public class VerifikatorVstupov {
 
     /**
      * @param pole pole, ktore overujeme
-     * @return true, ak je v nom cele cislo
+     * @return true, ak je v nom cele KLADNE cislo
      */
-    public boolean jeCeleCislo(JTextField pole) {
+    public boolean jeCeleKladneCislo(JTextField pole) {
         return pole.getText().matches("\\d+");
     }
 
@@ -52,7 +52,7 @@ public class VerifikatorVstupov {
     public boolean jeEmail(JTextField pole) {
         // skaredy regularny vyraz, akceptuje velke aj male pismena 
         // a tiez cislice, bodky a podciarkovniky v uzivatelskom mene
-        return pole.getText().matches("[a-zA-Z0-9_.]+@[a-zA-z]+[.][a-zA-Z]");
+        return pole.getText().matches("[a-zA-Z0-9_.]+@[a-zA-z]+[.][a-zA-Z]+");
     }
 
     // TIETO (MOZNO ZATIAL) NIE SU POTREBNE
