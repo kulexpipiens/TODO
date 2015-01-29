@@ -1,11 +1,11 @@
 package sk.upjs.ics.todo.gui;
 
 import java.awt.event.KeyEvent;
+import java.security.NoSuchAlgorithmException;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import sk.upjs.ics.todo.dao.PrihlasovaciARegistrovaciServis;
-import sk.upjs.ics.todo.entity.Pouzivatel;
 import sk.upjs.ics.todo.exceptions.ZleMenoAleboHesloException;
 
 public class PrihlasovanieForm extends javax.swing.JFrame {
@@ -158,17 +158,17 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
                     "Upozornenie", INFORMATION_MESSAGE);
             return;
         }
-        try {
-            Pouzivatel pouzivatel = new Pouzivatel();
-            pouzivatel.setMeno(meno);
-            pouzivatel.setHeslo(heslo);
 
-            PrihlasovaciARegistrovaciServis.INSTANCE.prihlas(pouzivatel);
+        try {
+            PrihlasovaciARegistrovaciServis.INSTANCE.prihlas(meno, heslo);
 
             MainForm.main(null);
             dispose();
         } catch (ZleMenoAleboHesloException e) {
             JOptionPane.showMessageDialog(this, e.getSprava(), "Chyba", ERROR_MESSAGE);
+        } catch (NoSuchAlgorithmException ex) {
+            JOptionPane.showMessageDialog(this, "Je asi problém s vašou verziou JAVY.\n"
+                    + "Nainštalujete si najnovšiu verziu!", "Chyba", ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnPrihlasActionPerformed
 

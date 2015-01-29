@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableRowSorter;
 import sk.upjs.ics.todo.dao.Factory;
 import sk.upjs.ics.todo.entity.Kategoria;
 import sk.upjs.ics.todo.dao.KategoriaDao;
@@ -14,6 +15,8 @@ public class KategorieForm extends javax.swing.JDialog {
     private static final KategoriaDao kategoriaDao = Factory.INSTANCE.kategoriaDao();
 
     private static final KategoriaTableModel kategoriaTableModel = new KategoriaTableModel();
+
+    private static final TableRowSorter kategorieRowSorter = new TableRowSorter(kategoriaTableModel);
 
     //nové okno, kde sa menežujú kategórie
     public KategorieForm(java.awt.Frame parent, boolean modal) {
@@ -65,6 +68,7 @@ public class KategorieForm extends javax.swing.JDialog {
         getContentPane().setLayout(null);
 
         tblKategoria.setModel(kategoriaTableModel);
+        tblKategoria.setRowSorter(kategorieRowSorter);
         tblKategoria.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblKategoria.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -272,8 +276,7 @@ public class KategorieForm extends javax.swing.JDialog {
 
     private boolean neduplicitnaKategoria(Kategoria pridavanaKategoria) {
         for (Kategoria kategoria : kategoriaDao.dajVsetky()) {
-            if (pridavanaKategoria.getNazov().trim().equals(kategoria.getNazov().trim())
-                    && pridavanaKategoria.getPopis().trim().equals(kategoria.getPopis().trim())) {
+            if (pridavanaKategoria.getNazov().trim().equals(kategoria.getNazov().trim())) {
                 JOptionPane.showMessageDialog(this, "Takáto kategória už existuje!", "Chyba", ERROR_MESSAGE);
                 return false;
             }

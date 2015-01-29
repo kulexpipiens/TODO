@@ -1,5 +1,6 @@
 package sk.upjs.ics.todo.testy;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -11,6 +12,7 @@ import sk.upjs.ics.todo.dao.KategoriaDao;
 import sk.upjs.ics.todo.dao.PrihlasovaciARegistrovaciServis;
 import sk.upjs.ics.todo.entity.Kategoria;
 import sk.upjs.ics.todo.entity.Pouzivatel;
+import sk.upjs.ics.todo.exceptions.ZleMenoAleboHesloException;
 
 public class DatabazovyKategoriaDaoTest {
 
@@ -18,20 +20,15 @@ public class DatabazovyKategoriaDaoTest {
 
     private static KategoriaDao kategoriaDao;
 
-    private static Pouzivatel pouzivatel;
-
     private static final int POCET_KATEGORII_V_DATABAZE = 7;
 
     @BeforeClass
-    public static void setUp() {
+    public static void setUp() throws ZleMenoAleboHesloException, NoSuchAlgorithmException {
         System.setProperty("testovaciRezim", "true");
         jdbcTemplate = new JdbcTemplate(Factory.INSTANCE.dataSource());
         kategoriaDao = new DatabazovyKategoriaDao(jdbcTemplate);
 
-        pouzivatel = new Pouzivatel();
-        pouzivatel.setMeno("Admin");
-        pouzivatel.setHeslo("qwerty123456");
-        PrihlasovaciARegistrovaciServis.INSTANCE.prihlas(pouzivatel);
+        PrihlasovaciARegistrovaciServis.INSTANCE.prihlas("Admin", "qwerty123456");
     }
 
     @Test
@@ -53,7 +50,7 @@ public class DatabazovyKategoriaDaoTest {
         zoznamKategorii = kategoriaDao.dajVsetky();
         kategoriaPridaj = zoznamKategorii.get(zoznamKategorii.size() - 1);
         assertEquals(pocetKategoriiPovodne + 1, zoznamKategorii.size());
-        
+
         kategoriaDao.vymazKategoriu(kategoriaPridaj);
     }
 

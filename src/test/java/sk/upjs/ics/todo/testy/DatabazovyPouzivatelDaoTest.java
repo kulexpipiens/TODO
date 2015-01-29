@@ -1,5 +1,6 @@
 package sk.upjs.ics.todo.testy;
 
+import java.security.NoSuchAlgorithmException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,7 +15,7 @@ public class DatabazovyPouzivatelDaoTest {
 
     private static JdbcTemplate jdbcTemplate;
     private static PouzivatelDao pouzivateliaDao;
-    
+
     @BeforeClass
     public static void setUp() {
         System.setProperty("testovaciRezim", "true");
@@ -24,9 +25,13 @@ public class DatabazovyPouzivatelDaoTest {
 
     /**
      * Testujem, ci sa vyhodi vynimka, ak zadam pri registracii uz pouzite meno
+     *
+     * @throws java.security.NoSuchAlgorithmException vrati ak sa nenasiel
+     * pozadovanu hashovaci algoritmus
      */
     @Test(expected = NeplatneRegistracneMenoException.class)
-    public void registrujTestPreMenoKtoreExistuje() {
+    public void registrujTestPreMenoKtoreExistuje() throws NeplatneRegistracneMenoException,
+            NoSuchAlgorithmException {
         Pouzivatel pouzivatel = new Pouzivatel();
         pouzivatel.setMeno("Admin");
         pouzivatel.setHeslo("");
@@ -37,9 +42,13 @@ public class DatabazovyPouzivatelDaoTest {
     /**
      * Testujem, ci sa podari zaregistrovat uzivatela s menom, ake este nie je
      * pouzite
+     *
+     * @throws java.security.NoSuchAlgorithmException vrati ak sa nenasiel
+     * pozadovanu hashovaci algoritmus
      */
     @Test
-    public void registrujTestPreMenoKtoreNeexistuje() {
+    public void registrujTestPreMenoKtoreNeexistuje() throws NeplatneRegistracneMenoException,
+            NoSuchAlgorithmException {
         // pre istotu dane meno prv vymazem z tabulky
         jdbcTemplate.execute("DELETE FROM UZIVATELIA WHERE Meno='Mato'");
 
@@ -53,9 +62,13 @@ public class DatabazovyPouzivatelDaoTest {
     /**
      * Ak vsak spravim registraciu znova s tym istym menom, opat ocakavam
      * vynimku
+     *
+     * @throws java.security.NoSuchAlgorithmException vrati ak sa nenasiel
+     * pozadovanu hashovaci algoritmus
      */
     @Test(expected = NeplatneRegistracneMenoException.class)
-    public void registrujTestPreOpatovnuRegistraciu() {
+    public void registrujTestPreOpatovnuRegistraciu() throws NeplatneRegistracneMenoException,
+            NoSuchAlgorithmException {
         Pouzivatel pouzivatel = new Pouzivatel();
         pouzivatel.setMeno("Mato");
         pouzivatel.setHeslo("hihihi");
@@ -66,9 +79,13 @@ public class DatabazovyPouzivatelDaoTest {
     /**
      * Testujem, ci sa vyhodi vynimka, ak zadam pri prihlaseni neregistrovane
      * meno
+     *
+     * @throws java.security.NoSuchAlgorithmException vrati ak sa nenasiel
+     * pozadovanu hashovaci algoritmus
      */
     @Test(expected = ZleMenoAleboHesloException.class)
-    public void prihlasTestPreNeplatneMeno() {
+    public void prihlasTestPreNeplatneMeno() throws ZleMenoAleboHesloException,
+            NoSuchAlgorithmException {
         String meno = "Alfonz";
         String heslo = "password123";
 
@@ -77,9 +94,13 @@ public class DatabazovyPouzivatelDaoTest {
 
     /**
      * Testujem, ci sa vyhodi vynimka, ak zadam pri prihlaseni zle heslo
+     *
+     * @throws java.security.NoSuchAlgorithmException vrati ak sa nenasiel
+     * pozadovanu hashovaci algoritmus
      */
     @Test(expected = ZleMenoAleboHesloException.class)
-    public void prihlasTestPreNeplatneHeslo() {
+    public void prihlasTestPreNeplatneHeslo() throws ZleMenoAleboHesloException,
+            NoSuchAlgorithmException {
         String meno = "Admin";
         String heslo = "password123";
 
@@ -88,9 +109,13 @@ public class DatabazovyPouzivatelDaoTest {
 
     /**
      * Testujem, ci prebehne bez komplikacii prihlasenie so spravnymi udajmi
+     *
+     * @throws java.security.NoSuchAlgorithmException vrati ak sa nenasiel
+     * pozadovanu hashovaci algoritmus
      */
     @Test
-    public void prihlasTestDobreUdaje() {      
+    public void prihlasTestDobreUdaje() throws ZleMenoAleboHesloException,
+            NoSuchAlgorithmException {
         String meno = "Mato";
         String heslo = "hihihi";
 

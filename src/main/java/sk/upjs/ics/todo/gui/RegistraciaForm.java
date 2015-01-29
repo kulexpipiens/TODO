@@ -1,5 +1,6 @@
 package sk.upjs.ics.todo.gui;
 
+import java.security.NoSuchAlgorithmException;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
@@ -209,6 +210,9 @@ public class RegistraciaForm extends javax.swing.JDialog {
             dispose();
         } catch (NeplatneRegistracneMenoException e) {
             JOptionPane.showMessageDialog(this, e.getSprava(), "Chyba", ERROR_MESSAGE);
+        } catch (NoSuchAlgorithmException e2) {
+            JOptionPane.showMessageDialog(this, "Je asi problém s vašou verziou JAVY.\n"
+                    + "Nainštalujete si najnovšiu verziu!", "Chyba", ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnRegistrujActionPerformed
 

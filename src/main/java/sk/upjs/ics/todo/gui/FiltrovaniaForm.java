@@ -27,6 +27,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
     private static final FilterTableModel filterTableModel = new FilterTableModel();
     private static final ComboBoxModel comboBoxModel = Factory.INSTANCE.getKategoryCmbModel();
     private static final TableRowSorter ulohyRowSorter = new TableRowSorter(ulohaTableModel);
+    private static final TableRowSorter filtreRowSorter = new TableRowSorter(filterTableModel);
 
     private JDatePickerImpl datePickerOd;
     private JDatePickerImpl datePickerDo;
@@ -247,6 +248,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
 
         tblFiltre.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         tblFiltre.setModel(filterTableModel);
+        tblFiltre.setRowSorter(filtreRowSorter);
         tblFiltre.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tblFiltre);
 

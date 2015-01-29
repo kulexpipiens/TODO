@@ -1,5 +1,6 @@
 package sk.upjs.ics.todo.dao;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -27,9 +28,12 @@ public class DatabazovyPouzivatelDao implements PouzivatelDao {
      * @param heslo prihlasovacie heslo
      * @return vrati referenciu na novoprihlaseneho pouzivatela alebo null, ak
      * prihlasenie neprebehlo uspesne
+     * @throws java.security.NoSuchAlgorithmException vyhodi ak nie je
+     * podporovany hashovaci algoritmus
      */
     @Override
-    public Pouzivatel prihlas(String meno, String heslo) {
+    public Pouzivatel prihlas(String meno, String heslo) throws ZleMenoAleboHesloException,
+            NoSuchAlgorithmException {
         skontrolujMenoAHeslo(meno, heslo);
         // po kontrole mena a hesla nacitame z databazy zvysne udaje o pouzivatelovi
         String sql = "SELECT * FROM " + nazovTabulky + " WHERE Meno = ?";
@@ -42,15 +46,19 @@ public class DatabazovyPouzivatelDao implements PouzivatelDao {
      * Registracia noveho uzivatela
      *
      * @param pouzivatel pouzivatel, ktoreho sa snazime prihlasit
+     * @throws java.security.NoSuchAlgorithmException vyhodi ak nie je
+     * podporovany hashovaci algoritmus
      */
     @Override
-    public void registruj(Pouzivatel pouzivatel) throws NeplatneRegistracneMenoException {
+    public void registruj(Pouzivatel pouzivatel) throws NeplatneRegistracneMenoException,
+            NoSuchAlgorithmException {
         if (existujePouzivatelSDanymMenom(pouzivatel.getMeno())) {
             throw new NeplatneRegistracneMenoException();
         }
+
         Map<String, Object> hodnoty = new HashMap<>();
         hodnoty.put("Meno", pouzivatel.getMeno());
-        hodnoty.put("Heslo", pouzivatel.getHeslo());
+        hodnoty.put("Heslo", PrihlasovaciARegistrovaciServis.INSTANCE.zahashuj(pouzivatel.getHeslo()));
         hodnoty.put("Mail", pouzivatel.getMail());
         hodnoty.put("chce_notifikacie", pouzivatel.isChceNotifikacie());
         hodnoty.put("doba_notifikacie", pouzivatel.getDobaNotifikacie());
@@ -63,7 +71,7 @@ public class DatabazovyPouzivatelDao implements PouzivatelDao {
     /**
      * Upravi v databze nastavenia notifikacii pre daneho uzivatela
      *
-     * @param pouzivatel
+     * @param pouzivatel pouzivatel ktoreho notifikacie sa upravuju
      */
     @Override
     public void upravNotifikacie(Pouzivatel pouzivatel) {
@@ -85,21 +93,24 @@ public class DatabazovyPouzivatelDao implements PouzivatelDao {
      * @param heslo prihasovacie heslo
      * @return true ak je zadane korektne meno a heslo
      */
-    private void skontrolujMenoAHeslo(String meno, String heslo) throws ZleMenoAleboHesloException {
-        String hesloZTabulky;
+    private void skontrolujMenoAHeslo(String meno, String heslo) throws ZleMenoAleboHesloException,
+            NoSuchAlgorithmException {
+        String hashHeslaZTabulky;
+        String hashHesla = PrihlasovaciARegistrovaciServis.INSTANCE.zahashuj(heslo);
         try {
             // nacita heslo pre dane meno
             String sql = "SELECT Heslo FROM " + nazovTabulky + " WHERE Meno = ?";
-            hesloZTabulky = (String) jdbcTemplate.queryForObject(sql, new Object[]{meno}, String.class);
+            hashHeslaZTabulky = (String) jdbcTemplate.queryForObject(sql, new Object[]{meno}, String.class);
         } catch (EmptyResultDataAccessException e) {
             // ak tam take meno nie je vratime výnimku
             throw new ZleMenoAleboHesloException();
         }
 
-        boolean heslaSaZhoduju = hesloZTabulky.equals(heslo);
+        boolean heslaSaZhoduju = hashHeslaZTabulky.equals(hashHesla);
         /* ak tam take meno je, tak vrati, ci sa heslo zhoduje alebo 
          ak sa nezhoduje (meno bolo dobre, ale heslo je nespravne), 
-         tak opat vyhodime vynimku*/
+         tak opat vyhodime vynimku
+         */
         if (!heslaSaZhoduju) {
             throw new ZleMenoAleboHesloException();
         }

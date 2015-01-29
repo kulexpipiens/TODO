@@ -1,5 +1,6 @@
 package sk.upjs.ics.todo.testy;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -12,6 +13,7 @@ import sk.upjs.ics.todo.dao.PrihlasovaciARegistrovaciServis;
 import sk.upjs.ics.todo.entity.Filter;
 import sk.upjs.ics.todo.entity.Kategoria;
 import sk.upjs.ics.todo.entity.Pouzivatel;
+import sk.upjs.ics.todo.exceptions.ZleMenoAleboHesloException;
 
 public class DatabazovyFilterDaoTest {
 
@@ -19,20 +21,15 @@ public class DatabazovyFilterDaoTest {
 
     private static FilterDao filterDao;
 
-    private static Pouzivatel pouzivatel;
-
     private static final int POCET_FILTROV_V_DATABAZE = 2;
 
     @BeforeClass
-    public static void setUp() {
+    public static void setUp() throws ZleMenoAleboHesloException, NoSuchAlgorithmException {
         System.setProperty("testovaciRezim", "true");
         jdbcTemplate = new JdbcTemplate(Factory.INSTANCE.dataSource());
         filterDao = new DatabazovyFilterDao(jdbcTemplate);
 
-        pouzivatel = new Pouzivatel();
-        pouzivatel.setMeno("Admin");
-        pouzivatel.setHeslo("qwerty123456");
-        PrihlasovaciARegistrovaciServis.INSTANCE.prihlas(pouzivatel);
+        PrihlasovaciARegistrovaciServis.INSTANCE.prihlas("Admin", "qwerty123456");
     }
 
     @Test

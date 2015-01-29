@@ -1,5 +1,6 @@
 package sk.upjs.ics.todo.testy;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -12,16 +13,14 @@ import sk.upjs.ics.todo.dao.Factory;
 import sk.upjs.ics.todo.dao.PrihlasovaciARegistrovaciServis;
 import sk.upjs.ics.todo.dao.UlohaDao;
 import sk.upjs.ics.todo.entity.Kategoria;
-import sk.upjs.ics.todo.entity.Pouzivatel;
 import sk.upjs.ics.todo.entity.Uloha;
+import sk.upjs.ics.todo.exceptions.ZleMenoAleboHesloException;
 
 public class DatabazovyUlohaDaoTest {
 
     private static JdbcTemplate jdbcTemplate;
 
     private static UlohaDao ulohaDao;
-
-    private static Pouzivatel pouzivatel;
 
     private static final int POCET_ULOH_V_DATABAZE = 2;
     private static final int POCET_DNESNYCH_ULOH_V_DATABAZE = 0;
@@ -30,15 +29,12 @@ public class DatabazovyUlohaDaoTest {
     private static final int POCET_ULOH_Z_INTERVALU = 2;
 
     @BeforeClass
-    public static void setUp() {
+    public static void setUp() throws ZleMenoAleboHesloException, NoSuchAlgorithmException {
         System.setProperty("testovaciRezim", "true");
         jdbcTemplate = new JdbcTemplate(Factory.INSTANCE.dataSource());
         ulohaDao = new DatabazovyUlohaDao(jdbcTemplate);
 
-        pouzivatel = new Pouzivatel();
-        pouzivatel.setMeno("Admin");
-        pouzivatel.setHeslo("qwerty123456");
-        PrihlasovaciARegistrovaciServis.INSTANCE.prihlas(pouzivatel);
+        PrihlasovaciARegistrovaciServis.INSTANCE.prihlas("Admin", "qwerty123456");
     }
 
     @Test
