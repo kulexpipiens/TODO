@@ -207,7 +207,7 @@ public class VyberObdobiaPreGrafForm extends javax.swing.JDialog {
             return;
         }
 
-        GrafForm grafForm = new GrafForm(parent, true, ulohy);
+        GrafForm grafForm = new GrafForm(parent, true, ulohy, datumOd, datumDo);
         grafForm.setVisible(true);
     }//GEN-LAST:event_btnZobrazGrafActionPerformed
 

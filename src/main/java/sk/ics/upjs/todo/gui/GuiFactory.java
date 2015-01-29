@@ -28,30 +28,50 @@ public enum GuiFactory {
         return verifikator;
     }
 
+    /**
+     * Vratime sirku obrazovky
+     *
+     * @return vrati pocet pixelov
+     */
     public double getSirkaObrazovky() {
         return SIRKA_OBRAZOVKY;
     }
 
+    /**
+     * Vratime vysku obrazovky
+     *
+     * @return vrati pocet pixelov
+     */
     public double getVyskaObrazovky() {
         return VYSKA_OBRAZOVKY;
     }
 
+    /**
+     * Modifikuje okno (JFrame) na zarovanie na stred
+     *
+     * @param okno okno, ktore modifikujeme
+     */
     public void centruj(javax.swing.JFrame okno) {
         int sirkaOkna = okno.getWidth();
         int vyskaOkna = okno.getHeight();
-        double umiestnenieX = GuiFactory.INSTANCE.getSirkaObrazovky() / 2
+        double umiestnenieX = getSirkaObrazovky() / 2
                 - sirkaOkna / 2;
-        double umiestnenieY = GuiFactory.INSTANCE.getVyskaObrazovky() / 2
+        double umiestnenieY = getVyskaObrazovky() / 2
                 - vyskaOkna / 2;
         okno.setBounds((int) umiestnenieX, (int) umiestnenieY, sirkaOkna, vyskaOkna);
     }
 
+    /**
+     * Modifikuje okno (JDialog) na zarovanie na stred
+     *
+     * @param okno okno, ktore modifikujeme
+     */
     public void centruj(javax.swing.JDialog okno) {
         int sirkaOkna = okno.getWidth();
         int vyskaOkna = okno.getHeight();
-        double umiestnenieX = GuiFactory.INSTANCE.getSirkaObrazovky() / 2
+        double umiestnenieX = getSirkaObrazovky() / 2
                 - sirkaOkna / 2;
-        double umiestnenieY = GuiFactory.INSTANCE.getVyskaObrazovky() / 2
+        double umiestnenieY = getVyskaObrazovky() / 2
                 - vyskaOkna / 2;
         okno.setBounds((int) umiestnenieX, (int) umiestnenieY, sirkaOkna, vyskaOkna);
     }
