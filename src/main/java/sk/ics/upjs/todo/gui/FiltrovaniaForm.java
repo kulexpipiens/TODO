@@ -26,17 +26,19 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
     private static final FilterTableModel filterTableModel = new FilterTableModel();
     private static final ComboBoxModel comboBoxModel = Factory.INSTANCE.getKategoryCmbModel();
 
-    private JDatePickerImpl datePickerOd;
-    private JDatePickerImpl datePickerDo;
+    private final JDatePickerImpl datePickerOd;
+    private final JDatePickerImpl datePickerDo;
 
     public FiltrovaniaForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+        GuiFactory.INSTANCE.centruj(this);
         this.setTitle("filtre");
 
         // farba pozadia datepickera
         Color background = new Color(255, 255, 204);
-        
+
         UtilDateModel modelOd = new UtilDateModel();
         JDatePanelImpl datePanelOd = new JDatePanelImpl(modelOd);
         datePickerOd = new JDatePickerImpl(datePanelOd);
@@ -342,7 +344,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         } else {
             filtrovaneUlohyKategoriou = ulohy;
         }
-        
+
         // z tych na zaklade kategorie odfiltruje podla priority
         if (!cmbPriorita.getSelectedItem().equals(" ")) {
             if (filtrovaneUlohyKategoriou != null) {
@@ -355,7 +357,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         } else {
             filtrovaneUlohyPrioritou = filtrovaneUlohyKategoriou;
         }
-        
+
         if (!cmbStav.getSelectedItem().equals(" ")) {
             if (filtrovaneUlohyPrioritou != null) {
                 for (Uloha uloha : filtrovaneUlohyPrioritou) {
@@ -402,7 +404,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
             filtrovaneUlohyDo = filtrovaneUlohyOd;
 
         }
-        
+
         // filtrovaneUlohyDo je konecny vyfiltrovany zoznam
         ulohaTableModel.filtruj(filtrovaneUlohyDo);
     }//GEN-LAST:event_btnOKActionPerformed

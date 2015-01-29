@@ -35,6 +35,8 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
     public AddEditUlohyForm(Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+        GuiFactory.INSTANCE.centruj(this);
     }
 
     //konštruktor na editáciu úlohy, všetky parametre úlohy vyplní do príslušných okienok
@@ -385,7 +387,7 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
             sprava = "Nesprávny formát travania.";
             podmienka = false;
         }
-        
+
         if (!podmienka) {
             JOptionPane.showMessageDialog(this, sprava, "Chyba", ERROR_MESSAGE);
         }

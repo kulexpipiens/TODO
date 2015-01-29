@@ -13,6 +13,8 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
     public PrihlasovanieForm() {
         initComponents();
         getContentPane().setBackground(GuiFactory.INSTANCE.getFarbaPozadia());
+
+        GuiFactory.INSTANCE.centruj(this);
     }
 
     /**

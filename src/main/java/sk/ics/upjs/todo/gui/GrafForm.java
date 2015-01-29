@@ -12,7 +12,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.gantt.TaskSeries;
 import org.jfree.data.gantt.TaskSeriesCollection;
-import sk.ics.upjs.todo.dao.Factory;
 import sk.ics.upjs.todo.entity.Uloha;
 
 public class GrafForm extends JDialog {
@@ -21,8 +20,6 @@ public class GrafForm extends JDialog {
 
     private JFreeChart graf;
     private ChartPanel panelSGrafom;
-    private final Calendar datumOd = Calendar.getInstance();
-    private final Calendar datumDo = Calendar.getInstance();
     private List<Uloha> ulohy;
     private final Calendar zaciatok = Calendar.getInstance();
     private final Calendar koniec = Calendar.getInstance();
@@ -34,22 +31,23 @@ public class GrafForm extends JDialog {
         koniec.setTime(new Date(2015 - 1900, 0, 1, 23, 59));
     }
 
-    public GrafForm(Frame parent, boolean b, Date datumOd, Date datumDo) {
+    public GrafForm(Frame parent, boolean b, List<Uloha> ulohy) {
         this(parent, b);
 
         setTitle("Grafické znázornenie udalostí");
-        // nastavime od akeho datumu po aky datum chceme zobrazit prehlad
-        this.datumOd.setTime(datumOd);
-        this.datumDo.setTime(datumDo);
+        // ulozime si ulohy, ktore ideme zobrazit, do vlastnej premennej
+        this.ulohy = ulohy;
 
         vytvorGraf();
-        
+
         // pridame panel s grafom do JDialogu a dame ho do stredu okna
         getContentPane().add(panelSGrafom, BorderLayout.CENTER);
         // nastavime aby po zavreti ukoncilo JDialog
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         // nastavime velkost a pociatocne umiestnenie okna
         setBounds(50, 50, 800, 500);
+
+        GuiFactory.INSTANCE.centruj(this);
     }
 
     private void vytvorGraf() {
@@ -58,13 +56,9 @@ public class GrafForm extends JDialog {
         TaskSeries prioritaStredna = new TaskSeries("stredná priorita");
         TaskSeries prioritaNizka = new TaskSeries("nízka priorita");
 
-        // poziadame UlohyDao o ulohy, ktore ideme zobrazit
-        ulohy = Factory.INSTANCE.ulohaDao().dajZCasovehoIntervalu(datumOd, datumDo);
-
         // prejdem vsetkymi ulohami a vlozim ich do prislusnej mnoziny dat
         for (Uloha uloha : ulohy) {
             Task ulohaPreGraf = dajUlohu(uloha);
-
             switch (uloha.getPriorita()) {
                 case "Nízka":
                     prioritaNizka.add(ulohaPreGraf);
@@ -90,7 +84,7 @@ public class GrafForm extends JDialog {
          ani generovat url
          */
         graf = ChartFactory.createGanttChart("", "Deň", "Čas", mnozinaDat, true, false, false);
-        
+
         /*
          Vytvorime chartPanel, ale jemu dovolime iba niektore moznosti
          po kliknuti pravym tlacidlom mysi (mozeme zobrazit nastavenia - 

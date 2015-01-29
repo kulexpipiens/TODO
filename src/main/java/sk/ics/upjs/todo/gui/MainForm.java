@@ -19,6 +19,8 @@ public class MainForm extends javax.swing.JFrame {
 
     public MainForm() {
         initComponents();
+
+        GuiFactory.INSTANCE.centruj(this);
         tblUloha.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {

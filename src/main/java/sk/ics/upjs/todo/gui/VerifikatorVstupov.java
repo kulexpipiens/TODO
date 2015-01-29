@@ -1,8 +1,5 @@
 package sk.ics.upjs.todo.gui;
 
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import javax.swing.JTextField;
 
 /**

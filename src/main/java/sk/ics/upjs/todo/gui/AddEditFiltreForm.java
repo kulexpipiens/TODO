@@ -36,6 +36,8 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
     public AddEditFiltreForm(Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+        GuiFactory.INSTANCE.centruj(this);
     }
 
     public AddEditFiltreForm(Filter vybranyFilter, Frame parent) {

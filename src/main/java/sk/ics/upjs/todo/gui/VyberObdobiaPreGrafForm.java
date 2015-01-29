@@ -3,9 +3,15 @@ package sk.ics.upjs.todo.gui;
 import java.awt.Color;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
+import sk.ics.upjs.todo.dao.Factory;
+import sk.ics.upjs.todo.entity.Uloha;
 
 public class VyberObdobiaPreGrafForm extends javax.swing.JDialog {
 
@@ -16,9 +22,9 @@ public class VyberObdobiaPreGrafForm extends javax.swing.JDialog {
 
     private static final Color background = new Color(255, 255, 204);
 
-    private int rok = Calendar.getInstance().get(Calendar.YEAR);
-    private int mesiac = Calendar.getInstance().get(Calendar.MONTH);
-    private int den = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+    private final int rok = Calendar.getInstance().get(Calendar.YEAR);
+    private final int mesiac = Calendar.getInstance().get(Calendar.MONTH);
+    private final int den = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
     /**
      * Creates new form VyberObdobiaPreGrafForm
@@ -29,6 +35,9 @@ public class VyberObdobiaPreGrafForm extends javax.swing.JDialog {
     public VyberObdobiaPreGrafForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+        GuiFactory.INSTANCE.centruj(this);
+
         this.parent = parent;
         getContentPane().setBackground(GuiFactory.INSTANCE.getFarbaPozadia());
 
@@ -167,9 +176,38 @@ public class VyberObdobiaPreGrafForm extends javax.swing.JDialog {
     }//GEN-LAST:event_btnZavrietActionPerformed
 
     private void btnZobrazGrafActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZobrazGrafActionPerformed
-        GrafForm grafForm = new GrafForm(parent, true,
-                (Date) datePickerOd.getModel().getValue(),
-                (Date) datePickerDo.getModel().getValue());
+        Date datumOd = (Date) datePickerOd.getModel().getValue();
+        Date datumDo = (Date) datePickerDo.getModel().getValue();
+
+        if (datumOd.after(datumDo)) {
+            JOptionPane.showMessageDialog(this,
+                    "Datum od nesmie byť za dátumom za!",
+                    "Chyba", ERROR_MESSAGE);
+            return;
+        }
+
+        Calendar calendarOd = Calendar.getInstance();
+        calendarOd.setTime(datumOd);
+
+        Calendar calendarDo = Calendar.getInstance();
+        calendarDo.setTime(datumDo);
+
+        // poziadame UlohyDao o ulohy, ktore ideme zobrazit v grafe
+        List<Uloha> ulohy = Factory.INSTANCE.ulohaDao().dajZCasovehoIntervalu(calendarOd, calendarDo);
+
+        for (Uloha uloha : ulohy) {
+            System.out.println(uloha.getNazov());
+        }
+
+        // ak nie su v casovom intervale ziadne ulohy, tak budeme zbytocne zobrazovat graf
+        if (ulohy.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "V zadanom časovom intervale sa nenechádzajú žiadne udalosti!",
+                    "Informácia", INFORMATION_MESSAGE);
+            return;
+        }
+
+        GrafForm grafForm = new GrafForm(parent, true, ulohy);
         grafForm.setVisible(true);
     }//GEN-LAST:event_btnZobrazGrafActionPerformed
 
@@ -187,16 +225,21 @@ public class VyberObdobiaPreGrafForm extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VyberObdobiaPreGrafForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VyberObdobiaPreGrafForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VyberObdobiaPreGrafForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VyberObdobiaPreGrafForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VyberObdobiaPreGrafForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VyberObdobiaPreGrafForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VyberObdobiaPreGrafForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VyberObdobiaPreGrafForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

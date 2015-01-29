@@ -21,6 +21,8 @@ public class DetailUlohaForm extends javax.swing.JDialog {
     public DetailUlohaForm(Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+        GuiFactory.INSTANCE.centruj(this);
     }
 
     //konštruktor, vytvorí detailné okno s údajmi o vybrane úlohe
@@ -33,7 +35,7 @@ public class DetailUlohaForm extends javax.swing.JDialog {
 
         lblDatum.setText(Integer.toString(uloha.getDatum().getDate()) + '.'
                 + Integer.toString(uloha.getDatum().getMonth() + 1) + '.'
-                + Integer.toString(uloha.getDatum().getYear() + 1900));       
+                + Integer.toString(uloha.getDatum().getYear() + 1900));
         String hodiny = "";
         String minuty = "";
         if (uloha.getDatum().getHours() < 10) {
@@ -236,7 +238,5 @@ public class DetailUlohaForm extends javax.swing.JDialog {
     private javax.swing.JLabel lblStavUkazovatel;
     private javax.swing.JLabel lblZnacka1;
     // End of variables declaration//GEN-END:variables
-
-
 
 }

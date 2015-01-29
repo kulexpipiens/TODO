@@ -1,5 +1,6 @@
 package sk.ics.upjs.todo;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
@@ -26,6 +27,7 @@ public class DatabazovyUlohaDaoTest {
     private static final int POCET_DNESNYCH_ULOH_V_DATABAZE = 0;
     private static final int POCET_TYZDNOVYCH_ULOH_V_DATABAZE = 0;
     private static final int POCET_MESACNYCH_ULOH_V_DATABAZE = 0;
+    private static final int POCET_ULOH_Z_INTERVALU = 2;
 
     @BeforeClass
     public static void setUp() {
@@ -99,7 +101,7 @@ public class DatabazovyUlohaDaoTest {
 
         zoznamUloh = ulohaDao.dajVsetky();
         assertEquals(pocetUlohPovodne - 1, zoznamUloh.size());
-        
+
         ulohaDao.pridajUlohu(ulohaNaVymazanie);
     }
 
@@ -147,4 +149,16 @@ public class DatabazovyUlohaDaoTest {
         assertEquals(POCET_MESACNYCH_ULOH_V_DATABAZE, zoznamUloh.size());
     }
 
+    @Test
+    public void testDajZCasovehoIntervalu() {
+        Calendar datumOd = Calendar.getInstance();
+        datumOd.set(2015, 1, 1);
+
+        Calendar datumDo = Calendar.getInstance();
+        datumDo.set(2015, 1, 4);
+
+        List<Uloha> zoznamUloh = ulohaDao.dajZCasovehoIntervalu(datumOd, datumDo);
+
+        assertEquals(POCET_ULOH_Z_INTERVALU, zoznamUloh.size());
+    }
 }

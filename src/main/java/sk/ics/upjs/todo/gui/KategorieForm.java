@@ -19,6 +19,8 @@ public class KategorieForm extends javax.swing.JDialog {
     public KategorieForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+        GuiFactory.INSTANCE.centruj(this);
         this.setTitle("Manageovanie kategórií");
         tblKategoria.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
@@ -117,7 +119,7 @@ public class KategorieForm extends javax.swing.JDialog {
         lblZnacka.setFont(new java.awt.Font("Gungsuh", 0, 36)); // NOI18N
         lblZnacka.setText("dori");
         getContentPane().add(lblZnacka);
-        lblZnacka.setBounds(360, 180, 85, 42);
+        lblZnacka.setBounds(360, 180, 70, 43);
 
         txtNazov.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
         txtNazov.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N

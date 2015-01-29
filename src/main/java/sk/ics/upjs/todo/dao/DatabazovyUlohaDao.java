@@ -11,7 +11,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
     // tabulka s ktorou pracujem
     private static final String tabulkaZDatabazy = "ULOHY";
     private final UlohaRowMapper mapovacUloh = new UlohaRowMapper();
-    private NotifikaciaDao notifikaciaDao = Factory.INSTANCE.notifikaciaDao();
+    private final NotifikaciaDao notifikaciaDao = Factory.INSTANCE.notifikaciaDao();
 
     public DatabazovyUlohaDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -52,7 +52,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
         String sqlIdUlohy = "SELECT MAX(uloha_id) FROM ULOHY";
         long idUlohy = (long) jdbcTemplate.queryForObject(sqlIdUlohy, new Object[]{}, Long.class);
         notifikaciaDao.pridajNotifikaciu(idUlohy);
-        
+
     }
 
     // vymaze ulohu z tabulky s ktorou pracujem a tiez vymaze zaznam v notifikaciach
@@ -79,7 +79,6 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 + " WHERE uloha_id = ?\n";
         String stav = new String();
 
-
         jdbcTemplate.update(dopyt,
                 uloha.getNazov(),
                 uloha.getPopis(),
@@ -89,7 +88,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 uloha.getKategoria().getId(),
                 uloha.getTrvanie(),
                 uloha.getId());
-        
+
         notifikaciaDao.pridajNotifikaciu(uloha.getId());
     }
 
@@ -181,6 +180,9 @@ public class DatabazovyUlohaDao implements UlohaDao {
         String retazecOd = dajStringZCalendara(datumOd);
 
         String retazecDo = dajStringZCalendara(datumDo);
+
+        System.out.println("Od:" + retazecOd);
+        System.out.println("Do:" + retazecDo);
 
         return jdbcTemplate.query("SELECT * FROM \n" + tabulkaZDatabazy
                 + " JOIN KATEGORIE ON ULOHY.kategoria_id = KATEGORIE.kategoria_id\n"
