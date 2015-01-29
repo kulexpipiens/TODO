@@ -96,34 +96,53 @@ public class GrafForm extends JDialog {
     }
 
     private void vytvorGraf() {
+        boolean bolaAsponJednaSVysokouPrioritou = false;
+        boolean bolaAsponJednaSoStrednouPrioritou = false;
+        boolean bolaAsponJednaSNizkouPrioritou = false;
         // vytvorime podla priorit uchovavatelov jednotlivych uloh z danej priority
         TaskSeries prioritaVysoka = new TaskSeries("vysoká priorita");
         TaskSeries prioritaStredna = new TaskSeries("stredná priorita");
         TaskSeries prioritaNizka = new TaskSeries("nízka priorita");
 
-        // vytvorime mnozinu dat na jednotlive mnoziny uloh s prioritami
-        TaskSeriesCollection mnozinaDat = new TaskSeriesCollection();
-        // pridame jednotlive priority k datam
-        mnozinaDat.add(prioritaVysoka);
-        mnozinaDat.add(prioritaStredna);
-        mnozinaDat.add(prioritaNizka);
+        Task prioritaVysokaTask = new Task("vysoká priorita", datumOd, datumDo);
+        Task prioritaStrednaTask = new Task("stredná priorita", datumOd, datumDo);
+        Task prioritaNizkaTask = new Task("nízka priorita", datumOd, datumDo);
+
+        prioritaVysoka.add(prioritaVysokaTask);
+        prioritaStredna.add(prioritaStrednaTask);
+        prioritaNizka.add(prioritaNizkaTask);
 
         // prejdem vsetkymi ulohami a vlozim ich do prislusneho uchovavatela uloh
         for (Uloha uloha : ulohy) {
             Task ulohaPreGraf = dajUlohu(uloha);
             switch (uloha.getPriorita()) {
                 case "Nízka":
-                    prioritaNizka.add(ulohaPreGraf);
+                    prioritaNizkaTask.addSubtask(ulohaPreGraf);
+                    bolaAsponJednaSNizkouPrioritou = true;
                     break;
                 case "Stredná":
-                    prioritaStredna.add(ulohaPreGraf);
+                    prioritaStrednaTask.addSubtask(ulohaPreGraf);
+                    bolaAsponJednaSoStrednouPrioritou = true;
                     break;
                 case "Vysoká":
-                    prioritaVysoka.add(ulohaPreGraf);
+                    prioritaVysokaTask.addSubtask(ulohaPreGraf);
+                    bolaAsponJednaSVysokouPrioritou = true;
                     break;
             }
         }
 
+        // vytvorime mnozinu dat na jednotlive mnoziny uloh s prioritami
+        TaskSeriesCollection mnozinaDat = new TaskSeriesCollection();
+        // pridame jednotlive priority k datam
+        if (bolaAsponJednaSVysokouPrioritou) {
+            mnozinaDat.add(prioritaVysoka);
+        }
+        if (bolaAsponJednaSoStrednouPrioritou) {
+            mnozinaDat.add(prioritaStredna);
+        }
+        if (bolaAsponJednaSNizkouPrioritou) {
+            mnozinaDat.add(prioritaNizka);
+        }
         /* vytvorime samotny graf, nazov mu nedame, y-ova suradnica budu tri priority, 
          x-ova casy v jednotlive dni (tiez zbytocne nezobrazime nazvy), 
          legendu zobrazime, tooltip zobrazime, ani generovat url
@@ -150,6 +169,6 @@ public class GrafForm extends JDialog {
         Date casKonca = new Date(casZaciatkuUdalosti + (uloha.getTrvanie() * JEDNA_MINUTA_V_MILISEKUNDACH));
 
         // vratim ulohu pre graf
-        return new Task("", casZacatia, casKonca);
+        return new Task(uloha.getNazov(), casZacatia, casKonca);
     }
 }
