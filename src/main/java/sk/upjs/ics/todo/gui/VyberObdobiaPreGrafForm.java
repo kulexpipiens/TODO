@@ -19,7 +19,7 @@ public class VyberObdobiaPreGrafForm extends javax.swing.JDialog {
 
     private JDatePickerImpl datePickerOd;
     private JDatePickerImpl datePickerDo;
-
+    // pozadie pre DatePickery
     private static final Color background = new Color(255, 255, 204);
 
     private final int rok = Calendar.getInstance().get(Calendar.YEAR);

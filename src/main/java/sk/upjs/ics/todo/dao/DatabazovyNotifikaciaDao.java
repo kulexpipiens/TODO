@@ -118,7 +118,8 @@ public class DatabazovyNotifikaciaDao implements NotifikaciaDao {
                 // ak sme tu, tak sme na serveri
                 in = new FileInputStream(propertiesFile);
             } catch (FileNotFoundException e2) {
-                // ak sme tu, tak sme u Alici
+                // ak sme tu, tak sme u Alice
+                // Alica sa sklonuje podla vzoru ulica, takze ziadne "u Alici" !!! :D
                 propertiesFile = "C:/todo/todo.properties";
             }
 

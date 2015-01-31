@@ -5,23 +5,23 @@ import sk.upjs.ics.todo.entity.Uloha;
 
 public interface UlohaDao {
 
-    public void pridajUlohu(Uloha uloha);
+    void pridajUlohu(Uloha uloha);
 
-    public void vymazUlohu(Uloha uloha);
+    void vymazUlohu(Uloha uloha);
 
-    public void upravUlohu(Uloha uloha);
+    void upravUlohu(Uloha uloha);
 
-    public List<Uloha> dajVsetky();
+    List<Uloha> dajVsetky();
 
-    public List<Uloha> dajDnesne();
+    List<Uloha> dajDnesne();
 
-    public List<Uloha> dajTyzdnove();
+    List<Uloha> dajTyzdnove();
 
-    public List<Uloha> dajMesacne();
+    List<Uloha> dajMesacne();
 
-    public List<Uloha> dajZCasovehoIntervalu(Calendar datumOd, Calendar datumDo);
+    List<Uloha> dajZCasovehoIntervalu(Calendar datumOd, Calendar datumDo);
 
-    public void oznacZaSplnenu(Uloha uloha);
+    void oznacZaSplnenu(Uloha uloha);
 
-    public void oznacZaNesplnenu(Uloha uloha);
+    void oznacZaNesplnenu(Uloha uloha);
 }

@@ -12,24 +12,31 @@ public class DatabazovyUlohaDao implements UlohaDao {
     private static final String tabulkaZDatabazy = "ULOHY";
     private final UlohaRowMapper mapovacUloh = new UlohaRowMapper();
     private final NotifikaciaDao notifikaciaDao = Factory.INSTANCE.notifikaciaDao();
+    private final PrihlasovaciARegistrovaciServis prihlasovaciARegistrovaciServis = PrihlasovaciARegistrovaciServis.INSTANCE;
 
     public DatabazovyUlohaDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-//vrati vsetky ulohy z databazy
+    /**
+     * @return vsetky ulohy z databazy
+     */
     @Override
     public List<Uloha> dajVsetky() {
         return jdbcTemplate.query("SELECT * FROM \n" + tabulkaZDatabazy
                 + " JOIN KATEGORIE ON ULOHY.kategoria_id = KATEGORIE.kategoria_id\n"
                 + " WHERE datum >= SUBDATE(curdate(),INTERVAL 2 DAY)\n"
                 + " AND " + tabulkaZDatabazy + ".vlastnik='"
-                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
+                + prihlasovaciARegistrovaciServis.getPouzivatel().getMeno() + "'"
                 + " ORDER BY datum\n", mapovacUloh);
     }
 
-    // prida ulohu do tabulky s ktorou pracujem
-    // tiez prida id ulohy do zoznamu notifikacii
+    /**
+     * prida ulohu do tabulky s ktorou pracujem, tiez prida id ulohy do zoznamu
+     * notifikacii
+     *
+     * @param uloha
+     */
     @Override
     public void pridajUlohu(Uloha uloha) {
         String sql = "INSERT INTO " + tabulkaZDatabazy + "\n"
@@ -45,7 +52,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 uloha.getKategoria().getId(),
                 "0",
                 uloha.getTrvanie(),
-                PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno());
+                prihlasovaciARegistrovaciServis.getPouzivatel().getMeno());
 
         // je to takto trochu drevorubacske a krajsie by bolo zistovat id cez simpleJdbcInsert
         // a executeAndReturnKey, ale ten hadze vynimky, lebo ma problemy s ukladanim datumu a casu do databazy
@@ -55,7 +62,12 @@ public class DatabazovyUlohaDao implements UlohaDao {
 
     }
 
-    // vymaze ulohu z tabulky s ktorou pracujem a tiez vymaze zaznam v notifikaciach
+    /**
+     * vymaze ulohu z tabulky s ktorou pracujem a tiez vymaze zaznam v
+     * notifikaciach
+     *
+     * @param uloha
+     */
     @Override
     public void vymazUlohu(Uloha uloha) {
         jdbcTemplate.update("DELETE FROM " + tabulkaZDatabazy
@@ -63,10 +75,13 @@ public class DatabazovyUlohaDao implements UlohaDao {
         notifikaciaDao.vymazNotifikaciu(uloha.getId());
     }
 
-    // upravi ulohu a tiez zaznam v notifikaciach
+    /**
+     * upravi ulohu a tiez zaznam v notifikaciach
+     *
+     * @param uloha
+     */
     @Override
     public void upravUlohu(Uloha uloha) {
-        // ulohe pri uprave nastavime stav nesplnena
         String dopyt = "UPDATE " + tabulkaZDatabazy + "\n"
                 + " SET uloha_nazov = ?,\n"
                 + " uloha_popis = ?,\n"
@@ -74,10 +89,10 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 + " datum = ?,\n"
                 + " cas = ?,\n"
                 + " kategoria_id = ?,\n"
+                // ulohe pri uprave nastavime stav nesplnena
                 + " stav = 0,\n"
                 + " trvanie = ?\n"
                 + " WHERE uloha_id = ?\n";
-        String stav = new String();
 
         jdbcTemplate.update(dopyt,
                 uloha.getNazov(),
@@ -92,7 +107,11 @@ public class DatabazovyUlohaDao implements UlohaDao {
         notifikaciaDao.pridajNotifikaciu(uloha.getId());
     }
 
-//oznaci ulohu za splnenu
+    /**
+     * oznaci ulohu za splnenu
+     *
+     * @param uloha
+     */
     @Override
     public void oznacZaSplnenu(Uloha uloha) {
         String stav = "1";
@@ -100,6 +119,11 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 + " SET stav=? WHERE uloha_id = ?", stav, uloha.getId());
     }
 
+    /**
+     * oznaci ulohu za nesplnenu
+     *
+     * @param uloha
+     */
     @Override
     public void oznacZaNesplnenu(Uloha uloha) {
         String stav = "0";
@@ -107,7 +131,9 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 + " SET stav=? WHERE uloha_id = ?", stav, uloha.getId());
     }
 
-    //vráti zoznam úloh, ktorým končí termín dnes
+    /**
+     * @return zoznam uloh, ktorym konci termin dnes
+     */
     @Override
     public List<Uloha> dajDnesne() {
         return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy + "\n"
@@ -115,26 +141,31 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 + " WHERE date_format(datum, '%Y-%m-%d')\n"
                 + " = date_format(curdate(), '%Y-%m-%d')\n"
                 + " AND " + tabulkaZDatabazy + ".vlastnik='"
-                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
-                + " ORDER BY datum;\n", mapovacUloh);
+                + prihlasovaciARegistrovaciServis.getPouzivatel().getMeno() + "'"
+                + " ORDER BY datum;", mapovacUloh);
     }
 
-    //vráti zoznam úloh, ktoré treba splniť do týždňa
+    /**
+     * @return zoznam uloh, ktore treba splnit v tomto tyzdni
+     */
     @Override
     public List<Uloha> dajTyzdnove() {
         return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy + "\n"
                 + " JOIN KATEGORIE ON ULOHY.kategoria_id = KATEGORIE.kategoria_id\n"
                 + " WHERE datum >=\n"
+                // DAYOFWEEK vrati 1 pre nedelu - ak chceme 0 pre pondelok, musime odpocitat 2 
                 + " SUBDATE(curdate(),INTERVAL DAYOFWEEK(curdate())-2 DAY)\n"
                 + " AND datum <=\n"
                 + " ADDDATE(curdate(), INTERVAL 8 - DAYOFWEEK(curdate()) DAY)\n"
                 + " AND " + tabulkaZDatabazy + ".vlastnik='"
-                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
+                + prihlasovaciARegistrovaciServis.getPouzivatel().getMeno() + "'"
                 + " ORDER BY datum;\n",
                 mapovacUloh);
     }
 
-    //vráti zoznam úloh, ktorým končí termín do mesiaca
+    /**
+     * @return zoznam uloh, ktore treba splnit v tomto mesiaci
+     */
     @Override
     public List<Uloha> dajMesacne() {
         return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy + "\n"
@@ -142,43 +173,14 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 + " WHERE date_format(datum, '%Y-%m')\n"
                 + " = date_format(curdate(), '%Y-%m')\n"
                 + " AND " + tabulkaZDatabazy + ".vlastnik='"
-                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
+                + prihlasovaciARegistrovaciServis.getPouzivatel().getMeno() + "'"
                 + " ORDER BY datum;\n", mapovacUloh);
 
-    }
-
-    public String vratStringDatumu(Uloha uloha) {
-        StringBuilder datum = new StringBuilder("");
-        datum.append(uloha.getDatum().getYear() + 1900);
-        if (uloha.getDatum().getMonth() + 1 < 10) {
-            datum.append(0);
-        }
-        datum.append(uloha.getDatum().getMonth() + 1);
-        if (uloha.getDatum().getDate() < 10) {
-            datum.append(0);
-        }
-        datum.append(uloha.getDatum().getDate());
-        return datum.toString();
-    }
-
-    public String vratStringCasu(Uloha uloha) {
-        StringBuilder cas = new StringBuilder("");
-        if (uloha.getDatum().getHours() < 10) {
-            cas.append(0);
-        }
-        cas.append(uloha.getDatum().getHours());
-        if (uloha.getDatum().getMinutes() < 10) {
-            cas.append(0);
-        }
-        cas.append(uloha.getDatum().getMinutes());
-        cas.append("00");
-        return cas.toString();
     }
 
     @Override
     public List<Uloha> dajZCasovehoIntervalu(Calendar datumOd, Calendar datumDo) {
         String retazecOd = dajStringZCalendara(datumOd);
-
         String retazecDo = dajStringZCalendara(datumDo);
 
         return jdbcTemplate.query("SELECT * FROM \n" + tabulkaZDatabazy
@@ -186,7 +188,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 + " WHERE datum >=" + retazecOd
                 + " AND datum <= " + retazecDo
                 + " AND " + tabulkaZDatabazy + ".vlastnik='"
-                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
+                + prihlasovaciARegistrovaciServis.getPouzivatel().getMeno() + "'"
                 + " ORDER BY datum\n", mapovacUloh);
     }
 
@@ -206,4 +208,31 @@ public class DatabazovyUlohaDao implements UlohaDao {
         return "" + datum.get(Calendar.YEAR) + mesiac + den;
     }
 
+    private String vratStringDatumu(Uloha uloha) {
+        StringBuilder datum = new StringBuilder("");
+        datum.append(uloha.getDatum().getYear() + 1900);
+        if (uloha.getDatum().getMonth() + 1 < 10) {
+            datum.append(0);
+        }
+        datum.append(uloha.getDatum().getMonth() + 1);
+        if (uloha.getDatum().getDate() < 10) {
+            datum.append(0);
+        }
+        datum.append(uloha.getDatum().getDate());
+        return datum.toString();
+    }
+
+    private String vratStringCasu(Uloha uloha) {
+        StringBuilder cas = new StringBuilder("");
+        if (uloha.getDatum().getHours() < 10) {
+            cas.append(0);
+        }
+        cas.append(uloha.getDatum().getHours());
+        if (uloha.getDatum().getMinutes() < 10) {
+            cas.append(0);
+        }
+        cas.append(uloha.getDatum().getMinutes());
+        cas.append("00");
+        return cas.toString();
+    }
 }

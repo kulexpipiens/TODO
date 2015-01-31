@@ -5,9 +5,9 @@ import sk.upjs.ics.todo.entity.Notifikacia;
 
 public interface NotifikaciaDao {
 
-    public List<Notifikacia> dajVsetkyNotifikacie();
+    List<Notifikacia> dajVsetkyNotifikacie();
 
-    public void pridajNotifikaciu(long idUlohy);
+    void pridajNotifikaciu(long idUlohy);
 
-    public void vymazNotifikaciu(long idUlohy);
+    void vymazNotifikaciu(long idUlohy);
 }

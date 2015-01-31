@@ -12,8 +12,8 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
 
     public PrihlasovanieForm() {
         initComponents();
+        
         getContentPane().setBackground(GuiFactory.INSTANCE.getFarbaPozadia());
-
         GuiFactory.INSTANCE.centruj(this);
     }
 
@@ -60,11 +60,6 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
                 btnRegistraciaActionPerformed(evt);
             }
         });
-        btnRegistracia.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnRegistraciaKeyPressed(evt);
-            }
-        });
 
         btnPrihlas.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         btnPrihlas.setText("Prihlásiť...");
@@ -84,11 +79,6 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
         btnZavriet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnZavrietActionPerformed(evt);
-            }
-        });
-        btnZavriet.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnZavrietKeyPressed(evt);
             }
         });
 
@@ -188,18 +178,6 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
     private void txtHesloKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHesloKeyPressed
         potvrd(evt);
     }//GEN-LAST:event_txtHesloKeyPressed
-
-    private void btnZavrietKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnZavrietKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            btnZavriet.doClick();
-        }
-    }//GEN-LAST:event_btnZavrietKeyPressed
-
-    private void btnRegistraciaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnRegistraciaKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            btnRegistracia.doClick();
-        }
-    }//GEN-LAST:event_btnRegistraciaKeyPressed
 
     /**
      * @param args the command line arguments

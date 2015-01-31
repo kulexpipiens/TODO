@@ -10,6 +10,7 @@ public class DatabazovyKategoriaDao implements KategoriaDao {
     private final JdbcTemplate jdbcTemplate;
     private static final String tabulkaZDatabazy = "KATEGORIE";
     private final KategoriaRowMapper kategoriaRowMapper = new KategoriaRowMapper();
+    private final PrihlasovaciARegistrovaciServis prihlasovaciARegistrovaciServis = PrihlasovaciARegistrovaciServis.INSTANCE;
 
     public DatabazovyKategoriaDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -21,7 +22,7 @@ public class DatabazovyKategoriaDao implements KategoriaDao {
         String sql = "INSERT INTO " + tabulkaZDatabazy
                 + "(kategoria_nazov, kategoria_popis, vlastnik) VALUES(?,?,?)";
         jdbcTemplate.update(sql, kategoria.getNazov(), kategoria.getPopis(),
-                PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno());
+                prihlasovaciARegistrovaciServis.getPouzivatel().getMeno());
     }
 
     //vymaze kategoriu z tabulky s ktorou pracujem
@@ -46,7 +47,7 @@ public class DatabazovyKategoriaDao implements KategoriaDao {
     public List<Kategoria> dajVsetky() {
         return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy
                 + " WHERE vlastnik='"
-                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'",
+                + prihlasovaciARegistrovaciServis.getPouzivatel().getMeno() + "'",
                 kategoriaRowMapper);
     }
 }

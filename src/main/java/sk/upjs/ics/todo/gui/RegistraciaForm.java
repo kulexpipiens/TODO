@@ -17,7 +17,6 @@ public class RegistraciaForm extends javax.swing.JDialog {
         initComponents();
 
         GuiFactory.INSTANCE.centruj(this);
-        // v navrharovi nejako nechce ist nastavit farbu, tak to urobime nasilu
         getContentPane().setBackground(GuiFactory.INSTANCE.getFarbaPozadia());
     }
 

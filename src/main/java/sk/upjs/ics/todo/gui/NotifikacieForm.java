@@ -13,7 +13,7 @@ public class NotifikacieForm extends javax.swing.JDialog {
     // budeme potrebovat upravit udaje o pouzivatelovi
     private static final PouzivatelDao pouzivatelDao = Factory.INSTANCE.pouzivatelDao();
     private final Pouzivatel pouzivatel = PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel();
-
+    
     private static final VerifikatorVstupov verifikator = GuiFactory.INSTANCE.getVerifikatorVstupov();
 
     public NotifikacieForm(Frame parent, boolean modal) {
@@ -22,6 +22,7 @@ public class NotifikacieForm extends javax.swing.JDialog {
 
         GuiFactory.INSTANCE.centruj(this);
         getContentPane().setBackground(GuiFactory.INSTANCE.getFarbaPozadia());
+        
         chkChceNotifikacie.setSelected(pouzivatel.isChceNotifikacie());
         Integer dobaNotifikacie = pouzivatel.getDobaNotifikacie();
         if (dobaNotifikacie == null) {

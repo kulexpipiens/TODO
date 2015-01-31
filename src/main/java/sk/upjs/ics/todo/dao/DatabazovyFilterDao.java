@@ -10,6 +10,7 @@ public class DatabazovyFilterDao implements FilterDao {
     private final JdbcTemplate jdbcTemplate;
     private static final String tabulkaZDatabazy = "FILTRE";
     private static final FilterRowMapper filterRowMapper = new FilterRowMapper();
+    private final PrihlasovaciARegistrovaciServis prihlasovaciARegistrovaciServis = PrihlasovaciARegistrovaciServis.INSTANCE;
 
     public DatabazovyFilterDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -20,7 +21,7 @@ public class DatabazovyFilterDao implements FilterDao {
         return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy
                 + " JOIN KATEGORIE ON FILTRE.kategoria_id = KATEGORIE.kategoria_id"
                 + " WHERE FILTRE.vlastnik='"
-                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'",
+                + prihlasovaciARegistrovaciServis.getPouzivatel().getMeno() + "'",
                 filterRowMapper);
     }
 
@@ -40,7 +41,7 @@ public class DatabazovyFilterDao implements FilterDao {
         jdbcTemplate.update(sql, filter.getNazov(), filter.getPriorita(),
                 filter.getDatumOd(), filter.getDatumDo(),
                 filter.getKategoria().getId(), stav,
-                PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno());
+                prihlasovaciARegistrovaciServis.getPouzivatel().getMeno());
     }
 
     @Override

@@ -36,7 +36,7 @@ public class UlohaTableModel extends AbstractTableModel {
      *
      * @param rowIndex index polozky
      * @param columnIndex index stĺpca
-     * @return vráti, Objekt, ktorý má zobraziť v tabuľke
+     * @return objekt, ktorý má zobraziť v tabuľke
      */
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
@@ -48,7 +48,9 @@ public class UlohaTableModel extends AbstractTableModel {
             // dátum úlohy
             Date datum = uloha.getDatum();
             long datumUlohy = datum.getTime();
+            
             StringBuilder zostava = new StringBuilder();
+            
             // počty daných období v milisekundách
             long minutaMs = 60000;
             long hodinaMs = 3600000;
@@ -56,8 +58,10 @@ public class UlohaTableModel extends AbstractTableModel {
             long tyzdenMs = denMs * 7;
             long mesiacMs = denMs * 30;
             long rokMs = denMs * 365;
+            
             long pocet = 0;
-            // aktuálny dátum
+            
+// aktuálny dátum
             long teraz = System.currentTimeMillis();
 
             long rozdiel = datumUlohy - teraz;

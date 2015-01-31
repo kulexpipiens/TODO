@@ -5,12 +5,12 @@ import sk.upjs.ics.todo.entity.Kategoria;
 
 public interface KategoriaDao {
 
-    public List<Kategoria> dajVsetky();
+    List<Kategoria> dajVsetky();
 
-    public void pridajKategoriu(Kategoria kategoria);
+    void pridajKategoriu(Kategoria kategoria);
 
-    public void vymazKategoriu(Kategoria kategoria);
+    void vymazKategoriu(Kategoria kategoria);
 
-    public void upravKategoriu(Kategoria kategoria);
+    void upravKategoriu(Kategoria kategoria);
 
 }

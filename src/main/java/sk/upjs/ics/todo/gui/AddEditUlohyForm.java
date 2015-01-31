@@ -20,25 +20,23 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
     private static final KategoriaDao kategoriaDao = Factory.INSTANCE.kategoriaDao();
     private final ComboBoxModel modelKategorii = Factory.INSTANCE.getKategoryCmbModel();
     private Uloha uloha;
-
     private JDatePickerImpl datePicker;
-
     private boolean add = false;
-
-    //konštruktory na pridávanie úlohy
-    public AddEditUlohyForm(Frame parent) {
-        this(new Uloha(), parent);
-        this.add = true;
-    }
 
     public AddEditUlohyForm(Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 
         GuiFactory.INSTANCE.centruj(this);
+    }    
+
+    // konštruktor na pridanie úlohy
+    public AddEditUlohyForm(Frame parent) {
+        this(new Uloha(), parent);
+        this.add = true;
     }
 
-    //konštruktor na editáciu úlohy, všetky parametre úlohy vyplní do príslušných okienok
+    // konštruktor na editáciu úlohy, všetky parametre úlohy vyplní do príslušných okienok
     public AddEditUlohyForm(Uloha uloha, Frame parent) {
         this(parent, true);
 
@@ -246,7 +244,7 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //ak sú všetky parametre úlohy zadané, úloha sa uloží alebo zedituje
+    // ak sú všetky parametre úlohy zadané, úloha sa uloží alebo zedituje
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
         if (komponentySuNeprazdne()) {
             Date selectedDate = (Date) datePicker.getModel().getValue();
@@ -350,7 +348,7 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
     private javax.swing.JPanel vnutornyFrame;
     // End of variables declaration//GEN-END:variables
 
-    //metóda zistí, či sú vo všetkých okienkach zadané údaje
+    // metóda zistí, či sú vo všetkých okienkach zadané údaje
     private boolean komponentySuNeprazdne() {
         String sprava = new String();
         Boolean podmienka = true;

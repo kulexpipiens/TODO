@@ -9,7 +9,8 @@ public enum GuiFactory {
 
     // farbu pozadia mame v kazdom okne rovnaku, tak ju nastavime len raz
     private final Color FARBA_POZADIA = new Color(253, 251, 151);
-    // zistime si rozmery obrazovky, aby sme mohli jednotlive okna centrovat
+    
+// zistime si rozmery obrazovky, aby sme mohli jednotlive okna centrovat
     private final double SIRKA_OBRAZOVKY = Toolkit.getDefaultToolkit().
             getScreenSize().getWidth();
     private final double VYSKA_OBRAZOVKY = Toolkit.getDefaultToolkit().
@@ -17,10 +18,18 @@ public enum GuiFactory {
 
     private VerifikatorVstupov verifikator;
 
+    /**
+     * 
+     * @return farba pozadia okna
+     */
     public Color getFarbaPozadia() {
         return FARBA_POZADIA;
     }
 
+    /**
+     * 
+     * @return verifikator vstupov (textboxov)
+     */
     public VerifikatorVstupov getVerifikatorVstupov() {
         if (verifikator == null) {
             verifikator = new VerifikatorVstupov();

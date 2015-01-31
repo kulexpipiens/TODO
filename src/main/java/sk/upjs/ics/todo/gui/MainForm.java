@@ -45,7 +45,7 @@ public class MainForm extends javax.swing.JFrame {
         aktualizujZoznamUloh();
     }
 
-    //ak je nejaká úloha vybratá, umožní stlačenie tlačidiel "vymaž" a "uprav"
+    // ak je nejaká úloha vybratá, umožní stlačenie tlačidiel "vymaž" a "uprav"
     private void tblUlohaSelectionValueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
             if (!tblUloha.getSelectionModel().isSelectionEmpty()) {
@@ -266,7 +266,7 @@ public class MainForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //otvorí addForm na vytvorenie úlohy + refresh
+    // otvorí addForm na vytvorenie úlohy + refresh
     private void btnPridajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPridajActionPerformed
         AddEditUlohyForm addForm = new AddEditUlohyForm(this);
         addForm.setVisible(true);
@@ -274,7 +274,7 @@ public class MainForm extends javax.swing.JFrame {
         aktualizujZoznamUloh();
     }//GEN-LAST:event_btnPridajActionPerformed
 
-    //otvorí addForm na editáciu úlohy + refresh
+    // otvorí addForm na editáciu úlohy + refresh
     private void btnUpravActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpravActionPerformed
         int vybranyRiadok = tblUloha.getSelectedRow();
         int vybranyIndexVModeli = tblUloha.convertRowIndexToModel(vybranyRiadok);
@@ -287,7 +287,7 @@ public class MainForm extends javax.swing.JFrame {
         aktualizujZoznamUloh();
     }//GEN-LAST:event_btnUpravActionPerformed
 
-    //vymaže vybranú úlohu pomocou dialógového okna
+    // vymaže vybranú úlohu pomocou dialógového okna
     private void btnVymazActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVymazActionPerformed
         int vybranyRiadok = tblUloha.getSelectedRow();
         int vybratyIndexVModeli = tblUloha.convertRowIndexToModel(vybranyRiadok);
@@ -310,33 +310,33 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnVymazActionPerformed
 
-    //zobrazí dnešné úlohy
+    // zobrazí dnešné úlohy
     private void btnDnesneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDnesneActionPerformed
         ulohaTableModel.filtruj(ulohaDao.dajDnesne());
     }//GEN-LAST:event_btnDnesneActionPerformed
 
-    //zobrazí všetky úlohy
+    // zobrazí všetky úlohy
     private void btnVsetkyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVsetkyActionPerformed
         aktualizujZoznamUloh();
     }//GEN-LAST:event_btnVsetkyActionPerformed
 
-    //zobrazí úlohy na tento mesiac
+    // zobrazí úlohy na tento mesiac
     private void btnTentoMesiacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTentoMesiacActionPerformed
         ulohaTableModel.filtruj(ulohaDao.dajMesacne());
     }//GEN-LAST:event_btnTentoMesiacActionPerformed
 
-    //zobrazí úlohy na tento týždeň
+    // zobrazí úlohy na tento týždeň
     private void btnTentoTyzdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTentoTyzdenActionPerformed
         ulohaTableModel.filtruj(ulohaDao.dajTyzdnove());
     }//GEN-LAST:event_btnTentoTyzdenActionPerformed
 
-    //otvorí menežéra kategórií (v novom okne)
+    // otvorí menežéra kategórií (v novom okne)
     private void btnKategorieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKategorieActionPerformed
         KategorieForm kategorie = new KategorieForm(this, true);
         kategorie.setVisible(true);
     }//GEN-LAST:event_btnKategorieActionPerformed
 
-    //otvorí sekciu "filtrovanie" (v novom okne)
+    // otvorí sekciu "filtrovanie" (v novom okne)
     private void btnFiltersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltersActionPerformed
         FiltrovaniaForm filter = new FiltrovaniaForm(this, true);
         filter.setVisible(true);

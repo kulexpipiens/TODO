@@ -18,13 +18,13 @@ public class KategorieForm extends javax.swing.JDialog {
 
     private static final TableRowSorter kategorieRowSorter = new TableRowSorter(kategoriaTableModel);
 
-    //nové okno, kde sa menežujú kategórie
+    // nové okno, kde sa menežujú kategórie
     public KategorieForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 
         GuiFactory.INSTANCE.centruj(this);
-        this.setTitle("Manageovanie kategórií");
+        
         tblKategoria.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
             @Override
@@ -33,10 +33,11 @@ public class KategorieForm extends javax.swing.JDialog {
             }
         });
         tblKategoria.setModel(kategoriaTableModel);
+        
         aktualizujZoznamKategorii();
     }
 
-    //ak je nejaká kategória vybratá, umožní stlačenie tlačidiel "vymaž" a "uprav"
+    // ak je nejaká kategória vybratá, umožní stlačenie tlačidiel "vymaž" a "uprav"
     private void tblKategoriaSelectionValueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
             if (!tblKategoria.getSelectionModel().isSelectionEmpty()) {
@@ -63,6 +64,7 @@ public class KategorieForm extends javax.swing.JDialog {
         lblPozadie = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Menežovanie kategórií");
         setMinimumSize(new java.awt.Dimension(465, 260));
         setResizable(false);
         getContentPane().setLayout(null);
@@ -121,7 +123,7 @@ public class KategorieForm extends javax.swing.JDialog {
         lblZnacka.setFont(new java.awt.Font("Gungsuh", 0, 36)); // NOI18N
         lblZnacka.setText("dori");
         getContentPane().add(lblZnacka);
-        lblZnacka.setBounds(360, 180, 70, 43);
+        lblZnacka.setBounds(360, 180, 85, 42);
 
         txtNazov.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
         txtNazov.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
@@ -148,7 +150,7 @@ public class KategorieForm extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //pridá novú kategóriu + refresh
+    // pridá novú kategóriu + refresh
     private void btnPridajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPridajActionPerformed
         Kategoria kategoria = new Kategoria();
         kategoria.setNazov(txtNazov.getText().trim());
@@ -162,7 +164,7 @@ public class KategorieForm extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnPridajActionPerformed
 
-    //upraví vybranú kategóriu + refresh
+    // upraví vybranú kategóriu + refresh
     private void btnUpravActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpravActionPerformed
         int vybranyRiadok = tblKategoria.getSelectedRow();
         int vybranyIndexVModeli = tblKategoria.convertRowIndexToModel(vybranyRiadok);
@@ -170,13 +172,15 @@ public class KategorieForm extends javax.swing.JDialog {
         if (vybrataKategoria == null) {
             return;
         }
+        
         vybrataKategoria.setNazov(txtNazov.getText());
         vybrataKategoria.setPopis(txtPopis.getText());
         kategoriaDao.upravKategoriu(vybrataKategoria);
+        
         aktualizujZoznamKategorii();
     }//GEN-LAST:event_btnUpravActionPerformed
 
-    //vymaže vybranú kategóriu s použitím dialógového okna + refresh
+    // vymaže vybranú kategóriu s použitím dialógového okna + refresh
     private void btnVymazActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVymazActionPerformed
         int vybranyRiadok = tblKategoria.getSelectedRow();
         int vybranyIndexVModeli = tblKategoria.convertRowIndexToModel(vybranyRiadok);
@@ -196,7 +200,7 @@ public class KategorieForm extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnVymazActionPerformed
 
-    //parametre vybranej kategórie vpíše do okienok
+    // parametre vybranej kategórie vpíše do okienok
     private void tblKategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKategoriaMouseClicked
         int vybranyRiadok = tblKategoria.getSelectedRow();
         int vybranyIndexVModeli = tblKategoria.convertRowIndexToModel(vybranyRiadok);
