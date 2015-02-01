@@ -11,7 +11,6 @@ import sk.upjs.ics.todo.dao.Factory;
 import sk.upjs.ics.todo.dao.KategoriaDao;
 import sk.upjs.ics.todo.dao.PrihlasovaciARegistrovaciServis;
 import sk.upjs.ics.todo.entity.Kategoria;
-import sk.upjs.ics.todo.entity.Pouzivatel;
 import sk.upjs.ics.todo.exceptions.ZleMenoAleboHesloException;
 
 public class DatabazovyKategoriaDaoTest {

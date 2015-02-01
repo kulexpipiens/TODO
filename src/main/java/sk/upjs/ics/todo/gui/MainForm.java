@@ -18,9 +18,6 @@ public class MainForm extends javax.swing.JFrame {
 
     private static final TableRowSorter ulohyRowSorter = new TableRowSorter(ulohaTableModel);
 
-    private static final PrihlasovaciARegistrovaciServis prihlasovaciARegistrovaciServis
-            = PrihlasovaciARegistrovaciServis.INSTANCE;
-
     public MainForm() {
         initComponents();
 
@@ -40,7 +37,7 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        lblPouzivatel.setText(prihlasovaciARegistrovaciServis.getPouzivatel().getMeno());
+        lblPouzivatel.setText(PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         aktualizujZoznamUloh();
     }
@@ -343,7 +340,7 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFiltersActionPerformed
 
     private void btnOdhlasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOdhlasActionPerformed
-        prihlasovaciARegistrovaciServis.odhlas();
+        PrihlasovaciARegistrovaciServis.INSTANCE.odhlas();
         // ak sa pouzivatel odhlasi, tak sa spusti prihlasovacie okno...
         PrihlasovanieForm.main(null);
         // ...a aktualne sa zavrie

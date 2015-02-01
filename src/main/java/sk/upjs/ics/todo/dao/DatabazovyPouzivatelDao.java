@@ -16,7 +16,6 @@ public class DatabazovyPouzivatelDao implements PouzivatelDao {
     private final JdbcTemplate jdbcTemplate;
     private static final PouzivatelRowMapper mapovacPouzivatelov = new PouzivatelRowMapper();
     private static final String nazovTabulky = "UZIVATELIA";
-    private final PrihlasovaciARegistrovaciServis prihlasovaciARegistrovaciServis = PrihlasovaciARegistrovaciServis.INSTANCE;
 
     public DatabazovyPouzivatelDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -59,7 +58,7 @@ public class DatabazovyPouzivatelDao implements PouzivatelDao {
 
         Map<String, Object> hodnoty = new HashMap<>();
         hodnoty.put("Meno", pouzivatel.getMeno());
-        hodnoty.put("Heslo", prihlasovaciARegistrovaciServis.zahashuj(pouzivatel.getHeslo()));
+        hodnoty.put("Heslo", PrihlasovaciARegistrovaciServis.INSTANCE.zahashuj(pouzivatel.getHeslo()));
         hodnoty.put("Mail", pouzivatel.getMail());
         hodnoty.put("chce_notifikacie", pouzivatel.isChceNotifikacie());
         hodnoty.put("doba_notifikacie", pouzivatel.getDobaNotifikacie());
@@ -97,7 +96,7 @@ public class DatabazovyPouzivatelDao implements PouzivatelDao {
     private void skontrolujMenoAHeslo(String meno, String heslo) throws ZleMenoAleboHesloException,
             NoSuchAlgorithmException {
         String hashHeslaZTabulky;
-        String hashHesla = prihlasovaciARegistrovaciServis.zahashuj(heslo);
+        String hashHesla = PrihlasovaciARegistrovaciServis.INSTANCE.zahashuj(heslo);
         try {
             // nacita hash hesla pre dane meno
             String sql = "SELECT Heslo FROM " + nazovTabulky + " WHERE Meno = ?";

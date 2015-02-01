@@ -28,21 +28,21 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         initComponents();
 
         GuiFactory.INSTANCE.centruj(this);
-    }    
+    }
 
     // konštruktor na pridanie úlohy
     public AddEditUlohyForm(Frame parent) {
         this(new Uloha(), parent);
+        this.setTitle("Pridanie úlohy");
         this.add = true;
     }
 
     // konštruktor na editáciu úlohy, všetky parametre úlohy vyplní do príslušných okienok
     public AddEditUlohyForm(Uloha uloha, Frame parent) {
         this(parent, true);
+        this.setTitle("Editácia úlohy");
 
         inicializujVyberacDatumu();
-
-        this.setTitle("Pridanie/editácia úlohy");
 
         this.uloha = uloha;
         txtPopis.setText(uloha.getPopis());

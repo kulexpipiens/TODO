@@ -12,7 +12,6 @@ import sk.upjs.ics.todo.dao.FilterDao;
 import sk.upjs.ics.todo.dao.PrihlasovaciARegistrovaciServis;
 import sk.upjs.ics.todo.entity.Filter;
 import sk.upjs.ics.todo.entity.Kategoria;
-import sk.upjs.ics.todo.entity.Pouzivatel;
 import sk.upjs.ics.todo.exceptions.ZleMenoAleboHesloException;
 
 public class DatabazovyFilterDaoTest {

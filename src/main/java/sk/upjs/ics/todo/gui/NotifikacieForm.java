@@ -12,7 +12,6 @@ public class NotifikacieForm extends javax.swing.JDialog {
 
     // budeme potrebovat upravit udaje o pouzivatelovi
     private static final PouzivatelDao pouzivatelDao = Factory.INSTANCE.pouzivatelDao();
-    private final Pouzivatel pouzivatel = PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel();
     
     private static final VerifikatorVstupov verifikator = GuiFactory.INSTANCE.getVerifikatorVstupov();
 
@@ -23,8 +22,8 @@ public class NotifikacieForm extends javax.swing.JDialog {
         GuiFactory.INSTANCE.centruj(this);
         getContentPane().setBackground(GuiFactory.INSTANCE.getFarbaPozadia());
         
-        chkChceNotifikacie.setSelected(pouzivatel.isChceNotifikacie());
-        Integer dobaNotifikacie = pouzivatel.getDobaNotifikacie();
+        chkChceNotifikacie.setSelected(PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().isChceNotifikacie());
+        Integer dobaNotifikacie = PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getDobaNotifikacie();
         if (dobaNotifikacie == null) {
             txtDobaNotifikacie.setText("");
         } else {
@@ -127,22 +126,22 @@ public class NotifikacieForm extends javax.swing.JDialog {
      * @param evt
      */
     private void btnUlozitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUlozitActionPerformed
-        pouzivatel.setChceNotifikacie(chkChceNotifikacie.isSelected());
+        PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().setChceNotifikacie(chkChceNotifikacie.isSelected());
 
         String dobaNotifikacie = txtDobaNotifikacie.getText();
         // overenie pre pripad, ze uzivatel nezadal do doby notifikacie nic
         if (dobaNotifikacie.isEmpty()) {
-            pouzivatel.setDobaNotifikacie(null);
+            PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().setDobaNotifikacie(null);
         } // ak zadal cislo v zlom formate
         else if (!verifikator.jeCeleKladneCislo(txtDobaNotifikacie)) {
             JOptionPane.showMessageDialog(this, "Zadajte dobu notifikácie v správnom formáte!",
                     verifikator.getNadpis(), ERROR_MESSAGE);
             return;
         } else {
-            pouzivatel.setDobaNotifikacie(Integer.valueOf(dobaNotifikacie));
+            PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().setDobaNotifikacie(Integer.valueOf(dobaNotifikacie));
         }
 
-        pouzivatelDao.upravNotifikacie(pouzivatel);
+        pouzivatelDao.upravNotifikacie(PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel());
         dispose();
     }//GEN-LAST:event_btnUlozitActionPerformed
 
