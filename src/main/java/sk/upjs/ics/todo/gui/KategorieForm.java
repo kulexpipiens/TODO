@@ -123,13 +123,13 @@ public class KategorieForm extends javax.swing.JDialog {
         lblZnacka.setFont(new java.awt.Font("Gungsuh", 0, 36)); // NOI18N
         lblZnacka.setText("dori");
         getContentPane().add(lblZnacka);
-        lblZnacka.setBounds(360, 180, 85, 42);
+        lblZnacka.setBounds(360, 180, 70, 43);
 
         txtNazov.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
         txtNazov.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
-        txtNazov.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtNazov.setBorder(null);
         getContentPane().add(txtNazov);
-        txtNazov.setBounds(272, 106, 138, 16);
+        txtNazov.setBounds(272, 106, 138, 14);
 
         txtPopis.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
         txtPopis.setColumns(20);

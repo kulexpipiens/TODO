@@ -233,6 +233,7 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         getContentPane().add(lblTrvanie);
         lblTrvanie.setBounds(240, 130, 50, 15);
 
+        txtTrvanie.setBorder(null);
         txtTrvanie.setName("trvanie"); // NOI18N
         getContentPane().add(txtTrvanie);
         txtTrvanie.setBounds(290, 130, 90, 20);
