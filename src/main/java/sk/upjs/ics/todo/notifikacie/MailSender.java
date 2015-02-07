@@ -64,18 +64,16 @@ public class MailSender {
             // Subject:
             sprava.setSubject("Upozornenie na úlohu \"" + notifikacia.getNazov() + "\"");
 
-            Date datum = notifikacia.getDatum();
-            StringBuilder sb = new StringBuilder();
-            sb.append("Nezabudnite na splnenie nasledovnej úlohy:")
-                    .append("\n\nNázov: " + notifikacia.getNazov())
-                    .append("\nPopis: " + notifikacia.getPopis())
-                    .append("\nDátum: " + vratStringDatumu(notifikacia.getDatum()))
-                    .append("\nČas: " + vratStringCasu(notifikacia.getDatum()))
-                    .append("\nTrvanie: " + notifikacia.getTrvanie() + " minút")
-                    .append("\n\nVáš TODO list Dori.");
+            String textSpravy = "Nezabudnite na splnenie nasledovnej úlohy:"
+                    + "\n\nNázov: " + notifikacia.getNazov()
+                    + "\nPopis: " + notifikacia.getPopis()
+                    + "\nDátum: " + vratStringDatumu(notifikacia.getDatum())
+                    + "\nČas: " + vratStringCasu(notifikacia.getDatum())
+                    + "\nTrvanie: " + notifikacia.getTrvanie() + " minút"
+                    + "\n\nVáš TODO list Dori.";
 
             // Message:
-            sprava.setText(sb.toString());
+            sprava.setText(textSpravy);
 
             // odosle spravu
             Transport.send(sprava);
