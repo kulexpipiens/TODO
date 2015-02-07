@@ -54,14 +54,14 @@ public class MailSender {
             // vytvori sa novy objekt so spravou
             Message sprava = new MimeMessage(session);
 
-            // From:
+            // Od:
             sprava.setFrom(new InternetAddress(odosielatel));
 
-            // To:
+            // Pre:
             sprava.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(notifikacia.getMail()));
 
-            // Subject:
+            // Predmet:
             sprava.setSubject("Upozornenie na úlohu \"" + notifikacia.getNazov() + "\"");
 
             String textSpravy = "Nezabudnite na splnenie nasledovnej úlohy:"
@@ -72,7 +72,7 @@ public class MailSender {
                     + "\nTrvanie: " + notifikacia.getTrvanie() + " minút"
                     + "\n\nVáš TODO list Dori.";
 
-            // Message:
+            // Sprava:
             sprava.setText(textSpravy);
 
             // odosle spravu
