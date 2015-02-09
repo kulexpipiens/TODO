@@ -179,6 +179,15 @@ public class VyberObdobiaPreGrafForm extends javax.swing.JDialog {
         Date datumOd = (Date) datePickerOd.getModel().getValue();
         Date datumDo = (Date) datePickerDo.getModel().getValue();
 
+        // pri datume OD chceme zobrazit udalosti od zaciatku dna
+        datumOd.setSeconds(0);
+        datumOd.setMinutes(0);
+        datumOd.setHours(0);
+        // pri datume DO chceme zobrazit udalosti od konca dna
+        datumDo.setSeconds(59);
+        datumDo.setMinutes(59);
+        datumDo.setHours(23);
+        
         if (datumOd.after(datumDo)) {
             JOptionPane.showMessageDialog(this,
                     "Datum od nesmie byť za dátumom za!",
