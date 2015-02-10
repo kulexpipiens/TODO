@@ -18,12 +18,12 @@ public class MainForm extends javax.swing.JFrame {
 
     private static final TableRowSorter ulohyRowSorter = new TableRowSorter(ulohaTableModel);
 
-    private enum ZOBRAZENIE_ULOHY {
+    private enum ZOBRAZENE_ULOHY {
 
         DNESNE, TYZDENNE, MESACNE, VSETKY
     }
 
-    private ZOBRAZENIE_ULOHY zobrazenieUlohy;
+    private ZOBRAZENE_ULOHY zobrazenieUlohy;
 
     public MainForm() {
         initComponents();
@@ -318,25 +318,25 @@ public class MainForm extends javax.swing.JFrame {
 
     // zobrazí dnešné úlohy
     private void btnDnesneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDnesneActionPerformed
-        zobrazenieUlohy = ZOBRAZENIE_ULOHY.DNESNE;
+        zobrazenieUlohy = ZOBRAZENE_ULOHY.DNESNE;
         aktualizujZoznamUloh();
     }//GEN-LAST:event_btnDnesneActionPerformed
 
     // zobrazí všetky úlohy
     private void btnVsetkyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVsetkyActionPerformed
-        zobrazenieUlohy = ZOBRAZENIE_ULOHY.VSETKY;
+        zobrazenieUlohy = ZOBRAZENE_ULOHY.VSETKY;
         aktualizujZoznamUloh();
     }//GEN-LAST:event_btnVsetkyActionPerformed
 
     // zobrazí úlohy na tento mesiac
     private void btnTentoMesiacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTentoMesiacActionPerformed
-        zobrazenieUlohy = ZOBRAZENIE_ULOHY.MESACNE;
+        zobrazenieUlohy = ZOBRAZENE_ULOHY.MESACNE;
         aktualizujZoznamUloh();
     }//GEN-LAST:event_btnTentoMesiacActionPerformed
 
     // zobrazí úlohy na tento týždeň
     private void btnTentoTyzdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTentoTyzdenActionPerformed
-        zobrazenieUlohy = ZOBRAZENIE_ULOHY.TYZDENNE;
+        zobrazenieUlohy = ZOBRAZENE_ULOHY.TYZDENNE;
         aktualizujZoznamUloh();
     }//GEN-LAST:event_btnTentoTyzdenActionPerformed
 
