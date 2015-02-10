@@ -1,5 +1,6 @@
 package sk.upjs.ics.todo.testy;
 
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -10,11 +11,13 @@ public class VerifikatorVstupovTest {
 
     private static JTextField pole;
     private static VerifikatorVstupov verifikatorVStupov;
+    private static JPasswordField poleSHeslom;
 
     @BeforeClass
     public static void setUp() {
         verifikatorVStupov = new VerifikatorVstupov();
         pole = new JTextField();
+        poleSHeslom = new JPasswordField();
     }
 
     @Test
@@ -81,6 +84,30 @@ public class VerifikatorVstupovTest {
     public void jeMaxDlzkyTestJePrazdnyRetazec() {
         pole.setText("");
         Assert.assertTrue(verifikatorVStupov.jeMaxDlzky(pole, 5));
+    }
+
+    @Test
+    public void jeMaxDlzkyTestJeDlhsiePreHeslo() {
+        poleSHeslom.setText("123456");
+        Assert.assertFalse(verifikatorVStupov.jeMaxDlzky(poleSHeslom, 5));
+    }
+
+    @Test
+    public void jeMaxDlzkyTestJePresnePreHeslo() {
+        poleSHeslom.setText("12345");
+        Assert.assertTrue(verifikatorVStupov.jeMaxDlzky(poleSHeslom, 5));
+    }
+
+    @Test
+    public void jeMaxDlzkyTestJePreHeslo() {
+        poleSHeslom.setText("ahoj");
+        Assert.assertTrue(verifikatorVStupov.jeMaxDlzky(poleSHeslom, 5));
+    }
+
+    @Test
+    public void jeMaxDlzkyTestJePrazdnyRetazecPreHeslo() {
+        poleSHeslom.setText("");
+        Assert.assertTrue(verifikatorVStupov.jeMaxDlzky(poleSHeslom, 5));
     }
 
     @Test

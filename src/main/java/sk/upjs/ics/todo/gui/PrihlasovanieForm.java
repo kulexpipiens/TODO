@@ -6,13 +6,14 @@ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import sk.upjs.ics.todo.dao.PrihlasovaciARegistrovaciServis;
+import sk.upjs.ics.todo.entity.Pouzivatel;
 import sk.upjs.ics.todo.exceptions.ZleMenoAleboHesloException;
 
 public class PrihlasovanieForm extends javax.swing.JFrame {
 
     public PrihlasovanieForm() {
         initComponents();
-        
+
         getContentPane().setBackground(GuiFactory.INSTANCE.getFarbaPozadia());
         GuiFactory.INSTANCE.centruj(this);
     }
@@ -149,6 +150,14 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
             return;
         }
 
+        if (pridlheDlzkyRetazcovVPoliach()) {
+            JOptionPane.showMessageDialog(this,
+                    "Meno aj heslo nesmú presiahnúť "
+                    + Pouzivatel.MAXIMALNA_DLZKA_STRINGU + " znakov!",
+                    "Chyba", ERROR_MESSAGE);
+            return;
+        }
+
         try {
             PrihlasovaciARegistrovaciServis.INSTANCE.prihlas(meno, heslo);
 
@@ -230,5 +239,14 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnPrihlas.doClick();
         }
+    }
+
+    private boolean pridlheDlzkyRetazcovVPoliach() {
+        VerifikatorVstupov verifikatorVstupov = new VerifikatorVstupov();
+
+        return !verifikatorVstupov.jeMaxDlzky(txtMeno,
+                Pouzivatel.MAXIMALNA_DLZKA_STRINGU)
+                || !verifikatorVstupov.jeMaxDlzky(txtHeslo,
+                        Pouzivatel.MAXIMALNA_DLZKA_STRINGU);
     }
 }

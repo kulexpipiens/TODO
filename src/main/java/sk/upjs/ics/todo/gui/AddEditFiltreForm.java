@@ -213,7 +213,7 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-        if (nepraznaKategoria() && neprazdnyNazovFiltra()) {
+        if (nepraznaKategoria() && neplatnyNazovFiltra()) {
             List<Kategoria> vsetkyKategorie = kategoriaDao.dajVsetky();
             String nazovKat = cmbKategoria.getSelectedItem().toString();
             Kategoria pridavanaKategoria = null;
@@ -328,9 +328,18 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
         return true;
     }
 
-    private boolean neprazdnyNazovFiltra() {
+    private boolean neplatnyNazovFiltra() {
+        if (txtNazov.getText().length() > Filter.MAXIMALNA_DLZKA_NAZVU_FILTRA) {
+            JOptionPane.showMessageDialog(this,
+                    "Názov filtra nesmie presiahnúť "
+                    + Filter.MAXIMALNA_DLZKA_NAZVU_FILTRA + " znakov!",
+                    "Chyba", ERROR_MESSAGE
+            );
+            return false;
+        }
         if (txtNazov.getText().trim().equals("")) {
-            JOptionPane.showMessageDialog(this, "Vyplňte názov filtra!", "Chyba", ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Vyplňte názov filtra!",
+                    "Chyba", ERROR_MESSAGE);
             return false;
         }
         return true;

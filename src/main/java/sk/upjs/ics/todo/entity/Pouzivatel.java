@@ -2,6 +2,8 @@ package sk.upjs.ics.todo.entity;
 
 public class Pouzivatel {
 
+    public static final int MAXIMALNA_DLZKA_STRINGU = 150;
+
     private String meno;
     private String heslo;
     private String mail;

@@ -11,7 +11,7 @@ public class NotifikacieForm extends javax.swing.JDialog {
 
     // budeme potrebovat upravit udaje o pouzivatelovi
     private static final PouzivatelDao pouzivatelDao = Factory.INSTANCE.pouzivatelDao();
-    
+
     private static final VerifikatorVstupov verifikator = GuiFactory.INSTANCE.getVerifikatorVstupov();
 
     public NotifikacieForm(Frame parent, boolean modal) {
@@ -20,7 +20,7 @@ public class NotifikacieForm extends javax.swing.JDialog {
 
         GuiFactory.INSTANCE.centruj(this);
         getContentPane().setBackground(GuiFactory.INSTANCE.getFarbaPozadia());
-        
+
         chkChceNotifikacie.setSelected(PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().isChceNotifikacie());
         Integer dobaNotifikacie = PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getDobaNotifikacie();
         if (dobaNotifikacie == null) {
@@ -133,7 +133,9 @@ public class NotifikacieForm extends javax.swing.JDialog {
             PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().setDobaNotifikacie(null);
         } // ak zadal cislo v zlom formate
         else if (!verifikator.jeCeleKladneCislo(txtDobaNotifikacie)) {
-            JOptionPane.showMessageDialog(this, "Zadajte dobu notifikácie v správnom formáte!",
+            JOptionPane.showMessageDialog(this,
+                    "Zadajte dobu notifikácie v správnom formáte!\n"
+                    + "Maximálne hodnotu " + Integer.MAX_VALUE + "!",
                     verifikator.getNadpis(), ERROR_MESSAGE);
             return;
         } else {

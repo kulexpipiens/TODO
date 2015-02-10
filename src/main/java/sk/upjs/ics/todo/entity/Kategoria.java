@@ -2,6 +2,8 @@ package sk.upjs.ics.todo.entity;
 
 public class Kategoria {
 
+    public static final int MAXIMALNA_DLZKA_NAZVU_KATEGORIE = 30;
+
     private long id;
     private String nazov;
     private String popis;

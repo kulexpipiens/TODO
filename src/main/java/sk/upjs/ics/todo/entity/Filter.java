@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class Filter {
 
+    public static final int MAXIMALNA_DLZKA_NAZVU_FILTRA = 30;
+
     private long id;
     private String nazov;
     private String priorita;

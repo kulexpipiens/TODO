@@ -181,7 +181,15 @@ public class RegistraciaForm extends javax.swing.JDialog {
                         verifikator.getNadpis(), ERROR_MESSAGE);
                 return;
             }
-            
+
+            if (pridlheDlzkyRetazcovVPoliach()) {
+                JOptionPane.showMessageDialog(this,
+                        "Meno, heslo a mail nesmú presiahnúť "
+                        + Pouzivatel.MAXIMALNA_DLZKA_STRINGU + " znakov!",
+                        "Chyba", ERROR_MESSAGE);
+                return;
+            }
+
             Pouzivatel pouzivatel = new Pouzivatel();
             pouzivatel.setMeno(meno);
             pouzivatel.setHeslo(heslo);
@@ -194,7 +202,9 @@ public class RegistraciaForm extends javax.swing.JDialog {
                 pouzivatel.setDobaNotifikacie(null);
             } // ak zadal cislo v zlom formate
             else if (!verifikator.jeCeleKladneCislo(txtDobaNotifikacie)) {
-                JOptionPane.showMessageDialog(this, "Zadajte dobu notifikácie v správnom formáte!",
+                JOptionPane.showMessageDialog(this,
+                        "Zadajte dobu notifikácie v správnom formáte!\n"
+                        + "Maximálne hodnotu " + Integer.MAX_VALUE + "!",
                         verifikator.getNadpis(), ERROR_MESSAGE);
                 return;
             } else {
@@ -276,4 +286,13 @@ public class RegistraciaForm extends javax.swing.JDialog {
     private javax.swing.JTextField txtMeno;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
+
+    private boolean pridlheDlzkyRetazcovVPoliach() {
+        return !verifikator.jeMaxDlzky(txtMeno,
+                Pouzivatel.MAXIMALNA_DLZKA_STRINGU)
+                || !verifikator.jeMaxDlzky(txtHeslo,
+                        Pouzivatel.MAXIMALNA_DLZKA_STRINGU)
+                || !verifikator.jeMaxDlzky(txtMail,
+                        Pouzivatel.MAXIMALNA_DLZKA_STRINGU);
+    }
 }

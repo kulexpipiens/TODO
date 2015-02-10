@@ -1,5 +1,6 @@
 package sk.upjs.ics.todo.gui;
 
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 /**
@@ -27,10 +28,11 @@ public class VerifikatorVstupov {
 
     /**
      * @param pole pole, ktore overujeme
-     * @return true, ak je v nom cele KLADNE cislo
+     * @return true, ak je v nom cele KLADNE cislo konvertovatelne na int
      */
     public boolean jeCeleKladneCislo(JTextField pole) {
-        return pole.getText().matches("\\d+");
+        return pole.getText().matches("\\d+")
+                && Long.valueOf(pole.getText()) <= Integer.MAX_VALUE;
     }
 
     /**
@@ -41,6 +43,18 @@ public class VerifikatorVstupov {
      */
     public boolean jeMaxDlzky(JTextField pole, int maxDlzka) {
         int dlzka = pole.getText().length();
+        return dlzka <= maxDlzka;
+    }
+
+    /**
+     *
+     * @param pole pole s heslom, ktore overujeme
+     * @param maxDlzka maximalna dlzka retazca
+     * @return true, ak heslo nepresahuje max dlzku
+     */
+    public boolean jeMaxDlzky(JPasswordField pole, int maxDlzka) {
+        String heslo = new String(pole.getPassword());
+        int dlzka = heslo.length();
         return dlzka <= maxDlzka;
     }
 

@@ -156,7 +156,9 @@ public class KategorieForm extends javax.swing.JDialog {
         Kategoria kategoria = new Kategoria();
         kategoria.setNazov(txtNazov.getText().trim());
         kategoria.setPopis(txtPopis.getText().trim());
-        if (neprazdnyNazov(kategoria) && neduplicitnaKategoria(kategoria)) {
+        if (nazovNepresahujeMaximalnuDlzku(kategoria)
+                && neprazdnyNazov(kategoria)
+                && neduplicitnaKategoria(kategoria)) {
             kategoriaDao.pridajKategoriu(kategoria);
             aktualizujZoznamKategorii();
         }
@@ -175,8 +177,9 @@ public class KategorieForm extends javax.swing.JDialog {
         vybrataKategoria.setNazov(txtNazov.getText());
         vybrataKategoria.setPopis(txtPopis.getText());
 
-        // nesmieme upravovat nazov na prazdny
-        if (neprazdnyNazov(vybrataKategoria)) {
+        // nesmieme upravovat nazov na prazdny alebo pridlhy
+        if (neprazdnyNazov(vybrataKategoria)
+                && nazovNepresahujeMaximalnuDlzku(vybrataKategoria)) {
             // ak sme zmenili nazov, overime, ci sme nezmenili na nazov inej 
             // kategorie
             if (!vybrataKategoria.getNazov().trim().equals(txtNazov.getText())) {
@@ -313,6 +316,17 @@ public class KategorieForm extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Takáto kategória už existuje!", "Chyba", ERROR_MESSAGE);
                 return false;
             }
+        }
+        return true;
+    }
+
+    private boolean nazovNepresahujeMaximalnuDlzku(Kategoria kategoria) {
+        if (kategoria.getNazov().length() > Kategoria.MAXIMALNA_DLZKA_NAZVU_KATEGORIE) {
+            JOptionPane.showMessageDialog(this,
+                    "Názov kategórie nesmie presiahnúť "
+                    + Kategoria.MAXIMALNA_DLZKA_NAZVU_KATEGORIE + " znakov!",
+                    "Chyba", ERROR_MESSAGE);
+            return false;
         }
         return true;
     }

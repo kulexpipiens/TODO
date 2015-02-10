@@ -34,6 +34,9 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
     public AddEditUlohyForm(Frame parent) {
         this(new Uloha(), parent);
         this.setTitle("Pridanie úlohy");
+
+        cmbPriorita.setSelectedItem(" ");
+
         this.add = true;
     }
 
@@ -248,6 +251,9 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
     // ak sú všetky parametre úlohy zadané, úloha sa uloží alebo zedituje
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
         if (komponentySuNeprazdne()) {
+            if (neplatnaDlzkaVPoliach()) {
+                return;
+            }
             Date selectedDate = (Date) datePicker.getModel().getValue();
             Date datum = new Date(selectedDate.getYear(),
                     selectedDate.getMonth(), selectedDate.getDate(),
@@ -402,6 +408,26 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
         }
 
         return podmienka;
+    }
+
+    private boolean neplatnaDlzkaVPoliach() {
+        if (txtNazov.getText().length() > Uloha.MAXIMALNA_DLZKA_NAZVU_ULOHY) {
+            JOptionPane.showMessageDialog(this,
+                    "Názov úlohy nesmie presiahnúť "
+                    + Uloha.MAXIMALNA_DLZKA_NAZVU_ULOHY + " znakov!",
+                    "Chyba", ERROR_MESSAGE);
+            return true;
+        }
+
+        if (Long.valueOf(txtTrvanie.getText()) > Integer.MAX_VALUE) {
+            JOptionPane.showMessageDialog(this,
+                    "Trvanie úlohy nesmie presiahnúť "
+                    + Integer.MAX_VALUE + "!",
+                    "Chyba", ERROR_MESSAGE);
+            return true;
+        }
+
+        return false;
     }
 
 }
