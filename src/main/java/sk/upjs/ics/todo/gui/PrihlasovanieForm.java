@@ -158,7 +158,7 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e.getSprava(), "Chyba", ERROR_MESSAGE);
         } catch (NoSuchAlgorithmException ex) {
             JOptionPane.showMessageDialog(this, "Je asi problém s vašou verziou JAVY.\n"
-                    + "Nainštalujete si najnovšiu verziu!", "Chyba", ERROR_MESSAGE);
+                    + "Nainštalujte si najnovšiu verziu!", "Chyba", ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnPrihlasActionPerformed
 

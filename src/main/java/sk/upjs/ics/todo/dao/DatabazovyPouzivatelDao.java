@@ -117,7 +117,7 @@ public class DatabazovyPouzivatelDao implements PouzivatelDao {
     }
 
     /**
-     * Vráti, ci používateľ so zadaným menom existuje
+     * Vráti, či používateľ so zadaným menom existuje
      *
      * @param meno meno pouzivatela
      * @return true, ak užívateľ existuje

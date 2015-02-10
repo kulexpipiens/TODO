@@ -176,17 +176,16 @@ public class RegistraciaForm extends javax.swing.JDialog {
                 return;
             }
 
-            Pouzivatel pouzivatel = new Pouzivatel();
-            pouzivatel.setMeno(meno);
-            pouzivatel.setHeslo(heslo);
-
             if (!verifikator.jeEmail(txtMail)) {
                 JOptionPane.showMessageDialog(this, "Zadajte email v správnom formáte!",
                         verifikator.getNadpis(), ERROR_MESSAGE);
                 return;
             }
+            
+            Pouzivatel pouzivatel = new Pouzivatel();
+            pouzivatel.setMeno(meno);
+            pouzivatel.setHeslo(heslo);
             pouzivatel.setMail(txtMail.getText());
-
             pouzivatel.setChceNotifikacie(chkChceNotifikacie.isSelected());
 
             String dobaNotifikacie = txtDobaNotifikacie.getText();
@@ -211,7 +210,7 @@ public class RegistraciaForm extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, e.getSprava(), "Chyba", ERROR_MESSAGE);
         } catch (NoSuchAlgorithmException e2) {
             JOptionPane.showMessageDialog(this, "Je asi problém s vašou verziou JAVY.\n"
-                    + "Nainštalujete si najnovšiu verziu!", "Chyba", ERROR_MESSAGE);
+                    + "Nainštalujte si najnovšiu verziu!", "Chyba", ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnRegistrujActionPerformed
 

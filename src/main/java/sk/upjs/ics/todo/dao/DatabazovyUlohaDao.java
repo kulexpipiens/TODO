@@ -8,8 +8,9 @@ import sk.upjs.ics.todo.rowmappery.UlohaRowMapper;
 public class DatabazovyUlohaDao implements UlohaDao {
 
     private final JdbcTemplate jdbcTemplate;
-    // tabulka s ktorou pracujem
+    // tabulka, s ktorou pracujem
     private static final String tabulkaZDatabazy = "ULOHY";
+    private static final String tabulkaSKategoriami = "KATEGORIE";
     private final UlohaRowMapper mapovacUloh = new UlohaRowMapper();
     private final NotifikaciaDao notifikaciaDao = Factory.INSTANCE.notifikaciaDao();
 
@@ -23,7 +24,10 @@ public class DatabazovyUlohaDao implements UlohaDao {
     @Override
     public List<Uloha> dajVsetky() {
         return jdbcTemplate.query("SELECT * FROM \n" + tabulkaZDatabazy
-                + " JOIN KATEGORIE ON ULOHY.kategoria_id = KATEGORIE.kategoria_id\n"
+                + " JOIN KATEGORIE ON " 
+                + tabulkaZDatabazy + ".kategoria_id = " 
+                + tabulkaSKategoriami + ".kategoria_id\n"
+                // zobrazujeme aj vyprsane ulohy, ktore nie su starsie ako 2 dni
                 + " WHERE datum >= SUBDATE(curdate(),INTERVAL 2 DAY)\n"
                 + " AND " + tabulkaZDatabazy + ".vlastnik='"
                 + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
@@ -55,14 +59,14 @@ public class DatabazovyUlohaDao implements UlohaDao {
 
         // je to takto trochu drevorubacske a krajsie by bolo zistovat id cez simpleJdbcInsert
         // a executeAndReturnKey, ale ten hadze vynimky, lebo ma problemy s ukladanim datumu a casu do databazy
-        String sqlIdUlohy = "SELECT MAX(uloha_id) FROM ULOHY";
+        String sqlIdUlohy = "SELECT MAX(uloha_id) FROM " + tabulkaZDatabazy;
         long idUlohy = (long) jdbcTemplate.queryForObject(sqlIdUlohy, new Object[]{}, Long.class);
         notifikaciaDao.pridajNotifikaciu(idUlohy);
 
     }
 
     /**
-     * vymaze ulohu z tabulky s ktorou pracujem a tiez vymaze zaznam v
+     * vymaze ulohu z tabulky, s ktorou pracujem, a tiez vymaze zaznam v
      * notifikaciach
      *
      * @param uloha
@@ -115,7 +119,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
     public void oznacZaSplnenu(Uloha uloha) {
         String stav = "1";
         jdbcTemplate.update("UPDATE " + tabulkaZDatabazy
-                + " SET stav=? WHERE uloha_id = ?", stav, uloha.getId());
+                + " SET stav = ? WHERE uloha_id = ?", stav, uloha.getId());
     }
 
     /**
@@ -127,7 +131,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
     public void oznacZaNesplnenu(Uloha uloha) {
         String stav = "0";
         jdbcTemplate.update("UPDATE " + tabulkaZDatabazy
-                + " SET stav=? WHERE uloha_id = ?", stav, uloha.getId());
+                + " SET stav = ? WHERE uloha_id = ?", stav, uloha.getId());
     }
 
     /**
@@ -136,7 +140,9 @@ public class DatabazovyUlohaDao implements UlohaDao {
     @Override
     public List<Uloha> dajDnesne() {
         return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy + "\n"
-                + " JOIN KATEGORIE ON ULOHY.kategoria_id = KATEGORIE.kategoria_id\n"
+                + " JOIN " + tabulkaSKategoriami + " ON " 
+                + tabulkaZDatabazy + ".kategoria_id = " 
+                + tabulkaSKategoriami + ".kategoria_id\n"
                 + " WHERE date_format(datum, '%Y-%m-%d')\n"
                 + " = date_format(curdate(), '%Y-%m-%d')\n"
                 + " AND " + tabulkaZDatabazy + ".vlastnik='"
@@ -150,7 +156,9 @@ public class DatabazovyUlohaDao implements UlohaDao {
     @Override
     public List<Uloha> dajTyzdnove() {
         return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy + "\n"
-                + " JOIN KATEGORIE ON ULOHY.kategoria_id = KATEGORIE.kategoria_id\n"
+                + " JOIN " + tabulkaSKategoriami + " ON " 
+                + tabulkaZDatabazy + ".kategoria_id = " 
+                + tabulkaSKategoriami + ".kategoria_id\n"
                 + " WHERE datum >=\n"
                 // DAYOFWEEK vrati 1 pre nedelu - ak chceme 0 pre pondelok, musime odpocitat 2 
                 + " SUBDATE(curdate(),INTERVAL DAYOFWEEK(curdate())-2 DAY)\n"
@@ -168,7 +176,9 @@ public class DatabazovyUlohaDao implements UlohaDao {
     @Override
     public List<Uloha> dajMesacne() {
         return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy + "\n"
-                + " JOIN KATEGORIE ON ULOHY.kategoria_id = KATEGORIE.kategoria_id\n"
+                + " JOIN " + tabulkaSKategoriami + " ON " 
+                + tabulkaZDatabazy + ".kategoria_id = " 
+                + tabulkaSKategoriami + ".kategoria_id\n"
                 + " WHERE date_format(datum, '%Y-%m')\n"
                 + " = date_format(curdate(), '%Y-%m')\n"
                 + " AND " + tabulkaZDatabazy + ".vlastnik='"
@@ -182,8 +192,10 @@ public class DatabazovyUlohaDao implements UlohaDao {
         String retazecOd = dajStringZCalendara(datumOd);
         String retazecDo = dajStringZCalendara(datumDo);
 
-        return jdbcTemplate.query("SELECT * FROM \n" + tabulkaZDatabazy
-                + " JOIN KATEGORIE ON ULOHY.kategoria_id = KATEGORIE.kategoria_id\n"
+        return jdbcTemplate.query("SELECT * FROM \n" + tabulkaZDatabazy + "\n"
+                + " JOIN " + tabulkaSKategoriami + " ON " 
+                + tabulkaZDatabazy + ".kategoria_id = " 
+                + tabulkaSKategoriami + ".kategoria_id\n"
                 + " WHERE datum >=" + retazecOd
                 + " AND datum <= " + retazecDo
                 + " AND " + tabulkaZDatabazy + ".vlastnik='"

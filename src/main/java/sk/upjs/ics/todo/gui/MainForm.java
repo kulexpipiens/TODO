@@ -23,7 +23,7 @@ public class MainForm extends javax.swing.JFrame {
         DNESNE, TYZDENNE, MESACNE, VSETKY
     }
 
-    private ZOBRAZENE_ULOHY zobrazenieUlohy;
+    private ZOBRAZENE_ULOHY zobrazeneUlohy;
 
     public MainForm() {
         initComponents();
@@ -46,7 +46,7 @@ public class MainForm extends javax.swing.JFrame {
 
         lblPouzivatel.setText(PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.zobrazenieUlohy = zobrazenieUlohy.VSETKY;
+        this.zobrazeneUlohy = zobrazeneUlohy.VSETKY;
 
         aktualizujZoznamUloh();
     }
@@ -318,25 +318,25 @@ public class MainForm extends javax.swing.JFrame {
 
     // zobrazí dnešné úlohy
     private void btnDnesneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDnesneActionPerformed
-        zobrazenieUlohy = ZOBRAZENE_ULOHY.DNESNE;
+        zobrazeneUlohy = ZOBRAZENE_ULOHY.DNESNE;
         aktualizujZoznamUloh();
     }//GEN-LAST:event_btnDnesneActionPerformed
 
     // zobrazí všetky úlohy
     private void btnVsetkyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVsetkyActionPerformed
-        zobrazenieUlohy = ZOBRAZENE_ULOHY.VSETKY;
+        zobrazeneUlohy = ZOBRAZENE_ULOHY.VSETKY;
         aktualizujZoznamUloh();
     }//GEN-LAST:event_btnVsetkyActionPerformed
 
     // zobrazí úlohy na tento mesiac
     private void btnTentoMesiacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTentoMesiacActionPerformed
-        zobrazenieUlohy = ZOBRAZENE_ULOHY.MESACNE;
+        zobrazeneUlohy = ZOBRAZENE_ULOHY.MESACNE;
         aktualizujZoznamUloh();
     }//GEN-LAST:event_btnTentoMesiacActionPerformed
 
     // zobrazí úlohy na tento týždeň
     private void btnTentoTyzdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTentoTyzdenActionPerformed
-        zobrazenieUlohy = ZOBRAZENE_ULOHY.TYZDENNE;
+        zobrazeneUlohy = ZOBRAZENE_ULOHY.TYZDENNE;
         aktualizujZoznamUloh();
     }//GEN-LAST:event_btnTentoTyzdenActionPerformed
 
@@ -451,7 +451,7 @@ public class MainForm extends javax.swing.JFrame {
     //refresh
     private void aktualizujZoznamUloh() {
         // aktualizujeme ulohy podla toho ake zobrazenie mame
-        switch (zobrazenieUlohy) {
+        switch (zobrazeneUlohy) {
             case DNESNE:
                 ulohaTableModel.filtruj(ulohaDao.dajDnesne());
                 break;

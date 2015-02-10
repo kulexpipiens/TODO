@@ -382,17 +382,17 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
             sprava = "Zadajte hodiny!";
             podmienka = false;
         }
-        if (!txtMinuty.getText().matches("[0-9]+")
+        if (!txtMinuty.getText().matches("\\d+")
                 || txtMinuty.getText().length() > 2) {
             sprava = "Nesprávny formát minút!";
             podmienka = false;
         }
-        if (!txtHodiny.getText().matches("[0-9]+")
+        if (!txtHodiny.getText().matches("\\d+")
                 || txtHodiny.getText().length() > 2) {
             sprava = "Nesprávny formát hodín!";
             podmienka = false;
         }
-        if (!txtTrvanie.getText().matches("[0-9]+")) {
+        if (!txtTrvanie.getText().matches("\\d+")) {
             sprava = "Nesprávny formát trvania!";
             podmienka = false;
         }

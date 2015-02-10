@@ -15,7 +15,7 @@ public class DatabazovyKategoriaDao implements KategoriaDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    //prida novu kategoriu do tabulky s ktorou pracujem
+    // prida novu kategoriu do tabulky, s ktorou pracujem
     @Override
     public void pridajKategoriu(Kategoria kategoria) {
         String sql = "INSERT INTO " + tabulkaZDatabazy
@@ -24,14 +24,14 @@ public class DatabazovyKategoriaDao implements KategoriaDao {
                 PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno());
     }
 
-    //vymaze kategoriu z tabulky s ktorou pracujem
+    // vymaze kategoriu z tabulky, s ktorou pracujem
     @Override
     public void vymazKategoriu(Kategoria kategoria) {
         jdbcTemplate.update("DELETE FROM " + tabulkaZDatabazy
                 + " WHERE kategoria_id = ?", kategoria.getId());
     }
 
-    //upravi kategoriu v tabulke s ktorou pracujem
+    // upravi kategoriu v tabulke, s ktorou pracujem
     @Override
     public void upravKategoriu(Kategoria kategoria) {
         String sql = "UPDATE " + tabulkaZDatabazy + "\n"
@@ -41,7 +41,7 @@ public class DatabazovyKategoriaDao implements KategoriaDao {
         jdbcTemplate.update(sql, kategoria.getNazov(), kategoria.getPopis(), kategoria.getId());
     }
 
-    //vrati zoznam kategórií
+    // vrati zoznam kategorii
     @Override
     public List<Kategoria> dajVsetky() {
         return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy

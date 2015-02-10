@@ -183,7 +183,7 @@ public class VyberObdobiaPreGrafForm extends javax.swing.JDialog {
         datumOd.setSeconds(0);
         datumOd.setMinutes(0);
         datumOd.setHours(0);
-        // pri datume DO chceme zobrazit udalosti od konca dna
+        // pri datume DO chceme zobrazit udalosti do konca dna
         datumDo.setSeconds(59);
         datumDo.setMinutes(59);
         datumDo.setHours(23);
