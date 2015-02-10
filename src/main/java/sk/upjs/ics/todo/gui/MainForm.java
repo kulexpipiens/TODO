@@ -331,6 +331,10 @@ public class MainForm extends javax.swing.JFrame {
     private void btnKategorieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKategorieActionPerformed
         KategorieForm kategorie = new KategorieForm(this, true);
         kategorie.setVisible(true);
+        
+        // ak sme zmenili nejakej ulohe kategoriu, aby sa to hned prejavilo
+        // v popise
+        aktualizujZoznamUloh();
     }//GEN-LAST:event_btnKategorieActionPerformed
 
     // otvorí sekciu "filtrovanie" (v novom okne)
