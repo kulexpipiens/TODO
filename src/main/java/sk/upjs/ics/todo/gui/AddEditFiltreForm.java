@@ -213,7 +213,7 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-        if (nepraznaKategoria()) {
+        if (nepraznaKategoria() && neprazdnyNazovFiltra()) {
             List<Kategoria> vsetkyKategorie = kategoriaDao.dajVsetky();
             String nazovKat = cmbKategoria.getSelectedItem().toString();
             Kategoria pridavanaKategoria = null;
@@ -328,4 +328,11 @@ public class AddEditFiltreForm extends javax.swing.JDialog {
         return true;
     }
 
+    private boolean neprazdnyNazovFiltra() {
+        if (txtNazov.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vyplňte názov filtra!", "Chyba", ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
 }
