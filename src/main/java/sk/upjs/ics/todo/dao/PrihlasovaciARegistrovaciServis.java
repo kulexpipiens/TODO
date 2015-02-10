@@ -52,6 +52,8 @@ public enum PrihlasovaciARegistrovaciServis {
 
         StringBuilder sb = new StringBuilder();
         for (byte bajt : bajty) {
+            // zdroj prevodu: 
+            // http://howtodoinjava.com/2013/07/22/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/
             sb.append(Integer.toString((bajt & 0xff) + 0x100, 16).substring(1));
         }
         return sb.toString();

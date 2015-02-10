@@ -15,6 +15,10 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * Zdroj:
+ * http://www.mkyong.com/java/javamail-api-sending-email-via-gmail-smtp-example/
+ */
 public class MailSender {
 
     // udaje odosielatela
