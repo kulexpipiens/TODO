@@ -61,7 +61,7 @@ public class UlohaTableModel extends AbstractTableModel {
             
             long pocet = 0;
             
-// aktuálny dátum
+            // aktuálny dátum
             long teraz = System.currentTimeMillis();
 
             long rozdiel = datumUlohy - teraz;

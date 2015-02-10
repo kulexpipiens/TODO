@@ -10,7 +10,7 @@ public enum GuiFactory {
     // farbu pozadia mame v kazdom okne rovnaku, tak ju nastavime len raz
     private final Color FARBA_POZADIA = new Color(253, 251, 151);
     
-// zistime si rozmery obrazovky, aby sme mohli jednotlive okna centrovat
+    // zistime si rozmery obrazovky, aby sme mohli jednotlive okna centrovat
     private final double SIRKA_OBRAZOVKY = Toolkit.getDefaultToolkit().
             getScreenSize().getWidth();
     private final double VYSKA_OBRAZOVKY = Toolkit.getDefaultToolkit().

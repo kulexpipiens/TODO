@@ -25,7 +25,7 @@ public class DetailUlohaForm extends javax.swing.JDialog {
         GuiFactory.INSTANCE.centruj(this);
     }
 
-    // konštruktor, vytvorí detailné okno s údajmi o vybrane úlohe
+    // konštruktor, vytvorí detailné okno s údajmi o vybranej úlohe
     public DetailUlohaForm(Uloha uloha, Frame parent) {
         this(parent, true);
         this.uloha = uloha;

@@ -374,7 +374,6 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
             sprava = "Vyberte dátum!";
             podmienka = false;
         }
-
         if (txtMinuty.getText().isEmpty()) {
             sprava = "Zadajte minúty!";
             podmienka = false;
@@ -383,18 +382,18 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
             sprava = "Zadajte hodiny!";
             podmienka = false;
         }
-        if (!txtMinuty.getText().matches("[0-9\\.]+")
+        if (!txtMinuty.getText().matches("[0-9]+")
                 || txtMinuty.getText().length() > 2) {
             sprava = "Nesprávny formát minút!";
             podmienka = false;
         }
-        if (!txtHodiny.getText().matches("[0-9\\.]+")
+        if (!txtHodiny.getText().matches("[0-9]+")
                 || txtHodiny.getText().length() > 2) {
             sprava = "Nesprávny formát hodín!";
             podmienka = false;
         }
-        if (!txtTrvanie.getText().matches("-?\\d+")) {
-            sprava = "Nesprávny formát travania!";
+        if (!txtTrvanie.getText().matches("[0-9]+")) {
+            sprava = "Nesprávny formát trvania!";
             podmienka = false;
         }
 

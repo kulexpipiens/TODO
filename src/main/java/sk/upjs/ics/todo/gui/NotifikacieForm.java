@@ -6,7 +6,6 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import sk.upjs.ics.todo.dao.Factory;
 import sk.upjs.ics.todo.dao.PouzivatelDao;
 import sk.upjs.ics.todo.dao.PrihlasovaciARegistrovaciServis;
-import sk.upjs.ics.todo.entity.Pouzivatel;
 
 public class NotifikacieForm extends javax.swing.JDialog {
 
