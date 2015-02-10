@@ -6,6 +6,7 @@ import java.util.Date;
 public class Uloha {
 
     public static final int MAXIMALNA_DLZKA_NAZVU_ULOHY = 30;
+    public static final int MAXIMALNA_DLZKA_POPISU = 1000;
     
     private long id;
     private String nazov;

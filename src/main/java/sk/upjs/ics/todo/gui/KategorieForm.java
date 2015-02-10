@@ -156,7 +156,7 @@ public class KategorieForm extends javax.swing.JDialog {
         Kategoria kategoria = new Kategoria();
         kategoria.setNazov(txtNazov.getText().trim());
         kategoria.setPopis(txtPopis.getText().trim());
-        if (nazovNepresahujeMaximalnuDlzku(kategoria)
+        if (poliaNepresahujuMaximalnuDlzku(kategoria)
                 && neprazdnyNazov(kategoria)
                 && neduplicitnaKategoria(kategoria)) {
             kategoriaDao.pridajKategoriu(kategoria);
@@ -179,7 +179,7 @@ public class KategorieForm extends javax.swing.JDialog {
 
         // nesmieme upravovat nazov na prazdny alebo pridlhy
         if (neprazdnyNazov(vybrataKategoria)
-                && nazovNepresahujeMaximalnuDlzku(vybrataKategoria)) {
+                && poliaNepresahujuMaximalnuDlzku(vybrataKategoria)) {
             // ak sme zmenili nazov, overime, ci sme nezmenili na nazov inej 
             // kategorie
             if (!vybrataKategoria.getNazov().trim().equals(txtNazov.getText())) {
@@ -225,8 +225,8 @@ public class KategorieForm extends javax.swing.JDialog {
                  danu kategoriu, aby nebolo mozne vymazat takuto kategoriu. 
                  Inym riesenim by bol kaskadovy delete v databaze. */
                 JOptionPane.showMessageDialog(this,
-                        "Nemožno vymazať kategóriu, ktorej úlohy existujú!\n"
-                        + "Vymažte prv všetky úlohy danej kategórie!",
+                        "Nemožno vymazať kategóriu, ktorej úlohy alebo filtre existujú!\n"
+                        + "Vymažte prv všetky úlohy a filtre obsahujúce danú kategóriu!",
                         "Chyba", ERROR_MESSAGE);
             }
         }
@@ -320,11 +320,18 @@ public class KategorieForm extends javax.swing.JDialog {
         return true;
     }
 
-    private boolean nazovNepresahujeMaximalnuDlzku(Kategoria kategoria) {
+    private boolean poliaNepresahujuMaximalnuDlzku(Kategoria kategoria) {
         if (kategoria.getNazov().length() > Kategoria.MAXIMALNA_DLZKA_NAZVU_KATEGORIE) {
             JOptionPane.showMessageDialog(this,
                     "Názov kategórie nesmie presiahnúť "
                     + Kategoria.MAXIMALNA_DLZKA_NAZVU_KATEGORIE + " znakov!",
+                    "Chyba", ERROR_MESSAGE);
+            return false;
+        }
+        if (kategoria.getPopis().length() > Kategoria.MAXIMALNA_DLZKA_POPISU) {
+            JOptionPane.showMessageDialog(this,
+                    "Popis kategórie nesmie presiahnúť "
+                    + Kategoria.MAXIMALNA_DLZKA_POPISU + " znakov!",
                     "Chyba", ERROR_MESSAGE);
             return false;
         }

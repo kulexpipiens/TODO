@@ -427,6 +427,14 @@ public class AddEditUlohyForm extends javax.swing.JDialog {
             return true;
         }
 
+        if (txtPopis.getText().length() > Uloha.MAXIMALNA_DLZKA_POPISU) {
+            JOptionPane.showMessageDialog(this,
+                    "Popis úlohy nesmie presiahnúť "
+                    + Uloha.MAXIMALNA_DLZKA_POPISU + " znakov!",
+                    "Chyba", ERROR_MESSAGE);
+            return true;
+        }
+
         return false;
     }
 
