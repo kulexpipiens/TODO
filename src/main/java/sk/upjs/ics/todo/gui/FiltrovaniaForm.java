@@ -1,6 +1,5 @@
 package sk.upjs.ics.todo.gui;
 
-import java.awt.Color;
 import java.awt.Frame;
 import java.util.*;
 import javax.swing.ComboBoxModel;
@@ -37,7 +36,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         initComponents();
 
         GuiFactory.INSTANCE.centruj(this);
-        this.setTitle("filtre");
+        this.setTitle("Filtre");
 
         inicializujPanelOd();
         inicializujPanelDo();
