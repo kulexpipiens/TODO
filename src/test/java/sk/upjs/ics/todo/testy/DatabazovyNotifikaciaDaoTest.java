@@ -15,11 +15,9 @@ public class DatabazovyNotifikaciaDaoTest {
     private static JdbcTemplate jdbcTemplate;
     private static NotifikaciaDao notifikaciaDao;
 
-    private static final int POCET_NOTIFIKACII = 2;
+    private static final int POCET_NOTIFIKACII = 1;
 
-    // v databaze su notifikacie k uloham s id 4 a 19
-    private static final int ID_ULOHY_PRE_NOVU_NOTIFIKACIU = 6;
-    private static final int ID_ULOHY_PRE_EXISTUJUCU_NOTIFIKACIU = 4;
+    private static final int ID_ULOHY_PRE_NOVU_NOTIFIKACIU = 27;
 
     @BeforeClass
     public static void setUp() {
@@ -34,26 +32,20 @@ public class DatabazovyNotifikaciaDaoTest {
         assertEquals(POCET_NOTIFIKACII, notifikacie.size());
     }
 
-    public void testPridajNotifikaciuNovejUlohe() {
+    public void testPridajAVymaz() {
+        otestujPridanie();
+        otestujVymazanie();
+    }
+
+    private void otestujVymazanie() {
+        notifikaciaDao.vymazNotifikaciu(ID_ULOHY_PRE_NOVU_NOTIFIKACIU);
+        List<Notifikacia> notifikacie = notifikaciaDao.dajVsetkyNotifikacie();
+        assertEquals(POCET_NOTIFIKACII, notifikacie.size());
+    }
+
+    private void otestujPridanie() {
         notifikaciaDao.pridajNotifikaciu(ID_ULOHY_PRE_NOVU_NOTIFIKACIU);
         List<Notifikacia> notifikacie = notifikaciaDao.dajVsetkyNotifikacie();
         assertEquals(POCET_NOTIFIKACII + 1, notifikacie.size());
-    }
-
-    // stara notifikacia by sa mala nahradit novou
-    public void testPridajNotifikaciuExistujucejUlohe() {
-        // vymazeme notifikaciu, ktoru sme tam pridali
-        notifikaciaDao.vymazNotifikaciu(ID_ULOHY_PRE_NOVU_NOTIFIKACIU);
-
-        notifikaciaDao.pridajNotifikaciu(ID_ULOHY_PRE_EXISTUJUCU_NOTIFIKACIU);
-        List<Notifikacia> notifikacie = notifikaciaDao.dajVsetkyNotifikacie();
-        assertEquals(POCET_NOTIFIKACII, notifikacie.size());
-    }
-
-    public void testPridajAVymaz() {
-        notifikaciaDao.pridajNotifikaciu(ID_ULOHY_PRE_NOVU_NOTIFIKACIU);
-        notifikaciaDao.vymazNotifikaciu(ID_ULOHY_PRE_NOVU_NOTIFIKACIU);
-        List<Notifikacia> notifikacie = notifikaciaDao.dajVsetkyNotifikacie();
-        assertEquals(POCET_NOTIFIKACII, notifikacie.size());
     }
 }

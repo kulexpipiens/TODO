@@ -26,7 +26,7 @@ public class DatabazovyUlohaDaoTest {
     private static final int POCET_DNESNYCH_ULOH_V_DATABAZE = 0;
     private static final int POCET_TYZDNOVYCH_ULOH_V_DATABAZE = 0;
     private static final int POCET_MESACNYCH_ULOH_V_DATABAZE = 0;
-    private static final int POCET_ULOH_Z_INTERVALU = 2;
+    private static final int POCET_ULOH_Z_INTERVALU = 0;
 
     @BeforeClass
     public static void setUp() throws ZleMenoAleboHesloException, NoSuchAlgorithmException {
@@ -35,6 +35,12 @@ public class DatabazovyUlohaDaoTest {
         ulohaDao = new DatabazovyUlohaDao(jdbcTemplate);
 
         PrihlasovaciARegistrovaciServis.INSTANCE.prihlas("Admin", "qwerty123456");
+
+        /* aby testy platili stale, musime upravit datumy momentalne ulozenych 
+         uloh v databaze - upravime datum uloh o aktualny cas + 35 dni, 
+         aby sme si pri ostatnych testoch (ci mame mesacne, tyzdnove...) boli
+         isty, ze tam take ulohy nie su */
+        jdbcTemplate.execute("UPDATE ULOHY SET datum = DATE_ADD(CURDATE(), INTERVAL 35 DAY)");
     }
 
     @Test
@@ -44,29 +50,46 @@ public class DatabazovyUlohaDaoTest {
     }
 
     @Test
-    public void testPridajUlohu() {
-        Uloha ulohaPridaj = new Uloha();
-        List<Uloha> zoznamUloh = ulohaDao.dajVsetky();
-        int pocetUlohPovodne = zoznamUloh.size();
+    public void testPridajAVymazUlohu() {
+        // pripravym ulohu na pridanie a nasledne vymazanie
+        Uloha uloha = new Uloha();
 
         Kategoria kategoria = new Kategoria();
         kategoria.setId(5);
         kategoria.setNazov("Jedlo");
         kategoria.setPopis("o jedle");
 
-        ulohaPridaj.setNazov("Nova Uloha");
-        ulohaPridaj.setKategoria(kategoria);
-        ulohaPridaj.setPriorita("Vysoká");
-        ulohaPridaj.setStav(false);
-        ulohaPridaj.setDatum(new Date(2015, 01, 02, 12, 00, 00));
-        ulohaPridaj.setPopis("popis o novej ulohe");
+        uloha.setNazov("Nova Uloha");
+        uloha.setKategoria(kategoria);
+        uloha.setPriorita("Vysoká");
+        uloha.setStav(false);
+        uloha.setDatum(new Date(2015, 01, 02, 12, 00, 00));
+        uloha.setPopis("popis o novej ulohe");
 
+        List<Uloha> zoznamUloh = ulohaDao.dajVsetky();
+        int pocetUlohPovodne = zoznamUloh.size();
+        
+        otestujPridanie(uloha, pocetUlohPovodne);
+        otestujVymazanie(uloha, pocetUlohPovodne);
+    }
+
+    private void otestujPridanie(Uloha ulohaPridaj, int pocetUlohPovodne) {
         ulohaDao.pridajUlohu(ulohaPridaj);
-        zoznamUloh = ulohaDao.dajVsetky();
+        List<Uloha> zoznamUloh = ulohaDao.dajVsetky();
         assertEquals(pocetUlohPovodne + 1, zoznamUloh.size());
+    }
 
-        ulohaPridaj = zoznamUloh.get(zoznamUloh.size() - 1);
-        ulohaDao.vymazUlohu(ulohaPridaj);
+    private void otestujVymazanie(Uloha ulohaVymaz, int pocetUlohPovodne) {
+        // zistim maximalne id, teda id, ktore bolo pridane, aby som takuto
+        // ulohu mohol vymazat
+        String sql = "SELECT MAX(uloha_id) FROM ULOHY";
+        int maxId = jdbcTemplate.queryForObject(sql, Integer.class);
+
+        ulohaVymaz.setId(maxId);
+        ulohaDao.vymazUlohu(ulohaVymaz);
+
+        List<Uloha> zoznamUloh = ulohaDao.dajVsetky();
+        assertEquals(pocetUlohPovodne, zoznamUloh.size());
     }
 
     @Test
@@ -88,44 +111,43 @@ public class DatabazovyUlohaDaoTest {
     }
 
     @Test
-    public void testVymazUlohu() {
-        List<Uloha> zoznamUloh = ulohaDao.dajVsetky();
-        int pocetUlohPovodne = zoznamUloh.size();
-
-        Uloha ulohaNaVymazanie = zoznamUloh.get(pocetUlohPovodne - 1);
-        ulohaDao.vymazUlohu(ulohaNaVymazanie);
-
-        zoznamUloh = ulohaDao.dajVsetky();
-        assertEquals(pocetUlohPovodne - 1, zoznamUloh.size());
-
-        ulohaDao.pridajUlohu(ulohaNaVymazanie);
-    }
-
-    @Test
     public void testOznacZaSplnenu() {
         List<Uloha> zoznamUloh = ulohaDao.dajVsetky();
         Uloha ulohaZmena = zoznamUloh.get(0);
+
+        // zapamatame si povodny stav
+        boolean povodnyStav = ulohaZmena.getStav();
+
         ulohaDao.oznacZaSplnenu(ulohaZmena);
 
         zoznamUloh = ulohaDao.dajVsetky();
         assertEquals(true, zoznamUloh.get(0).getStav());
+
+        // do povodneho stavu
+        if (!povodnyStav) {
+            ulohaDao.oznacZaNesplnenu(ulohaZmena);
+        }
     }
 
     @Test
     public void testOznacZaNesplnenu() {
         List<Uloha> zoznamUloh = ulohaDao.dajVsetky();
         Uloha ulohaZmena = zoznamUloh.get(0);
+
+        // zapamatame si povodny stav
+        boolean povodnyStav = ulohaZmena.getStav();
+
         ulohaDao.oznacZaNesplnenu(ulohaZmena);
 
         zoznamUloh = ulohaDao.dajVsetky();
         assertEquals(false, zoznamUloh.get(0).getStav());
+
+        // do povodneho stavu
+        if (povodnyStav) {
+            ulohaDao.oznacZaSplnenu(ulohaZmena);
+        }
     }
 
-    /*
-     * POZOR pri nasledujucich testoch, ako plynie cas, tak pocty dnesnych, 
-     * tyzdnovych a mesacnych uloh sa menia !!!
-     * Teda treba pred testovanim specificky popridavat ulohy...
-     */
     @Test
     public void testDajDnesne() {
         List<Uloha> zoznamUloh = ulohaDao.dajDnesne();
