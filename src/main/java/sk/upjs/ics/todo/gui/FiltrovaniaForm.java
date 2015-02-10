@@ -457,6 +457,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         upravaFiltrovForm.setVisible(true);
         aktualizujZoznamFiltrov();
     }//GEN-LAST:event_btnPridajActionPerformed
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -523,7 +524,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
     private javax.swing.JTable tblUloha;
     // End of variables declaration//GEN-END:variables
 
-    //refresh
+    // refresh
     private void aktualizujZoznamFiltrov() {
         filterTableModel.obnov();
     }

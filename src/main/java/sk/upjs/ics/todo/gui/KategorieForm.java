@@ -156,11 +156,9 @@ public class KategorieForm extends javax.swing.JDialog {
         Kategoria kategoria = new Kategoria();
         kategoria.setNazov(txtNazov.getText().trim());
         kategoria.setPopis(txtPopis.getText().trim());
-        if (neprazdnyNazov(kategoria)) {
-            if (neduplicitnaKategoria(kategoria)) {
-                kategoriaDao.pridajKategoriu(kategoria);
-                aktualizujZoznamKategorii();
-            }
+        if (neprazdnyNazov(kategoria) && neduplicitnaKategoria(kategoria)) {
+            kategoriaDao.pridajKategoriu(kategoria);
+            aktualizujZoznamKategorii();
         }
 
     }//GEN-LAST:event_btnPridajActionPerformed
@@ -187,11 +185,18 @@ public class KategorieForm extends javax.swing.JDialog {
                     return;
                 }
             }
+        } else {
+            return;
         }
 
         kategoriaDao.upravKategoriu(vybrataKategoria);
 
         aktualizujZoznamKategorii();
+
+        // zoznam kategorii sa aktualizuje, ziadna kategoria vtedy nie je vybrata
+        // a teda by v tych textboxoch nemalo byt nic napisane
+        txtNazov.setText("");
+        txtPopis.setText("");
     }//GEN-LAST:event_btnUpravActionPerformed
 
     // vymaže vybranú kategóriu s použitím dialógového okna + refresh
@@ -289,7 +294,7 @@ public class KategorieForm extends javax.swing.JDialog {
     private javax.swing.JTextArea txtPopis;
     // End of variables declaration//GEN-END:variables
 
-    //refresh
+    // refresh
     private void aktualizujZoznamKategorii() {
         kategoriaTableModel.obnov();
     }
