@@ -24,7 +24,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
     private static final FilterDao filterDao = Factory.INSTANCE.filterDao();
     private static final UlohaDao ulohaDao = Factory.INSTANCE.ulohaDao();
     private static final FilterTableModel filterTableModel = new FilterTableModel();
-    private static final ComboBoxModel comboBoxModel = Factory.INSTANCE.getKategoryCmbModel();
+    private static ComboBoxModel comboBoxModel;
     private static final TableRowSorter ulohyRowSorter = new TableRowSorter(ulohaTableModel);
     private static final TableRowSorter filtreRowSorter = new TableRowSorter(filterTableModel);
 
@@ -33,6 +33,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
 
     public FiltrovaniaForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        comboBoxModel = Factory.INSTANCE.getKategoryCmbModel();
         initComponents();
 
         GuiFactory.INSTANCE.centruj(this);
@@ -107,13 +108,13 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
 
             cmbKategoria.setSelectedItem(vybranyFilter.getKategoria().getNazov());
             cmbPriorita.setSelectedItem(vybranyFilter.getPriorita());
-            
+
             if (vybranyFilter.isStav() == false) {
                 cmbStav.setSelectedItem("Nesplnená");
             } else {
                 cmbStav.setSelectedItem("Splnená");
             }
-            
+
             if (vybranyFilter.getDatumOd() != null) {
                 Date datum = vybranyFilter.getDatumOd();
                 int den = datum.getDate();
@@ -123,7 +124,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
                 datePickerOd.getModel().setDate(rok, mesiac, den);
                 datePickerOd.getModel().setSelected(true);
             }
-            
+
             if (vybranyFilter.getDatumDo() != null) {
                 Date datum = vybranyFilter.getDatumDo();
                 int den = datum.getDate();
@@ -149,6 +150,9 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
             }
             DetailUlohaForm detail = new DetailUlohaForm(vybrataUloha, (Frame) getOwner());
             detail.setVisible(true);
+
+            // ak sme zmenili stav ulohy aby sa to hned prejavilo
+            aktualizujZoznamUloh();
         }
     }
 
@@ -457,7 +461,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         upravaFiltrovForm.setVisible(true);
         aktualizujZoznamFiltrov();
     }//GEN-LAST:event_btnPridajActionPerformed
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

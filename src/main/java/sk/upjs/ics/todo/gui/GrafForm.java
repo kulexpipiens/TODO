@@ -21,17 +21,17 @@ public class GrafForm extends JDialog {
      * udalosti k datumu zacatia)
      */
     static final long JEDNA_MINUTA_V_MILISEKUNDACH = 60000;
-    
+
     /**
      * Instancia grafu
      */
     private JFreeChart graf;
-    
+
     /**
      * Panel, do ktoreho vlozime graf
-     */ 
+     */
     private ChartPanel panelSGrafom;
-    
+
     /**
      * Zoznam uloh, ktore ideme zobrazit
      */
@@ -41,7 +41,7 @@ public class GrafForm extends JDialog {
      * Datum OD ktoreho zobrazujeme prehlad
      */
     private Date datumOd;
-    
+
     /**
      * Datum DO ktoreho zobrazujeme prehlad
      */
@@ -79,7 +79,7 @@ public class GrafForm extends JDialog {
 
         // ulozime si ulohy, ktore ideme zobrazit, do vlastnej premennej
         this.ulohy = ulohy;
-        
+
         // tiez ulozime aj datumy OD a DO
         this.datumOd = datumOd;
         this.datumDo = datumDo;
@@ -109,9 +109,9 @@ public class GrafForm extends JDialog {
         TaskSeries prioritaStredna = new TaskSeries("stredná priorita");
         TaskSeries prioritaNizka = new TaskSeries("nízka priorita");
 
-        Task prioritaVysokaTask = new Task("vysoká priorita", datumOd, datumDo);
-        Task prioritaStrednaTask = new Task("stredná priorita", datumOd, datumDo);
-        Task prioritaNizkaTask = new Task("nízka priorita", datumOd, datumDo);
+        Task prioritaVysokaTask = new Task("", datumOd, datumDo);
+        Task prioritaStrednaTask = new Task("", datumOd, datumDo);
+        Task prioritaNizkaTask = new Task("", datumOd, datumDo);
 
         prioritaVysoka.add(prioritaVysokaTask);
         prioritaStredna.add(prioritaStrednaTask);
@@ -150,9 +150,9 @@ public class GrafForm extends JDialog {
         }
         /* vytvorime samotny graf, nazov mu nedame, y-ova suradnica budu tri priority, 
          x-ova casy v jednotlive dni (tiez zbytocne nezobrazime nazvy), 
-         legendu zobrazime, tooltip zobrazime, ale nie generovat url
+         legendu zobrazime, tooltip nezobrazime, ani generovat url
          */
-        graf = ChartFactory.createGanttChart("", "", "", mnozinaDat, true, true, false);
+        graf = ChartFactory.createGanttChart("", "", "", mnozinaDat, true, false, false);
 
         /*
          Vytvorime chartPanel, a dovolime mu vsetky moznosti: po kliknuti pravym 
