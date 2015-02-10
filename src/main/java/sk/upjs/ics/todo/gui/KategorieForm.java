@@ -5,6 +5,7 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableRowSorter;
+import org.springframework.dao.DataIntegrityViolationException;
 import sk.upjs.ics.todo.dao.Factory;
 import sk.upjs.ics.todo.entity.Kategoria;
 import sk.upjs.ics.todo.dao.KategoriaDao;
@@ -24,7 +25,7 @@ public class KategorieForm extends javax.swing.JDialog {
         initComponents();
 
         GuiFactory.INSTANCE.centruj(this);
-        
+
         tblKategoria.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
             @Override
@@ -33,7 +34,7 @@ public class KategorieForm extends javax.swing.JDialog {
             }
         });
         tblKategoria.setModel(kategoriaTableModel);
-        
+
         aktualizujZoznamKategorii();
     }
 
@@ -172,11 +173,24 @@ public class KategorieForm extends javax.swing.JDialog {
         if (vybrataKategoria == null) {
             return;
         }
-        
+
         vybrataKategoria.setNazov(txtNazov.getText());
         vybrataKategoria.setPopis(txtPopis.getText());
+
+        // nesmieme upravovat nazov na prazdny
+        if (neprazdnyNazov(vybrataKategoria)) {
+            // ak sme zmenili nazov, overime, ci sme nezmenili na nazov inej 
+            // kategorie
+            if (!vybrataKategoria.getNazov().trim().equals(txtNazov.getText())) {
+                // ak sme zmenili nazov na nazov inej kategorie, nerobime nic
+                if (!neduplicitnaKategoria(vybrataKategoria)) {
+                    return;
+                }
+            }
+        }
+
         kategoriaDao.upravKategoriu(vybrataKategoria);
-        
+
         aktualizujZoznamKategorii();
     }//GEN-LAST:event_btnUpravActionPerformed
 
@@ -195,8 +209,18 @@ public class KategorieForm extends javax.swing.JDialog {
                 JOptionPane.YES_NO_OPTION
         );
         if (tlacidlo == JOptionPane.YES_OPTION) {
-            kategoriaDao.vymazKategoriu(vybrataKategoria);
-            aktualizujZoznamKategorii();
+            try {
+                kategoriaDao.vymazKategoriu(vybrataKategoria);
+                aktualizujZoznamKategorii();
+            } catch (DataIntegrityViolationException e) {
+                /* Tato vynimka sa vyhodi ak su v databaze ulohy odkazujuce na 
+                 danu kategoriu, aby nebolo mozne vymazat takuto kategoriu. 
+                 Inym riesenim by bol kaskadovy delete v databaze. */
+                JOptionPane.showMessageDialog(this,
+                        "Nemožno vymazať kategóriu, ktorej úlohy existujú!\n"
+                        + "Vymažte prv všetky úlohy danej kategórie!",
+                        "Chyba", ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnVymazActionPerformed
 

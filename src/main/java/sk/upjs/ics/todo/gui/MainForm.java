@@ -18,6 +18,13 @@ public class MainForm extends javax.swing.JFrame {
 
     private static final TableRowSorter ulohyRowSorter = new TableRowSorter(ulohaTableModel);
 
+    private enum ZOBRAZENE_ULOHY {
+
+        DNESNE, TYZDENNE, MESACNE, VSETKY
+    }
+
+    private ZOBRAZENE_ULOHY zobrazenieUlohy;
+
     public MainForm() {
         initComponents();
 
@@ -39,6 +46,8 @@ public class MainForm extends javax.swing.JFrame {
 
         lblPouzivatel.setText(PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.zobrazenieUlohy = zobrazenieUlohy.VSETKY;
+
         aktualizujZoznamUloh();
     }
 
@@ -309,28 +318,36 @@ public class MainForm extends javax.swing.JFrame {
 
     // zobrazí dnešné úlohy
     private void btnDnesneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDnesneActionPerformed
-        ulohaTableModel.filtruj(ulohaDao.dajDnesne());
+        zobrazenieUlohy = ZOBRAZENE_ULOHY.DNESNE;
+        aktualizujZoznamUloh();
     }//GEN-LAST:event_btnDnesneActionPerformed
 
     // zobrazí všetky úlohy
     private void btnVsetkyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVsetkyActionPerformed
+        zobrazenieUlohy = ZOBRAZENE_ULOHY.VSETKY;
         aktualizujZoznamUloh();
     }//GEN-LAST:event_btnVsetkyActionPerformed
 
     // zobrazí úlohy na tento mesiac
     private void btnTentoMesiacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTentoMesiacActionPerformed
-        ulohaTableModel.filtruj(ulohaDao.dajMesacne());
+        zobrazenieUlohy = ZOBRAZENE_ULOHY.MESACNE;
+        aktualizujZoznamUloh();
     }//GEN-LAST:event_btnTentoMesiacActionPerformed
 
     // zobrazí úlohy na tento týždeň
     private void btnTentoTyzdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTentoTyzdenActionPerformed
-        ulohaTableModel.filtruj(ulohaDao.dajTyzdnove());
+        zobrazenieUlohy = ZOBRAZENE_ULOHY.TYZDENNE;
+        aktualizujZoznamUloh();
     }//GEN-LAST:event_btnTentoTyzdenActionPerformed
 
     // otvorí menežéra kategórií (v novom okne)
     private void btnKategorieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKategorieActionPerformed
         KategorieForm kategorie = new KategorieForm(this, true);
         kategorie.setVisible(true);
+
+        // ak sme zmenili nejakej ulohe kategoriu, aby sa to hned prejavilo
+        // v popise
+        aktualizujZoznamUloh();
     }//GEN-LAST:event_btnKategorieActionPerformed
 
     // otvorí sekciu "filtrovanie" (v novom okne)
@@ -373,9 +390,8 @@ public class MainForm extends javax.swing.JFrame {
             }
             DetailUlohaForm detail = new DetailUlohaForm(vybrataUloha, this);
             detail.setVisible(true);
-            // ked ma niekto zobrazene nepr. mesacne, tak sa mu ten vyber 
-            // resetuje, preto tu aktualizaciu vypneme
-            // aktualizujZoznamUloh();
+
+            aktualizujZoznamUloh();
         }
     }
 
@@ -434,6 +450,20 @@ public class MainForm extends javax.swing.JFrame {
 
     //refresh
     private void aktualizujZoznamUloh() {
-        ulohaTableModel.obnov();
+        // aktualizujeme ulohy podla toho ake zobrazenie mame
+        switch (zobrazenieUlohy) {
+            case DNESNE:
+                ulohaTableModel.filtruj(ulohaDao.dajDnesne());
+                break;
+            case TYZDENNE:
+                ulohaTableModel.filtruj(ulohaDao.dajTyzdnove());
+                break;
+            case MESACNE:
+                ulohaTableModel.filtruj(ulohaDao.dajMesacne());
+                break;
+            case VSETKY:
+                ulohaTableModel.obnov();
+                break;
+        }
     }
 }

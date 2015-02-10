@@ -81,7 +81,7 @@ public enum Factory {
     }
 
     public ComboBoxModel getKategoryCmbModel() {
-        List<Kategoria> kategorie = new DatabazovyKategoriaDao(jdbcTemplate).dajVsetky();
+        List<Kategoria> kategorie = kategoriaDao().dajVsetky();
         String[] poleKategorii = new String[kategorie.size() + 1];
         for (int i = 0; i < kategorie.size(); i++) {
             poleKategorii[i + 1] = kategorie.get(i).getNazov();
