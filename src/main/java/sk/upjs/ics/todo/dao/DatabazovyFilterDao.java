@@ -3,6 +3,7 @@ package sk.upjs.ics.todo.dao;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.todo.entity.Filter;
+import sk.upjs.ics.todo.entity.Pouzivatel;
 import sk.upjs.ics.todo.rowmappery.FilterRowMapper;
 
 public class DatabazovyFilterDao implements FilterDao {
@@ -10,6 +11,7 @@ public class DatabazovyFilterDao implements FilterDao {
     private final JdbcTemplate jdbcTemplate;
     private static final String tabulkaZDatabazy = "FILTRE";
     private static final FilterRowMapper filterRowMapper = new FilterRowMapper();
+    private final Pouzivatel pouzivatel = PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel();
 
     public DatabazovyFilterDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -18,9 +20,10 @@ public class DatabazovyFilterDao implements FilterDao {
     @Override
     public List<Filter> dajVsetky() {
         return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy
-                + " JOIN KATEGORIE ON FILTRE.kategoria_id = KATEGORIE.kategoria_id"
-                + " WHERE FILTRE.vlastnik='"
-                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'",
+                + " JOIN KATEGORIE ON " 
+                + tabulkaZDatabazy + ".kategoria_id = KATEGORIE.kategoria_id"
+                + " WHERE " + tabulkaZDatabazy + ".vlastnik='"
+                + pouzivatel.getMeno() + "'",
                 filterRowMapper);
     }
 
@@ -30,17 +33,15 @@ public class DatabazovyFilterDao implements FilterDao {
                 + "(filter_nazov,priorita,datumOd,datumDo,\n"
                 + "kategoria_id,stav,vlastnik) \n"
                 + "VALUES(?,?,?,?,?,?,?)\n";
-        String stav = "";
-        if (!filter.isStav()) {
-            stav = "0";
-        } else {
+        String stav = "0";
+        if (filter.isStav()) {
             stav = "1";
         }
 
         jdbcTemplate.update(sql, filter.getNazov(), filter.getPriorita(),
                 filter.getDatumOd(), filter.getDatumDo(),
                 filter.getKategoria().getId(), stav,
-                PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno());
+                pouzivatel.getMeno());
     }
 
     @Override

@@ -69,11 +69,6 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
                 btnPrihlasActionPerformed(evt);
             }
         });
-        btnPrihlas.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnPrihlasKeyPressed(evt);
-            }
-        });
 
         btnZavriet.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         btnZavriet.setText("Zavrieť");
@@ -175,10 +170,6 @@ public class PrihlasovanieForm extends javax.swing.JFrame {
         RegistraciaForm registraciaForm = new RegistraciaForm(this, true);
         registraciaForm.setVisible(true);
     }//GEN-LAST:event_btnRegistraciaActionPerformed
-
-    private void btnPrihlasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnPrihlasKeyPressed
-        potvrd(evt);
-    }//GEN-LAST:event_btnPrihlasKeyPressed
 
     private void txtMenoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMenoKeyPressed
         potvrd(evt);

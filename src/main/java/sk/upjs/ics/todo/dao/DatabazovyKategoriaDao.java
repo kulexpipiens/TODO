@@ -3,6 +3,7 @@ package sk.upjs.ics.todo.dao;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.todo.entity.Kategoria;
+import sk.upjs.ics.todo.entity.Pouzivatel;
 import sk.upjs.ics.todo.rowmappery.KategoriaRowMapper;
 
 public class DatabazovyKategoriaDao implements KategoriaDao {
@@ -10,6 +11,7 @@ public class DatabazovyKategoriaDao implements KategoriaDao {
     private final JdbcTemplate jdbcTemplate;
     private static final String tabulkaZDatabazy = "KATEGORIE";
     private final KategoriaRowMapper kategoriaRowMapper = new KategoriaRowMapper();
+    private final Pouzivatel pouzivatel = PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel();
 
     public DatabazovyKategoriaDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -21,7 +23,7 @@ public class DatabazovyKategoriaDao implements KategoriaDao {
         String sql = "INSERT INTO " + tabulkaZDatabazy
                 + "(kategoria_nazov, kategoria_popis, vlastnik) VALUES(?,?,?)";
         jdbcTemplate.update(sql, kategoria.getNazov(), kategoria.getPopis(),
-                PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno());
+                pouzivatel.getMeno());
     }
 
     // vymaze kategoriu z tabulky, s ktorou pracujem
@@ -46,7 +48,7 @@ public class DatabazovyKategoriaDao implements KategoriaDao {
     public List<Kategoria> dajVsetky() {
         return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy
                 + " WHERE vlastnik='"
-                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'",
+                + pouzivatel.getMeno() + "'",
                 kategoriaRowMapper);
     }
 }

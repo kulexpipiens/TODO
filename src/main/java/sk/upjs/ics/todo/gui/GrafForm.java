@@ -2,7 +2,6 @@ package sk.upjs.ics.todo.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JDialog;
@@ -104,20 +103,23 @@ public class GrafForm extends JDialog {
         boolean bolaAsponJednaSVysokouPrioritou = false;
         boolean bolaAsponJednaSoStrednouPrioritou = false;
         boolean bolaAsponJednaSNizkouPrioritou = false;
+
         // vytvorime podla priorit uchovavatelov jednotlivych uloh z danej priority
         TaskSeries prioritaVysoka = new TaskSeries("vysoká priorita");
         TaskSeries prioritaStredna = new TaskSeries("stredná priorita");
         TaskSeries prioritaNizka = new TaskSeries("nízka priorita");
 
+        // vytvorime "nadulohy"
         Task prioritaVysokaTask = new Task("", datumOd, datumDo);
         Task prioritaStrednaTask = new Task("", datumOd, datumDo);
         Task prioritaNizkaTask = new Task("", datumOd, datumDo);
 
+        // pridame tie nadulohy do uchovavatelov
         prioritaVysoka.add(prioritaVysokaTask);
         prioritaStredna.add(prioritaStrednaTask);
         prioritaNizka.add(prioritaNizkaTask);
 
-        // prejdem vsetkymi ulohami a vlozim ich do prislusneho uchovavatela uloh
+        // prejdeme vsetkymi ulohami a vlozime ich ako podulohy do prislusnej nadulohy
         for (Uloha uloha : ulohy) {
             Task ulohaPreGraf = dajUlohu(uloha);
             switch (uloha.getPriorita()) {
@@ -136,7 +138,7 @@ public class GrafForm extends JDialog {
             }
         }
 
-        // vytvorime mnozinu dat na jednotlive mnoziny uloh s prioritami
+        // vytvorime mnozinu dat na jednotlive mnoziny uloh s prioritami (uchovavatelov)
         TaskSeriesCollection mnozinaDat = new TaskSeriesCollection();
         // pridame jednotlive priority k datam
         if (bolaAsponJednaSVysokouPrioritou) {
@@ -165,8 +167,6 @@ public class GrafForm extends JDialog {
     private Task dajUlohu(Uloha uloha) {
         // zistim cas zacatia ulohy
         Date casZacatia = uloha.getDatum();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(casZacatia);
 
         long casZaciatkuUdalosti = casZacatia.getTime();
 
