@@ -174,9 +174,6 @@ public class KategorieForm extends javax.swing.JDialog {
             return;
         }
 
-        vybrataKategoria.setNazov(txtNazov.getText());
-        vybrataKategoria.setPopis(txtPopis.getText());
-
         // nesmieme upravovat nazov na prazdny alebo pridlhy
         if (neprazdnyNazov(vybrataKategoria)
                 && poliaNepresahujuMaximalnuDlzku(vybrataKategoria)) {
@@ -191,6 +188,9 @@ public class KategorieForm extends javax.swing.JDialog {
         } else {
             return;
         }
+        
+        vybrataKategoria.setNazov(txtNazov.getText());
+        vybrataKategoria.setPopis(txtPopis.getText());
 
         kategoriaDao.upravKategoriu(vybrataKategoria);
 
