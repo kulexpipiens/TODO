@@ -14,7 +14,6 @@ public class DatabazovyUlohaDao implements UlohaDao {
     private static final String tabulkaSKategoriami = "KATEGORIE";
     private final UlohaRowMapper mapovacUloh = new UlohaRowMapper();
     private final NotifikaciaDao notifikaciaDao = Factory.INSTANCE.notifikaciaDao();
-    private final Pouzivatel pouzivatel = PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel();
 
     public DatabazovyUlohaDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -26,13 +25,13 @@ public class DatabazovyUlohaDao implements UlohaDao {
     @Override
     public List<Uloha> dajVsetky() {
         return jdbcTemplate.query("SELECT * FROM \n" + tabulkaZDatabazy
-                + " JOIN KATEGORIE ON " 
-                + tabulkaZDatabazy + ".kategoria_id = " 
+                + " JOIN KATEGORIE ON "
+                + tabulkaZDatabazy + ".kategoria_id = "
                 + tabulkaSKategoriami + ".kategoria_id\n"
                 // zobrazujeme aj vyprsane ulohy, ktore nie su starsie ako 2 dni
                 + " WHERE datum >= SUBDATE(curdate(),INTERVAL 2 DAY)\n"
                 + " AND " + tabulkaZDatabazy + ".vlastnik='"
-                + pouzivatel.getMeno() + "'"
+                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
                 + " ORDER BY datum\n", mapovacUloh);
     }
 
@@ -57,7 +56,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 uloha.getKategoria().getId(),
                 "0",
                 uloha.getTrvanie(),
-                pouzivatel.getMeno());
+                PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno());
 
         // je to takto trochu drevorubacske a krajsie by bolo zistovat id cez simpleJdbcInsert
         // a executeAndReturnKey, ale ten hadze vynimky, lebo ma problemy s ukladanim datumu a casu do databazy
@@ -142,13 +141,13 @@ public class DatabazovyUlohaDao implements UlohaDao {
     @Override
     public List<Uloha> dajDnesne() {
         return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy + "\n"
-                + " JOIN " + tabulkaSKategoriami + " ON " 
-                + tabulkaZDatabazy + ".kategoria_id = " 
+                + " JOIN " + tabulkaSKategoriami + " ON "
+                + tabulkaZDatabazy + ".kategoria_id = "
                 + tabulkaSKategoriami + ".kategoria_id\n"
                 + " WHERE date_format(datum, '%Y-%m-%d')\n"
                 + " = date_format(curdate(), '%Y-%m-%d')\n"
                 + " AND " + tabulkaZDatabazy + ".vlastnik='"
-                + pouzivatel.getMeno() + "'"
+                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
                 + " ORDER BY datum;", mapovacUloh);
     }
 
@@ -158,8 +157,8 @@ public class DatabazovyUlohaDao implements UlohaDao {
     @Override
     public List<Uloha> dajTyzdnove() {
         return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy + "\n"
-                + " JOIN " + tabulkaSKategoriami + " ON " 
-                + tabulkaZDatabazy + ".kategoria_id = " 
+                + " JOIN " + tabulkaSKategoriami + " ON "
+                + tabulkaZDatabazy + ".kategoria_id = "
                 + tabulkaSKategoriami + ".kategoria_id\n"
                 + " WHERE datum >=\n"
                 // DAYOFWEEK vrati 1 pre nedelu - ak chceme 0 pre pondelok, musime odpocitat 2 
@@ -167,7 +166,7 @@ public class DatabazovyUlohaDao implements UlohaDao {
                 + " AND datum <=\n"
                 + " ADDDATE(curdate(), INTERVAL 8 - DAYOFWEEK(curdate()) DAY)\n"
                 + " AND " + tabulkaZDatabazy + ".vlastnik='"
-                + pouzivatel.getMeno() + "'"
+                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
                 + " ORDER BY datum;\n",
                 mapovacUloh);
     }
@@ -178,13 +177,13 @@ public class DatabazovyUlohaDao implements UlohaDao {
     @Override
     public List<Uloha> dajMesacne() {
         return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy + "\n"
-                + " JOIN " + tabulkaSKategoriami + " ON " 
-                + tabulkaZDatabazy + ".kategoria_id = " 
+                + " JOIN " + tabulkaSKategoriami + " ON "
+                + tabulkaZDatabazy + ".kategoria_id = "
                 + tabulkaSKategoriami + ".kategoria_id\n"
                 + " WHERE date_format(datum, '%Y-%m')\n"
                 + " = date_format(curdate(), '%Y-%m')\n"
                 + " AND " + tabulkaZDatabazy + ".vlastnik='"
-                + pouzivatel.getMeno() + "'"
+                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
                 + " ORDER BY datum;\n", mapovacUloh);
 
     }
@@ -195,13 +194,13 @@ public class DatabazovyUlohaDao implements UlohaDao {
         String retazecDo = dajStringZCalendara(datumDo);
 
         return jdbcTemplate.query("SELECT * FROM \n" + tabulkaZDatabazy + "\n"
-                + " JOIN " + tabulkaSKategoriami + " ON " 
-                + tabulkaZDatabazy + ".kategoria_id = " 
+                + " JOIN " + tabulkaSKategoriami + " ON "
+                + tabulkaZDatabazy + ".kategoria_id = "
                 + tabulkaSKategoriami + ".kategoria_id\n"
                 + " WHERE datum >=" + retazecOd
                 + " AND datum <= " + retazecDo
                 + " AND " + tabulkaZDatabazy + ".vlastnik='"
-                + pouzivatel.getMeno() + "'"
+                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno() + "'"
                 + " ORDER BY datum\n", mapovacUloh);
     }
 

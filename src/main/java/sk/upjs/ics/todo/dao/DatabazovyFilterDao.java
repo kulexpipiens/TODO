@@ -3,7 +3,6 @@ package sk.upjs.ics.todo.dao;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.todo.entity.Filter;
-import sk.upjs.ics.todo.entity.Pouzivatel;
 import sk.upjs.ics.todo.rowmappery.FilterRowMapper;
 
 public class DatabazovyFilterDao implements FilterDao {
@@ -11,7 +10,6 @@ public class DatabazovyFilterDao implements FilterDao {
     private final JdbcTemplate jdbcTemplate;
     private static final String tabulkaZDatabazy = "FILTRE";
     private static final FilterRowMapper filterRowMapper = new FilterRowMapper();
-    private final Pouzivatel pouzivatel = PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel();
 
     public DatabazovyFilterDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -20,10 +18,11 @@ public class DatabazovyFilterDao implements FilterDao {
     @Override
     public List<Filter> dajVsetky() {
         return jdbcTemplate.query("SELECT * FROM " + tabulkaZDatabazy
-                + " JOIN KATEGORIE ON " 
+                + " JOIN KATEGORIE ON "
                 + tabulkaZDatabazy + ".kategoria_id = KATEGORIE.kategoria_id"
                 + " WHERE " + tabulkaZDatabazy + ".vlastnik='"
-                + pouzivatel.getMeno() + "'",
+                + PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno()
+                + "'",
                 filterRowMapper);
     }
 
@@ -41,7 +40,7 @@ public class DatabazovyFilterDao implements FilterDao {
         jdbcTemplate.update(sql, filter.getNazov(), filter.getPriorita(),
                 filter.getDatumOd(), filter.getDatumDo(),
                 filter.getKategoria().getId(), stav,
-                pouzivatel.getMeno());
+                PrihlasovaciARegistrovaciServis.INSTANCE.getPouzivatel().getMeno());
     }
 
     @Override
