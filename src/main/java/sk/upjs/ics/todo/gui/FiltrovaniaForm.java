@@ -213,7 +213,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         lblZnacka.setFont(new java.awt.Font("Gungsuh", 0, 36)); // NOI18N
         lblZnacka.setText("dori");
         getContentPane().add(lblZnacka);
-        lblZnacka.setBounds(350, 190, 85, 42);
+        lblZnacka.setBounds(350, 190, 70, 43);
 
         tblUloha.setBackground(new java.awt.Color(204, 204, 204));
         tblUloha.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -230,17 +230,17 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         lblKategoria.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblKategoria.setText("kategória");
         getContentPane().add(lblKategoria);
-        lblKategoria.setBounds(218, 14, 59, 14);
+        lblKategoria.setBounds(218, 14, 53, 14);
 
         lblPriorita.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblPriorita.setText("priorita");
         getContentPane().add(lblPriorita);
-        lblPriorita.setBounds(228, 45, 49, 14);
+        lblPriorita.setBounds(228, 45, 41, 14);
 
         lblStav.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblStav.setText("stav");
         getContentPane().add(lblStav);
-        lblStav.setBounds(242, 74, 28, 14);
+        lblStav.setBounds(242, 74, 24, 14);
 
         lblDatum.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         lblDatum.setText("od");
@@ -269,7 +269,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btnPridaj);
-        btnPridaj.setBounds(471, 170, 80, 23);
+        btnPridaj.setBounds(461, 170, 90, 26);
 
         btnUprav.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         btnUprav.setText("uprav..");
@@ -280,7 +280,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btnUprav);
-        btnUprav.setBounds(510, 200, 80, 23);
+        btnUprav.setBounds(510, 200, 90, 26);
 
         btnVymaz.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         btnVymaz.setText("vymaž");
@@ -291,7 +291,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btnVymaz);
-        btnVymaz.setBounds(560, 170, 67, 23);
+        btnVymaz.setBounds(560, 170, 70, 26);
 
         btnOK.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         btnOK.setText("OK");
@@ -302,7 +302,7 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btnOK);
-        btnOK.setBounds(222, 173, 62, 17);
+        btnOK.setBounds(222, 173, 62, 16);
         getContentPane().add(jLabel2);
         jLabel2.setBounds(430, 109, 0, 0);
 
@@ -314,17 +314,17 @@ public class FiltrovaniaForm extends javax.swing.JDialog {
         cmbKategoria.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         cmbKategoria.setModel(comboBoxModel);
         getContentPane().add(cmbKategoria);
-        cmbKategoria.setBounds(287, 11, 100, 20);
+        cmbKategoria.setBounds(287, 11, 100, 24);
 
         cmbPriorita.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         cmbPriorita.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Nízka", "Stredná", "Vysoká" }));
         getContentPane().add(cmbPriorita);
-        cmbPriorita.setBounds(287, 42, 100, 20);
+        cmbPriorita.setBounds(287, 42, 100, 24);
 
         cmbStav.setFont(new java.awt.Font("Gungsuh", 0, 11)); // NOI18N
         cmbStav.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Nesplnená", "Splnená" }));
         getContentPane().add(cmbStav);
-        cmbStav.setBounds(287, 71, 100, 20);
+        cmbStav.setBounds(287, 71, 100, 24);
 
         panelOd.setBackground(new java.awt.Color(255, 255, 204));
         getContentPane().add(panelOd);
